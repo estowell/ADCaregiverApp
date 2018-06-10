@@ -48,4 +48,7 @@ dependencies {
 
     //GSon
     implementation "com.google.code.gson:gson: 2.8.2"
+
+    //bottom Navigation bar
+    implementation 'com.aurelhubert:ahbottomnavigation:2.1.0'
 }

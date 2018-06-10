@@ -1,3 +1,6 @@
 <resources>
     <string name="app_name">AD Caregiver App</string>
+    <string name="bottom_navigation_left_text">Nursery</string>
+    <string name="bottom_navigation_center_text">My Garden</string>
+    <string name="bottom_navigation_right_text">Community Garden</string>
 </resources>
