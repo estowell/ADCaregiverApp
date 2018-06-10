@@ -35,4 +35,6 @@ dependencies {
     implementation 'com.google.dagger:dagger-android-support:2.14.1' // if you use the support libraries
     annotationProcessor 'com.google.dagger:dagger-android-processor:2.14.1'
 
+    //retrofit2
+    implementation 'com.squareup.retrofit2:retrofit:2.4.0'
 }
