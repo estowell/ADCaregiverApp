@@ -10,6 +10,8 @@ import com.aurelhubert.ahbottomnavigation.AHBottomNavigationItem;
 
 import java.util.ArrayList;
 
+import edu.neu.ccs.wellness.adcaregiverapp.utils.TextDrawable;
+
 public class MainActivity extends AppCompatActivity {
     private AHBottomNavigation bottomNavigation;
     private ArrayList<AHBottomNavigationItem> bottomNavigationItems = new ArrayList<>();
@@ -21,7 +23,10 @@ public class MainActivity extends AppCompatActivity {
         init();
     }
 
+
     private void init() {
+
+        //Bottom Navigation Logic
 
         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) {
             AppCompatDelegate.setCompatVectorFromResourcesEnabled(true);
@@ -38,6 +43,5 @@ public class MainActivity extends AppCompatActivity {
         bottomNavigationItems.add(item3);
 
         bottomNavigation.addItems(bottomNavigationItems);
-        //bottomNavigation.setAccentColor(R.color.black);
     }
 }
