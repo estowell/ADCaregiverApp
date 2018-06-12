@@ -2,6 +2,8 @@ package edu.neu.ccs.wellness.adcaregiverapp;
 
 import android.os.Build;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.app.AppCompatDelegate;
 
@@ -10,7 +12,7 @@ import com.aurelhubert.ahbottomnavigation.AHBottomNavigationItem;
 
 import java.util.ArrayList;
 
-import edu.neu.ccs.wellness.adcaregiverapp.utils.TextDrawable;
+import edu.neu.ccs.wellness.adcaregiverapp.presentation.communityGarden.CommunityGardenFragment;
 
 public class MainActivity extends AppCompatActivity {
     private AHBottomNavigation bottomNavigation;
@@ -43,5 +45,22 @@ public class MainActivity extends AppCompatActivity {
         bottomNavigationItems.add(item3);
 
         bottomNavigation.addItems(bottomNavigationItems);
+
+        bottomNavigation.setCurrentItem(2);
+        openCommunityGardenFragment();
+
+
+    }
+
+    private void openCommunityGardenFragment() {
+        // Create new fragment and transaction
+        Fragment newFragment = CommunityGardenFragment.newInstance();
+        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+
+
+        transaction.replace(R.id.fragment_container, newFragment);
+        transaction.addToBackStack(null);
+
+        transaction.commit();
     }
 }
