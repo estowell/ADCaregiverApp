@@ -7,9 +7,6 @@ import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 
-import com.aurelhubert.ahbottomnavigation.AHBottomNavigation;
-import com.aurelhubert.ahbottomnavigation.AHBottomNavigationItem;
-
 import java.util.ArrayList;
 
 import edu.neu.ccs.wellness.adcaregiverapp.databinding.ActivityMainBinding;
@@ -17,8 +14,6 @@ import edu.neu.ccs.wellness.adcaregiverapp.presentation.communityGarden.Communit
 import edu.neu.ccs.wellness.adcaregiverapp.presentation.nursery.NurseryFragment;
 
 public class MainActivity extends AppCompatActivity {
-    private AHBottomNavigation bottomNavigation;
-    private ArrayList<AHBottomNavigationItem> bottomNavigationItems = new ArrayList<>();
     private ActivityMainBinding binding;
 
     private enum CurrentTab {

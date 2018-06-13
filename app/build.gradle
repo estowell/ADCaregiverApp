@@ -53,8 +53,6 @@ dependencies {
     //GSon
     implementation "com.google.code.gson:gson: 2.8.2"
 
-    //bottom Navigation bar
-    implementation 'com.aurelhubert:ahbottomnavigation:2.1.0'
 
     //circular progress bar: https://github.com/lzyzsd/CircleProgress
     implementation 'com.github.lzyzsd:circleprogress:1.2.1'
