@@ -1,29 +1,38 @@
 package edu.neu.ccs.wellness.adcaregiverapp;
 
-import android.os.Build;
+import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.app.AppCompatDelegate;
-import android.widget.Toast;
+import android.view.View;
 
 import com.aurelhubert.ahbottomnavigation.AHBottomNavigation;
 import com.aurelhubert.ahbottomnavigation.AHBottomNavigationItem;
 
 import java.util.ArrayList;
 
+import edu.neu.ccs.wellness.adcaregiverapp.databinding.ActivityMainBinding;
 import edu.neu.ccs.wellness.adcaregiverapp.presentation.communityGarden.CommunityGardenFragment;
 import edu.neu.ccs.wellness.adcaregiverapp.presentation.nursery.NurseryFragment;
 
 public class MainActivity extends AppCompatActivity {
     private AHBottomNavigation bottomNavigation;
     private ArrayList<AHBottomNavigationItem> bottomNavigationItems = new ArrayList<>();
+    private ActivityMainBinding binding;
+
+    private enum CurrentTab {
+        NURSERY,
+        MY_GARDEN,
+        COMMUNITY_GARDEN
+    }
+
+    private CurrentTab selectedTab = CurrentTab.COMMUNITY_GARDEN;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_home);
+        binding = DataBindingUtil.setContentView(this, R.layout.activity_main);
         init();
     }
 
@@ -31,57 +40,62 @@ public class MainActivity extends AppCompatActivity {
     private void init() {
 
         //Bottom Navigation Logic
+        binding.communityGarden.setTextColor(getResources().getColor(R.color.white));
+        binding.communityGarden.setBackgroundColor(getResources().getColor(R.color.bottom_navigation_color));
 
-        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) {
-            AppCompatDelegate.setCompatVectorFromResourcesEnabled(true);
-        }
-
-        bottomNavigation = findViewById(R.id.bottom_navigation);
-
-        AHBottomNavigationItem item1 = new AHBottomNavigationItem(getString(R.string.bottom_navigation_left_text), R.color.black);
-        AHBottomNavigationItem item2 = new AHBottomNavigationItem(getString(R.string.bottom_navigation_center_text), R.color.black);
-        AHBottomNavigationItem item3 = new AHBottomNavigationItem(getString(R.string.bottom_navigation_right_text), R.color.black);
-
-        bottomNavigationItems.add(item1);
-        bottomNavigationItems.add(item2);
-        bottomNavigationItems.add(item3);
-
-        bottomNavigation.addItems(bottomNavigationItems);
-
-        bottomNavigation.setCurrentItem(2);
-
-        setBottomNavigationOnClickListener(bottomNavigation);
+        setBottomNavigationOnClickListener();
 
         navigateToCommunityGarden();
-
 
     }
 
 
-    private void setBottomNavigationOnClickListener(AHBottomNavigation bottomNavigation) {
+    private void setBottomNavigationOnClickListener() {
 
-        bottomNavigation.setOnTabSelectedListener(new AHBottomNavigation.OnTabSelectedListener() {
-
+        binding.communityGarden.setOnClickListener(new View.OnClickListener() {
             @Override
-            public boolean onTabSelected(int position, boolean wasSelected) {
-                switch (position) {
-                    case 1:
-
-                        Toast.makeText(getBaseContext(), "My Garden Selected", Toast.LENGTH_LONG);
-                        break;
-                    case 2:
-                        navigateToCommunityGarden();
-                        break;
-                    case 0:
-                        navigateToNursery();
-                        break;
-                    default:
-                        navigateToCommunityGarden();
-
+            public void onClick(View v) {
+                if (selectedTab != CurrentTab.COMMUNITY_GARDEN) {
+                    selectedTab = CurrentTab.COMMUNITY_GARDEN;
+                    binding.nurseryButton.setTextColor(getResources().getColor(R.color.black));
+                    binding.nurseryButton.setBackgroundColor(getResources().getColor(R.color.white));
+                    binding.myGarden.setTextColor(getResources().getColor(R.color.black));
+                    binding.myGarden.setBackgroundColor(getResources().getColor(R.color.white));
+                    binding.communityGarden.setTextColor(getResources().getColor(R.color.white));
+                    binding.communityGarden.setBackgroundColor(getResources().getColor(R.color.bottom_navigation_color));
+                    navigateToCommunityGarden();
                 }
-                return true;
             }
         });
+
+        binding.nurseryButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                selectedTab = CurrentTab.NURSERY;
+                binding.communityGarden.setTextColor(getResources().getColor(R.color.black));
+                binding.communityGarden.setBackgroundColor(getResources().getColor(R.color.white));
+                binding.myGarden.setTextColor(getResources().getColor(R.color.black));
+                binding.myGarden.setBackgroundColor(getResources().getColor(R.color.white));
+                binding.nurseryButton.setTextColor(getResources().getColor(R.color.white));
+                binding.nurseryButton.setBackgroundColor(getResources().getColor(R.color.bottom_navigation_color));
+                navigateToNursery();
+            }
+        });
+
+        binding.myGarden.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+                selectedTab = CurrentTab.MY_GARDEN;
+                binding.communityGarden.setTextColor(getResources().getColor(R.color.black));
+                binding.communityGarden.setBackgroundColor(getResources().getColor(R.color.white));
+                binding.nurseryButton.setTextColor(getResources().getColor(R.color.black));
+                binding.nurseryButton.setBackgroundColor(getResources().getColor(R.color.white));
+                binding.myGarden.setTextColor(getResources().getColor(R.color.white));
+                binding.myGarden.setBackgroundColor(getResources().getColor(R.color.bottom_navigation_color));
+            }
+        });
+
 
     }
 

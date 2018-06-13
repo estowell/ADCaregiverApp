@@ -9,6 +9,7 @@
     <color name="green_progress">#8AE484</color>
     <color name="blue_progress">#6ADADB</color>
     <color name="progress_bar_unfinished">#8A8C8E</color>
+    <color name="bottom_navigation_color">#285834</color>
     <color name="horizontal_progress">#B1A5F9</color>
 
     <!--Green colors in grid from dark to light. 1 is darkest and 7 is lightest-->
