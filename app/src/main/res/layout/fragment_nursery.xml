@@ -53,7 +53,7 @@
         android:layout_height="wrap_content"
         android:layout_marginBottom="16dp"
         android:layout_marginLeft="8dp"
-        android:text="Steps"
+        android:text="@string/steps"
         android:textColor="@color/white"
         android:textSize="24sp"
         custom:layout_constraintBottom_toTopOf="@+id/progressBar2"

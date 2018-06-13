@@ -3,7 +3,10 @@
     <string name="bottom_navigation_left_text">Nursery</string>
     <string name="bottom_navigation_center_text">My Garden</string>
     <string name="bottom_navigation_right_text">Community Garden</string>
-
+    <string name="steps">Steps</string>
+    <string name="nursery">Nursery</string>
+    <string name="my_n_garden">My \n Garden</string>
+    <string name="community_garden">Community Garden</string>
 
 
 </resources>

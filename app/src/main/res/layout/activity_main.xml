@@ -29,11 +29,12 @@
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:clickable="true"
-                android:text="Nursery"
+                android:text="@string/nursery"
                 android:gravity="center_vertical"
                 android:textAlignment="center"
                 android:textSize="20sp"
-                android:textStyle="bold" />
+                android:textStyle="bold"
+                android:focusable="true" />
 
             <TextView
                 android:id="@+id/myGarden"
@@ -42,10 +43,11 @@
                 android:layout_weight="1"
                 android:gravity="center_vertical"
                 android:clickable="true"
-                android:text="My \n Garden"
+                android:text="@string/my_n_garden"
                 android:textAlignment="center"
                 android:textSize="20sp"
-                android:textStyle="bold" />
+                android:textStyle="bold"
+                android:focusable="true" />
 
             <TextView
                 android:id="@+id/communityGarden"
@@ -54,10 +56,11 @@
                 android:gravity="center_vertical"
                 android:layout_weight="1"
                 android:clickable="true"
-                android:text="Community Garden"
+                android:text="@string/community_garden"
                 android:textAlignment="center"
                 android:textSize="20sp"
-                android:textStyle="bold" />
+                android:textStyle="bold"
+                android:focusable="true" />
 
 
         </LinearLayout>
