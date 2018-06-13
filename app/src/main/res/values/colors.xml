@@ -5,6 +5,11 @@
     <color name="colorAccent">#FF4081</color>
     <color name="white">#ffffff</color>
     <color name="black">#000000</color>
+    <color name="nursery_background">#2B2B2B</color>
+    <color name="green_progress">#8AE484</color>
+    <color name="blue_progress">#6ADADB</color>
+    <color name="progress_bar_unfinished">#8A8C8E</color>
+    <color name="horizontal_progress">#B1A5F9</color>
 
     <!--Green colors in grid from dark to light. 1 is darkest and 7 is lightest-->
     <color name="green1">#3B6A2A</color>
