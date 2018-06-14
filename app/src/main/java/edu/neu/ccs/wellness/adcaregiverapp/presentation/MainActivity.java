@@ -1,4 +1,4 @@
-package edu.neu.ccs.wellness.adcaregiverapp;
+package edu.neu.ccs.wellness.adcaregiverapp.presentation;
 
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
@@ -9,6 +9,7 @@ import android.view.View;
 
 import java.util.ArrayList;
 
+import edu.neu.ccs.wellness.adcaregiverapp.R;
 import edu.neu.ccs.wellness.adcaregiverapp.databinding.ActivityMainBinding;
 import edu.neu.ccs.wellness.adcaregiverapp.presentation.communityGarden.CommunityGardenFragment;
 import edu.neu.ccs.wellness.adcaregiverapp.presentation.nursery.NurseryFragment;

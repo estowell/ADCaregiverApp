@@ -29,4 +29,38 @@
         <attr name="donut_suffix_text" format="string" />
         <attr name="donut_background_color" format="color" />
     </declare-styleable>
+
+    <!-- Storytelling App : LoginView -->
+    <style name="AppTheme.LoginView" parent="Theme.AppCompat.NoActionBar">
+        <item name="android:windowNoTitle">true</item>
+        <item name="android:windowFullscreen">true</item>
+    </style>
+
+    <style name="AppTheme.LoginView.text" parent="AppTheme.LoginView">
+        <item name="android:textColor">@color/white</item>
+        <item name="android:textStyle">normal</item>
+        <item name="android:textSize">24sp</item>
+        <item name="android:layout_marginBottom">16dp</item>
+    </style>
+
+    <style name="AppTheme.Login" parent="AppTheme">
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+    </style>
+
+    <style name="AppTheme.Login.loginField" parent="AppTheme.Login">
+        <item name="android:textColor">@color/white</item>
+        <item name="android:textStyle">normal</item>
+        <item name="android:textSize">16sp</item>
+        <item name="android:layout_marginBottom">16dp</item>
+        <item name="android:textColorHint">@color/white</item>
+    </style>
+
+    <style name="AppTheme.Login.loginButton" parent="AppTheme.Login">
+        <item name="android:background">@color/green1</item>
+        <item name="android:textColor">@color/white</item>
+        <item name="android:textStyle">normal</item>
+        <item name="android:textSize">18sp</item>
+    </style>
+
 </resources>

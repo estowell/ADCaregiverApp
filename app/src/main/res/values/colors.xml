@@ -12,6 +12,11 @@
     <color name="bottom_navigation_color">#285834</color>
     <color name="horizontal_progress">#B1A5F9</color>
 
+    <!--login-->
+    <color name="colorSecondaryLight">#ffc246</color>
+    <color name="loginBackground">#7b1fa2</color>
+    <color name="colorPrimaryLight">#9c4dcc</color>
+
     <!--Green colors in grid from dark to light. 1 is darkest and 7 is lightest-->
     <color name="green1">#3B6A2A</color>
     <color name="green2">#487446</color>
