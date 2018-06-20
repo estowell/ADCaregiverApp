@@ -4,18 +4,16 @@ import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
-import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 
-import java.util.ArrayList;
-
+import dagger.android.AndroidInjection;
+import dagger.android.support.DaggerAppCompatActivity;
 import edu.neu.ccs.wellness.adcaregiverapp.R;
 import edu.neu.ccs.wellness.adcaregiverapp.databinding.ActivityMainBinding;
 import edu.neu.ccs.wellness.adcaregiverapp.presentation.communityGarden.CommunityGardenFragment;
 import edu.neu.ccs.wellness.adcaregiverapp.presentation.nursery.NurseryFragment;
 
-public class MainActivity extends AppCompatActivity {
-    private ActivityMainBinding binding;
+public class MainActivity extends DaggerAppCompatActivity {
 
     private enum CurrentTab {
         NURSERY,
@@ -25,10 +23,16 @@ public class MainActivity extends AppCompatActivity {
 
     private CurrentTab selectedTab = CurrentTab.COMMUNITY_GARDEN;
 
+
+    private ActivityMainBinding binding;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        AndroidInjection.inject(this);
         super.onCreate(savedInstanceState);
+
         binding = DataBindingUtil.setContentView(this, R.layout.activity_main);
+
         init();
     }
 
@@ -45,6 +49,9 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
+    private void initialiseDependencies() {
+//        DaggerApplicationComponent()
+    }
 
     private void setBottomNavigationOnClickListener() {
 
