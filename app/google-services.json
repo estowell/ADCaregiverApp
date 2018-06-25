@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "465084330713",
+    "firebase_url": "https://nu-adc-caregiver.firebaseio.com",
+    "project_id": "nu-adc-caregiver",
+    "storage_bucket": "nu-adc-caregiver.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:465084330713:android:27a20ccf984d8abc",
+        "android_client_info": {
+          "package_name": "edu.neu.ccs.wellness.adcaregiverapp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "465084330713-2ammso4t2bqed4l3tkorv9dbvuffbmkt.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "edu.neu.ccs.wellness.adcaregiverapp",
+            "certificate_hash": "83dffd0c1995c6059e728f1ad71ec538f9a3e34d"
+          }
+        },
+        {
+          "client_id": "465084330713-c9jljnu1sh0qtpuhnh8krb9kkbainkub.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDdhgL5gsmQkYbJHagggeU3p1H1Cjduorw"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "465084330713-c9jljnu1sh0qtpuhnh8krb9kkbainkub.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
