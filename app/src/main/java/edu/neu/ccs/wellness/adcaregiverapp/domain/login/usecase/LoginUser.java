@@ -49,19 +49,19 @@ public class LoginUser extends UseCase<LoginUser.RequestValues, LoginUser.Respon
     public static final class ResponseValue implements UseCase.ResponseValue {
 
         @Nullable
-        private User user;
+        private LoginResponse response;
 
         @Nullable
         private String message;
 
-        public ResponseValue(User user, String message) {
-            this.user = user;
+        public ResponseValue(LoginResponse response, String message) {
+            this.response = response;
             this.message = message;
         }
 
         @Nullable
-        public User getUser() {
-            return user;
+        public LoginResponse getResponse() {
+            return response;
         }
 
         @Nullable
@@ -81,7 +81,7 @@ public class LoginUser extends UseCase<LoginUser.RequestValues, LoginUser.Respon
         @Override
         protected void onPostExecute(LoginResponse loginResponse) {
             if (loginResponse.getReponse() == LoginResponse.LoginStatus.SUCCESS) {
-                getUseCaseCallback().onSuccess(new ResponseValue(new User(loginResponse.getUser().getUsername()), null));
+                getUseCaseCallback().onSuccess(new ResponseValue(loginResponse, null));
             } else if (LoginResponse.LoginStatus.WRONG_CREDENTIALS == loginResponse.getReponse()) {
                 getUseCaseCallback().onError(new ResponseValue(null, "Please Enter Correct Credentials"));
             } else {

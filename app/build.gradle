@@ -61,6 +61,11 @@ dependencies {
     //Volley
     implementation 'com.android.volley:volley:1.1.0'
 
-    //
+    //Oauth Library
     implementation 'ca.mimic:oauth2library:2.3.0'
+
+    //Android LifeCycle
+    implementation "android.arch.lifecycle:extensions:1.1.1"
+    implementation "android.arch.lifecycle:viewmodel:1.1.1"
+
 }

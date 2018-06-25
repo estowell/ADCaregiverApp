@@ -141,7 +141,7 @@ public class WellnessUser implements AuthUser {
     /***
      * Save this instance to persistent storage
      */
-    public void saveInstance(String name, Context context) {
+    public void saveInstance(Context context) {
         SharedPreferences sharedPref = WellnessIO.getSharedPref(context);
         SharedPreferences.Editor editor = sharedPref.edit();
         String json = new Gson().toJson(this);
