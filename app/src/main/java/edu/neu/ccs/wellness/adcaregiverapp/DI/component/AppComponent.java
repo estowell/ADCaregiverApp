@@ -2,6 +2,8 @@ package edu.neu.ccs.wellness.adcaregiverapp.DI.component;
 
 import android.app.Application;
 
+import javax.inject.Singleton;
+
 import dagger.BindsInstance;
 import dagger.Component;
 import dagger.android.AndroidInjector;
@@ -15,6 +17,7 @@ import edu.neu.ccs.wellness.adcaregiverapp.DI.module.NetworkModules.AppModule;
  * Created by amritanshtripathi on 6/20/18.
  */
 
+@Singleton
 @Component(modules = {
         AndroidSupportInjectionModule.class,
         AppModule.class,

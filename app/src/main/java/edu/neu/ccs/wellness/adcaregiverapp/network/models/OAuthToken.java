@@ -3,6 +3,7 @@ package edu.neu.ccs.wellness.adcaregiverapp.network.models;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
 import edu.neu.ccs.wellness.adcaregiverapp.network.interfaces.NetworkResponseItem;
@@ -14,12 +15,20 @@ import edu.neu.ccs.wellness.adcaregiverapp.network.interfaces.NetworkResponseIte
 public class OAuthToken implements Parcelable, NetworkResponseItem {
 
     @SerializedName("access_token")
+    @Expose
     public String accessToken;
+
     @SerializedName("refresh_token")
+    @Expose
     public String refreshToken;
-    @SerializedName("expiresAt")
+
+    @SerializedName("expires_in")
+    @Expose
     public Long expiresAt;
 
+    @SerializedName("token_type")
+    @Expose
+    public String tokenType;
 
     public String getAccessToken() {
         return accessToken;
@@ -45,6 +54,14 @@ public class OAuthToken implements Parcelable, NetworkResponseItem {
         this.expiresAt = expiresAt;
     }
 
+    public String getTokenType() {
+        return tokenType;
+    }
+
+    public void setTokenType(String tokenType) {
+        this.tokenType = tokenType;
+    }
+
 
     @Override
     public int describeContents() {
@@ -56,6 +73,7 @@ public class OAuthToken implements Parcelable, NetworkResponseItem {
         dest.writeString(this.accessToken);
         dest.writeString(this.refreshToken);
         dest.writeValue(this.expiresAt);
+        dest.writeString(this.tokenType);
     }
 
     public OAuthToken() {
@@ -65,6 +83,7 @@ public class OAuthToken implements Parcelable, NetworkResponseItem {
         this.accessToken = in.readString();
         this.refreshToken = in.readString();
         this.expiresAt = (Long) in.readValue(Long.class.getClassLoader());
+        this.tokenType = in.readString();
     }
 
     public static final Creator<OAuthToken> CREATOR = new Creator<OAuthToken>() {

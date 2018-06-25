@@ -27,7 +27,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 @Module
 public class AppModule {
-    private final String baseurl = "";
+    private final String baseurl = "http://wellness.ccs.neu.edu/";
 
     @Provides
     @Singleton
@@ -36,13 +36,11 @@ public class AppModule {
     }
 
 
-
     @Provides
     @Singleton
     public Retrofit retrofit(OkHttpClient okHttpClient,
                              GsonConverterFactory gsonConverterFactory, Gson gson) {
         return new Retrofit.Builder()
-                .client(okHttpClient)
                 .baseUrl(baseurl)
                 .addConverterFactory(gsonConverterFactory)
                 .build();
