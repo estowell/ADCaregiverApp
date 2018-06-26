@@ -23,4 +23,8 @@
     <string name="permission_rationale">"Contacts permissions are needed for providing email
         completions."
     </string>
+    <string name="unlock_more_colors_by_sharing_a_story">Unlock more colors by sharing a story!</string>
+    <string name="stories">Stories</string>
+    <string name="share_story">Share Story</string>
+    <string name="back">Back</string>
 </resources>

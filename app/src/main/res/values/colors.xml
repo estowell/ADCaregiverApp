@@ -26,6 +26,12 @@
     <color name="green6">#94DF91</color>
     <color name="green7">#AEED97</color>
 
+    <!--dialog circular colors-->
+    <color name="dialogColor1">#ff8b8f</color>
+    <color name="dailogColor2">#3c2544</color>
+    <color name="dailogColor3">#AB8FC3</color>
+    <color name="dialogColor4">#CF7266</color>
+
     <!--Array of Grid Colors-->
     <array name="gridColors">
         <item>@color/green1</item>

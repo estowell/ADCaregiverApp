@@ -4,33 +4,15 @@ import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
-import android.util.Log;
 import android.view.View;
-
-import javax.inject.Inject;
 
 import dagger.android.support.DaggerAppCompatActivity;
 import edu.neu.ccs.wellness.adcaregiverapp.R;
 import edu.neu.ccs.wellness.adcaregiverapp.databinding.ActivityMainBinding;
-import edu.neu.ccs.wellness.adcaregiverapp.domain.UseCase;
-import edu.neu.ccs.wellness.adcaregiverapp.domain.login.usecase.LoginUser;
 import edu.neu.ccs.wellness.adcaregiverapp.presentation.communityGarden.CommunityGardenFragment;
 import edu.neu.ccs.wellness.adcaregiverapp.presentation.nursery.NurseryFragment;
-import retrofit2.Retrofit;
 
 public class MainActivity extends DaggerAppCompatActivity {
-
-    @Inject
-    Retrofit api;
-
-    private final String baseurl = "http://wellness.ccs.neu.edu";
-    private final String DEFAULT_USERNAME = "anna";
-    private final String DEFAULT_PASSWORD = "tacos000";
-    private final String client_id = "IYWMhbU1NCBF7o0Putz5C52EnzmFaz2Nz5BDCNAn";
-    private final String client_secret = "OIOftryscsaETXUb6amf5DPA8ewpXYX0vpSDtzftljyBi0cbLAkOj8C5uIz5xIpOzLugHvZQNcs7AS4MTpBUJr2QYPC733yQ2e8LWzLbdELJiAZu77PXy9O6qcUxbdIc";
-    public static final String SERVER_URL = "http://wellness.ccs.neu.edu/adc_dev/";
-    public static final String API_PATH = "api/";
-    public static final String OAUTH_TOKEN_PATH = "oauth/token/";
 
 
     private enum CurrentTab {
@@ -86,9 +68,6 @@ public class MainActivity extends DaggerAppCompatActivity {
 
     }
 
-    private void initialiseDependencies() {
-//        DaggerApplicationComponent()
-    }
 
     private void setBottomNavigationOnClickListener() {
 
