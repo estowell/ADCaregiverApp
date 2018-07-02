@@ -14,7 +14,7 @@ import android.view.ViewGroup;
 import edu.neu.ccs.wellness.adcaregiverapp.R;
 import edu.neu.ccs.wellness.adcaregiverapp.common.utils.Constants;
 import edu.neu.ccs.wellness.adcaregiverapp.databinding.FragmentNurseryBinding;
-import edu.neu.ccs.wellness.adcaregiverapp.network.services.authorizationService.WellnessUser;
+import edu.neu.ccs.wellness.adcaregiverapp.network.server.WellnessUser;
 import edu.neu.ccs.wellness.adcaregiverapp.presentation.nursery.dialogs.ShareStoriesDialog;
 
 /**

@@ -4,8 +4,8 @@ import android.support.annotation.NonNull;
 
 import java.io.IOException;
 
-import edu.neu.ccs.wellness.adcaregiverapp.network.services.authorizationService.OAuth2Exception;
-import edu.neu.ccs.wellness.adcaregiverapp.network.services.authorizationService.WellnessUser;
+import edu.neu.ccs.wellness.adcaregiverapp.network.server.OAuth2Exception;
+import edu.neu.ccs.wellness.adcaregiverapp.network.server.WellnessUser;
 import edu.neu.ccs.wellness.adcaregiverapp.services.model.LoginResponse;
 
 public class UserService {

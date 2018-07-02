@@ -1,4 +1,4 @@
-package edu.neu.ccs.wellness.adcaregiverapp.network.services.authorizationService;
+package edu.neu.ccs.wellness.adcaregiverapp.network.server;
 
 /**
  * Created by hermansaksono on 11/1/17.

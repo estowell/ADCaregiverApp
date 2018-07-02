@@ -1,4 +1,4 @@
-package edu.neu.ccs.wellness.adcaregiverapp.network.services.authorizationService;
+package edu.neu.ccs.wellness.adcaregiverapp.network.server;
 
 import android.content.Context;
 import android.content.SharedPreferences;
@@ -38,10 +38,11 @@ public class WellnessUser implements AuthUser {
 
     /**
      * Constructor for BASIC Auth type
+     *
      * @param username
      * @param password
      */
-    public WellnessUser (String username, String password) {
+    public WellnessUser(String username, String password) {
         this.type = AuthType.BASIC;
         this.username = username;
         this.password = password;
@@ -49,21 +50,22 @@ public class WellnessUser implements AuthUser {
 
     /**
      * Constructor for OAuth2 type authentication. May make remote calls to get the tokens.
+     *
      * @param username
      * @param password
      * @param clientId
      * @param clientSecret
      */
-    public WellnessUser (String username, String password,
-                         String clientId, String clientSecret,
-                         String serverUrl, String authPath)
+    public WellnessUser(String username, String password,
+                        String clientId, String clientSecret,
+                        String serverUrl, String authPath)
             throws OAuth2Exception, IOException {
 
         OAuth2Client client = new OAuth2Client.Builder(username, password,
                 clientId, clientSecret, serverUrl + authPath)
                 .build();
         OAuthResponse response = client.requestAccessToken();
-        Log.d("WELL OAuth2 successful", String.valueOf(response.isSuccessful()));
+        // Log.d("WELL OAuth2 successful", String.valueOf(response.isSuccessful()));
 
         if (response.isSuccessful()) {
             this.type = AuthType.OAUTH2;
@@ -118,7 +120,9 @@ public class WellnessUser implements AuthUser {
      * Get the username
      * @return
      */
-    public String getUsername () { return this.username; }
+    public String getUsername() {
+        return this.username;
+    }
 
     /***
      * Get the authentication string for this user. For OAUTH2 user type,
@@ -129,11 +133,9 @@ public class WellnessUser implements AuthUser {
     public String getAuthenticationString() throws IOException {
         if (this.type == AuthType.BASIC) {
             return this.getBasicAuthenticationHeader();
-        }
-        else if (this.type == AuthType.OAUTH2) {
+        } else if (this.type == AuthType.OAUTH2) {
             return this.getOAuth2AuthenticationHeader();
-        }
-        else {
+        } else {
             return null;
         }
     }
@@ -151,7 +153,19 @@ public class WellnessUser implements AuthUser {
     }
 
     /***
-     * Delete saved LoginUser from persistent storage
+     * Save this instance to persistent storage
+     */
+    public void saveInstance(String name, Context context) {
+        SharedPreferences sharedPref = WellnessIO.getSharedPref(context);
+        SharedPreferences.Editor editor = sharedPref.edit();
+        String json = new Gson().toJson(this);
+        editor.putString(SHAREDPREF_NAME, json);
+        editor.commit();
+        Log.d("WELL User saved", this.getUsername());
+    }
+
+    /***
+     * Delete saved login from persistent storage
      * @param name Name of the shared preferences
      * @param context Application's context
      */

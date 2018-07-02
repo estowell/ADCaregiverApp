@@ -1,6 +1,6 @@
 package edu.neu.ccs.wellness.adcaregiverapp.services.model;
 
-import edu.neu.ccs.wellness.adcaregiverapp.network.services.authorizationService.WellnessUser;
+import edu.neu.ccs.wellness.adcaregiverapp.network.server.WellnessUser;
 
 public class LoginResponse {
 

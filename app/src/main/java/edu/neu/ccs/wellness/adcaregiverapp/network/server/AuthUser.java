@@ -1,4 +1,4 @@
-package edu.neu.ccs.wellness.adcaregiverapp.network.services.authorizationService;
+package edu.neu.ccs.wellness.adcaregiverapp.network.server;
 
 import java.io.IOException;
 
