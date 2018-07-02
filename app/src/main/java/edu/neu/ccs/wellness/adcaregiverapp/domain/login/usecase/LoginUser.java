@@ -7,7 +7,7 @@ import android.support.annotation.Nullable;
 import edu.neu.ccs.wellness.adcaregiverapp.domain.UseCase;
 import edu.neu.ccs.wellness.adcaregiverapp.domain.login.model.User;
 import edu.neu.ccs.wellness.adcaregiverapp.repository.UserRepository;
-import edu.neu.ccs.wellness.adcaregiverapp.services.model.LoginResponse;
+import edu.neu.ccs.wellness.adcaregiverapp.network.services.model.LoginResponse;
 
 public class LoginUser extends UseCase<LoginUser.RequestValues, LoginUser.ResponseValue, User> {
 

@@ -6,7 +6,7 @@ import android.support.annotation.NonNull;
 
 import edu.neu.ccs.wellness.adcaregiverapp.domain.Nursery.usecase.ShareStory;
 import edu.neu.ccs.wellness.adcaregiverapp.domain.UseCase;
-import edu.neu.ccs.wellness.adcaregiverapp.services.Firebase;
+import edu.neu.ccs.wellness.adcaregiverapp.network.services.Firebase;
 
 public class NurseryViewModel extends ViewModel {
 

@@ -6,7 +6,7 @@ import android.support.annotation.Nullable;
 
 import edu.neu.ccs.wellness.adcaregiverapp.domain.UseCase;
 import edu.neu.ccs.wellness.adcaregiverapp.domain.login.usecase.LoginUser;
-import edu.neu.ccs.wellness.adcaregiverapp.services.model.LoginResponse;
+import edu.neu.ccs.wellness.adcaregiverapp.network.services.model.LoginResponse;
 
 public class LoginViewModel extends ViewModel {
 

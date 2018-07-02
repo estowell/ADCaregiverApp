@@ -15,7 +15,7 @@ import android.view.View;
 import edu.neu.ccs.wellness.adcaregiverapp.R;
 import edu.neu.ccs.wellness.adcaregiverapp.databinding.ActivityLoginBinding;
 import edu.neu.ccs.wellness.adcaregiverapp.presentation.MainActivity;
-import edu.neu.ccs.wellness.adcaregiverapp.services.model.LoginResponse;
+import edu.neu.ccs.wellness.adcaregiverapp.network.services.model.LoginResponse;
 
 /**
  * Created by amritanshtripathi on 6/14/18.

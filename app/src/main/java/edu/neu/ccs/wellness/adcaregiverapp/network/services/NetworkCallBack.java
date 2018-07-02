@@ -1,4 +1,4 @@
-package edu.neu.ccs.wellness.adcaregiverapp.services;
+package edu.neu.ccs.wellness.adcaregiverapp.network.services;
 
 public interface NetworkCallBack<T> {
 

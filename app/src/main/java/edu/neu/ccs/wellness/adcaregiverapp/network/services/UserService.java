@@ -1,4 +1,4 @@
-package edu.neu.ccs.wellness.adcaregiverapp.services;
+package edu.neu.ccs.wellness.adcaregiverapp.network.services;
 
 import android.support.annotation.NonNull;
 
@@ -6,7 +6,7 @@ import java.io.IOException;
 
 import edu.neu.ccs.wellness.adcaregiverapp.network.server.OAuth2Exception;
 import edu.neu.ccs.wellness.adcaregiverapp.network.server.WellnessUser;
-import edu.neu.ccs.wellness.adcaregiverapp.services.model.LoginResponse;
+import edu.neu.ccs.wellness.adcaregiverapp.network.services.model.LoginResponse;
 
 public class UserService {
 

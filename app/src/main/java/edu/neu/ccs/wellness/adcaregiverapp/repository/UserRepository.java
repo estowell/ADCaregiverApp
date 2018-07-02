@@ -2,9 +2,8 @@ package edu.neu.ccs.wellness.adcaregiverapp.repository;
 
 import android.support.annotation.NonNull;
 
-import edu.neu.ccs.wellness.adcaregiverapp.services.NetworkCallBack;
-import edu.neu.ccs.wellness.adcaregiverapp.services.UserService;
-import edu.neu.ccs.wellness.adcaregiverapp.services.model.LoginResponse;
+import edu.neu.ccs.wellness.adcaregiverapp.network.services.UserService;
+import edu.neu.ccs.wellness.adcaregiverapp.network.services.model.LoginResponse;
 
 public class UserRepository {
 

@@ -61,6 +61,12 @@ public class NurseryFragment extends Fragment {
                 showStoriesDialog();
             }
         });
+        binding.selectNewChallenge.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                navigateToSelectChallengeFragment();
+            }
+        });
     }
 
     private void showStoriesDialog() {
@@ -70,6 +76,14 @@ public class NurseryFragment extends Fragment {
         ft.addToBackStack(null);
         dialog.show(ft, ShareStoriesDialog.class.getSimpleName());
 
+    }
+
+    private void navigateToSelectChallengeFragment() {
+        SelectChallengeFragment fragment = SelectChallengeFragment.newInstance();
+        FragmentTransaction ft = getFragmentManager().beginTransaction();
+        ft.replace(R.id.fragment_container, fragment);
+        ft.addToBackStack(null);
+        ft.commit();
     }
 
     private void getUser() {

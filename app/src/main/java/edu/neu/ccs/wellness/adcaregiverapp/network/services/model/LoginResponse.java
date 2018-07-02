@@ -1,4 +1,4 @@
-package edu.neu.ccs.wellness.adcaregiverapp.services.model;
+package edu.neu.ccs.wellness.adcaregiverapp.network.services.model;
 
 import edu.neu.ccs.wellness.adcaregiverapp.network.server.WellnessUser;
 

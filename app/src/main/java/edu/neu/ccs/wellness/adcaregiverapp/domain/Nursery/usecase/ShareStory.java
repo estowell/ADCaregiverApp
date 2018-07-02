@@ -4,7 +4,7 @@ import edu.neu.ccs.wellness.adcaregiverapp.domain.Nursery.model.StoryPost;
 import edu.neu.ccs.wellness.adcaregiverapp.domain.UseCase;
 import edu.neu.ccs.wellness.adcaregiverapp.repository.NurseryRepository;
 
-import static edu.neu.ccs.wellness.adcaregiverapp.services.Firebase.Status;
+import static edu.neu.ccs.wellness.adcaregiverapp.network.services.Firebase.Status;
 
 public class ShareStory extends UseCase<ShareStory.RequestValues, ShareStory.ResponseValue, StoryPost> {
 

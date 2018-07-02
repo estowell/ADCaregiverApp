@@ -1,4 +1,4 @@
-package edu.neu.ccs.wellness.adcaregiverapp.services;
+package edu.neu.ccs.wellness.adcaregiverapp.network.services;
 
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
