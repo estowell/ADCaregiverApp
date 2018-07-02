@@ -1,5 +1,6 @@
 package edu.neu.ccs.wellness.adcaregiverapp.presentation.nursery;
 
+import android.arch.lifecycle.ViewModelProviders;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -11,7 +12,9 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import edu.neu.ccs.wellness.adcaregiverapp.R;
+import edu.neu.ccs.wellness.adcaregiverapp.common.utils.Constants;
 import edu.neu.ccs.wellness.adcaregiverapp.databinding.FragmentNurseryBinding;
+import edu.neu.ccs.wellness.adcaregiverapp.network.services.authorizationService.WellnessUser;
 import edu.neu.ccs.wellness.adcaregiverapp.presentation.nursery.dialogs.ShareStoriesDialog;
 
 /**
@@ -22,6 +25,9 @@ public class NurseryFragment extends Fragment {
 
     private FragmentNurseryBinding binding;
 
+    private NurseryViewModel viewModel;
+    private WellnessUser user;
+
     public static NurseryFragment newInstance() {
 
         Bundle args = new Bundle();
@@ -29,6 +35,13 @@ public class NurseryFragment extends Fragment {
         NurseryFragment fragment = new NurseryFragment();
         fragment.setArguments(args);
         return fragment;
+    }
+
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        viewModel = ViewModelProviders.of(this).get(NurseryViewModel.class);
+        getUser();
     }
 
     @Nullable
@@ -51,11 +64,15 @@ public class NurseryFragment extends Fragment {
     }
 
     private void showStoriesDialog() {
-        ShareStoriesDialog dialog = ShareStoriesDialog.newInstance(binding.exerciseProgress.getProgress());
+        ShareStoriesDialog dialog = ShareStoriesDialog.newInstance(binding.exerciseProgress.getProgress(), user.getUsername());
         assert getFragmentManager() != null;
         FragmentTransaction ft = getFragmentManager().beginTransaction();
         ft.addToBackStack(null);
         dialog.show(ft, ShareStoriesDialog.class.getSimpleName());
 
+    }
+
+    private void getUser() {
+        user = WellnessUser.getSavedInstance(Constants.SHARED_PREFS, getContext());
     }
 }

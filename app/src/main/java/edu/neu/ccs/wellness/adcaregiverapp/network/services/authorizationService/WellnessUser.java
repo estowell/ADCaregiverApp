@@ -12,7 +12,7 @@ import java.io.IOException;
 import ca.mimic.oauth2library.OAuth2Client;
 import ca.mimic.oauth2library.OAuthError;
 import ca.mimic.oauth2library.OAuthResponse;
-import edu.neu.ccs.wellness.adcaregiverapp.utils.WellnessIO;
+import edu.neu.ccs.wellness.adcaregiverapp.common.utils.WellnessIO;
 
 /**
  * Created by hermansaksono on 6/14/17.

@@ -1,4 +1,4 @@
-package edu.neu.ccs.wellness.adcaregiverapp.utils;
+package edu.neu.ccs.wellness.adcaregiverapp.common.utils;
 
 import android.graphics.Canvas;
 import android.graphics.Color;

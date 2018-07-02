@@ -3,12 +3,12 @@
     android:layout_width="match_parent"
     android:layout_height="200dp"
     android:background="@color/colorPrimary"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:id="@+id/item_container">
 
     <TextView
         android:id="@+id/community_TextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" />
-
 
 </LinearLayout>

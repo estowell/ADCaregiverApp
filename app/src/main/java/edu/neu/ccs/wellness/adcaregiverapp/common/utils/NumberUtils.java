@@ -1,4 +1,4 @@
-package edu.neu.ccs.wellness.adcaregiverapp.utils;
+package edu.neu.ccs.wellness.adcaregiverapp.common.utils;
 
 import android.content.Context;
 import android.graphics.Point;

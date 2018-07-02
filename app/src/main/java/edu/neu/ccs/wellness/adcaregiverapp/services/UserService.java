@@ -17,8 +17,6 @@ public class UserService {
     private static final String API_PATH = "api/";
     private static final String OAUTH_TOKEN_PATH = "oauth/token/";
 
-
-
     public LoginResponse loginUser(@NonNull final String username, @NonNull final String password) {
 
         LoginResponse response = new LoginResponse();
