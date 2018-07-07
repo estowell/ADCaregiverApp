@@ -28,6 +28,11 @@ public class NurseryViewModel extends ViewModel {
             public void onError(ShareStory.ResponseValue response) {
                 sharePost.setValue(response.getStatus());
             }
+
+            @Override
+            public void onFailure() {
+
+            }
         });
     }
 

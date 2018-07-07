@@ -1,16 +1,30 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:app="http://schemas.android.com/apk/res-auto"
+    <android.support.constraint.ConstraintLayout
+
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@color/nursery_background">
 
+        <android.support.constraint.Group
+            android:id="@+id/container"
+            android:visibility="visible"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:constraint_referenced_ids="option1,back3,textView5,option2,textView6" />
+
+        <ProgressBar
+            android:id="@+id/progressBar_select_challenges"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:visibility="gone" />
+
         <Button
             android:id="@+id/option1"
-            android:layout_width="0dp"
-            android:layout_height="0dp"
+            android:layout_width="match_parent"
+            android:layout_height="80dp"
             android:layout_marginBottom="175dp"
             android:layout_marginEnd="21dp"
             android:layout_marginStart="21dp"
@@ -24,18 +38,15 @@
 
         <ImageView
             android:id="@+id/back3"
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            android:layout_marginBottom="119dp"
-            android:layout_marginEnd="2dp"
+            android:layout_width="38dp"
+            android:layout_height="44dp"
             android:layout_marginStart="4dp"
-            android:layout_marginTop="24dp"
             android:clickable="true"
             android:focusable="true"
-            app:layout_constraintBottom_toTopOf="@+id/option2"
             app:layout_constraintEnd_toStartOf="@+id/textView6"
+            app:layout_constraintHorizontal_bias="1.0"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/textView6"
             app:srcCompat="@drawable/ic_arrow_back_white_24dp" />
 
         <TextView
@@ -43,20 +54,19 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginBottom="42dp"
-            android:layout_marginEnd="47dp"
-            android:layout_marginStart="47dp"
+            android:layout_marginEnd="8dp"
             android:text="Some flowers are more challenging to Grow!"
             android:textColor="@color/white"
             android:textSize="24sp"
             app:layout_constraintBottom_toTopOf="@+id/option2"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintStart_toStartOf="@+id/textView6"
             app:layout_constraintTop_toBottomOf="@+id/textView6" />
 
         <Button
             android:id="@+id/option2"
-            android:layout_width="0dp"
-            android:layout_height="0dp"
+            android:layout_width="match_parent"
+            android:layout_height="80dp"
             android:layout_marginBottom="306dp"
             android:layout_marginEnd="21dp"
             android:layout_marginStart="21dp"
@@ -71,8 +81,9 @@
             android:id="@+id/textView6"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="12dp"
-            android:layout_marginEnd="32dp"
+            android:layout_marginBottom="8dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginStart="8dp"
             android:layout_marginTop="24dp"
             android:text="Select a new seed to plant"
             android:textColor="@color/white"

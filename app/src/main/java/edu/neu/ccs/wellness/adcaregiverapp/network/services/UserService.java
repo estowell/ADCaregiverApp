@@ -1,13 +1,5 @@
 package edu.neu.ccs.wellness.adcaregiverapp.network.services;
 
-import android.support.annotation.NonNull;
-
-import java.io.IOException;
-
-import edu.neu.ccs.wellness.adcaregiverapp.network.server.OAuth2Exception;
-import edu.neu.ccs.wellness.adcaregiverapp.network.server.WellnessUser;
-import edu.neu.ccs.wellness.adcaregiverapp.network.services.model.LoginResponse;
-
 public class UserService {
 
 
@@ -17,24 +9,24 @@ public class UserService {
     private static final String API_PATH = "api/";
     private static final String OAUTH_TOKEN_PATH = "oauth/token/";
 
-    public LoginResponse loginUser(@NonNull final String username, @NonNull final String password) {
-
-        LoginResponse response = new LoginResponse();
-        try {
-            WellnessUser user = new WellnessUser(username, password, client_id, client_secret, SERVER_URL, OAUTH_TOKEN_PATH);
-            response.setUser(user);
-            response.setReponse(LoginResponse.LoginStatus.SUCCESS);
-
-        } catch (OAuth2Exception e) {
-            response.setReponse(LoginResponse.LoginStatus.WRONG_CREDENTIALS);
-            e.printStackTrace();
-        } catch (IOException e) {
-            response.setReponse(LoginResponse.LoginStatus.IO_ERROR);
-            e.printStackTrace();
-        }
-        return response;
-
-    }
+//    public LoginResponse loginUser(@NonNull final String username, @NonNull final String password) {
+//
+//        LoginResponse response = new LoginResponse();
+////        try {
+////            WellnessUser user = new WellnessUser(username, password, client_id, client_secret, SERVER_URL, OAUTH_TOKEN_PATH);
+////            response.setUser(user);
+////            response.setReponse(LoginResponse.LoginStatus.SUCCESS);
+////
+////        } catch (OAuth2Exception e) {
+////            response.setReponse(LoginResponse.LoginStatus.WRONG_CREDENTIALS);
+////            e.printStackTrace();
+////        } catch (IOException e) {
+////            response.setReponse(LoginResponse.LoginStatus.IO_ERROR);
+////            e.printStackTrace();
+////        }
+//        return response;
+//
+//    }
 
 
 }

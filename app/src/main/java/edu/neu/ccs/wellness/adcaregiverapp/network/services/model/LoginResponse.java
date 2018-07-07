@@ -1,23 +1,27 @@
 package edu.neu.ccs.wellness.adcaregiverapp.network.services.model;
 
-import edu.neu.ccs.wellness.adcaregiverapp.network.server.WellnessUser;
+import android.support.annotation.Nullable;
+
+import edu.neu.ccs.wellness.adcaregiverapp.domain.login.model.User;
 
 public class LoginResponse {
 
     public enum LoginStatus {
-        SUCCESS, WRONG_CREDENTIALS, NO_INTERNET, IO_ERROR
+        SUCCESS, Error
     }
 
-    private WellnessUser user;
+    @Nullable
+    private User user;
 
 
     private LoginStatus reponse;
 
-    public WellnessUser getUser() {
+    @Nullable
+    public User getUser() {
         return user;
     }
 
-    public void setUser(WellnessUser user) {
+    public void setUser(User user) {
         this.user = user;
     }
 
@@ -26,6 +30,11 @@ public class LoginResponse {
     }
 
     public void setReponse(LoginStatus reponse) {
+        this.reponse = reponse;
+    }
+
+    public LoginResponse(@Nullable User user, LoginStatus reponse) {
+        this.user = user;
         this.reponse = reponse;
     }
 }

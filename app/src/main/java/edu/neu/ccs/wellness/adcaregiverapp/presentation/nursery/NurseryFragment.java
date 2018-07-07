@@ -15,6 +15,7 @@ import edu.neu.ccs.wellness.adcaregiverapp.R;
 import edu.neu.ccs.wellness.adcaregiverapp.common.utils.Constants;
 import edu.neu.ccs.wellness.adcaregiverapp.databinding.FragmentNurseryBinding;
 import edu.neu.ccs.wellness.adcaregiverapp.network.server.WellnessUser;
+import edu.neu.ccs.wellness.adcaregiverapp.presentation.MainActivity;
 import edu.neu.ccs.wellness.adcaregiverapp.presentation.nursery.dialogs.ShareStoriesDialog;
 
 /**
@@ -64,9 +65,15 @@ public class NurseryFragment extends Fragment {
         binding.selectNewChallenge.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                navigateToSelectChallengeFragment();
+                navigateToChallengeActivity();
             }
         });
+    }
+
+    private void navigateToChallengeActivity() {
+        MainActivity mainActivity = (MainActivity) getActivity();
+        assert mainActivity != null;
+        mainActivity.startChallengeActivityForResult();
     }
 
     private void showStoriesDialog() {
@@ -76,14 +83,6 @@ public class NurseryFragment extends Fragment {
         ft.addToBackStack(null);
         dialog.show(ft, ShareStoriesDialog.class.getSimpleName());
 
-    }
-
-    private void navigateToSelectChallengeFragment() {
-        SelectChallengeFragment fragment = SelectChallengeFragment.newInstance();
-        FragmentTransaction ft = getFragmentManager().beginTransaction();
-        ft.replace(R.id.fragment_container, fragment);
-        ft.addToBackStack(null);
-        ft.commit();
     }
 
     private void getUser() {

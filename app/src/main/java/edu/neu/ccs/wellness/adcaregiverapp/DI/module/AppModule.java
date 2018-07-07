@@ -1,7 +1,8 @@
-package edu.neu.ccs.wellness.adcaregiverapp.DI.module.NetworkModules;
+package edu.neu.ccs.wellness.adcaregiverapp.DI.module;
 
 import android.app.Application;
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.util.Log;
 
 import com.google.gson.Gson;
@@ -15,6 +16,7 @@ import javax.inject.Singleton;
 
 import dagger.Module;
 import dagger.Provides;
+import edu.neu.ccs.wellness.adcaregiverapp.common.utils.Constants;
 import okhttp3.Cache;
 import okhttp3.OkHttpClient;
 import okhttp3.logging.HttpLoggingInterceptor;
@@ -27,7 +29,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 @Module
 public class AppModule {
-    private final String baseurl = "http://wellness.ccs.neu.edu/";
+    private final String baseurl = "http://wellness.ccs.neu.edu/adc_dev/";
 
     @Provides
     @Singleton
@@ -62,7 +64,7 @@ public class AppModule {
 
     @Provides
     @Singleton
-    public OkHttpClient okHttpClient(Cache cache, HttpLoggingInterceptor httpLoggingInterceptor) {
+    public OkHttpClient okHttpClient(Cache cache, HttpLoggingInterceptor httpLoggingInterceptor, Context context) {
         return new OkHttpClient()
                 .newBuilder()
                 .cache(cache)
@@ -110,4 +112,14 @@ public class AppModule {
     public OkHttp3Downloader okHttp3Downloader(OkHttpClient okHttpClient) {
         return new OkHttp3Downloader(okHttpClient);
     }
+
+
+    @Provides
+    @Singleton
+    public SharedPreferences getSharePreferences(Context context) {
+
+        return context.getSharedPreferences(Constants.SHARED_PREFS, Context.MODE_PRIVATE);
+
+    }
+
 }

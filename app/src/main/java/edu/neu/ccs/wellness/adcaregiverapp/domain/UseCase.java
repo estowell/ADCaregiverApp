@@ -64,6 +64,8 @@ public abstract class UseCase<Q extends UseCase.RequestValues, P extends UseCase
         void onSuccess(R response);
 
         void onError(R response);
+
+        void onFailure();
     }
 
 }

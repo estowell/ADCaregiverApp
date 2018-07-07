@@ -4,38 +4,42 @@ import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModelProviders;
 import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
+import android.widget.Toast;
 
+import javax.inject.Inject;
+
+import dagger.android.support.DaggerAppCompatActivity;
 import edu.neu.ccs.wellness.adcaregiverapp.R;
 import edu.neu.ccs.wellness.adcaregiverapp.databinding.ActivityLoginBinding;
+import edu.neu.ccs.wellness.adcaregiverapp.domain.login.usecase.LoginUser;
 import edu.neu.ccs.wellness.adcaregiverapp.presentation.MainActivity;
-import edu.neu.ccs.wellness.adcaregiverapp.network.services.model.LoginResponse;
 
 /**
  * Created by amritanshtripathi on 6/14/18.
  */
 
-public class LoginActivity extends AppCompatActivity {
+public class LoginActivity extends DaggerAppCompatActivity {
 
-    private static final String SHAREDPREF_NAME = "wellness_user";
-    private static final String SHARED_PREFS = "WELLNESS";
 
     private ActivityLoginBinding binding;
-    private LoginViewModel viewModel;
+    LoginViewModel viewModel;
+
+    @Inject
+    LoginViewModelFactory viewModelFactory;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        viewModel = ViewModelProviders.of(this).get(LoginViewModel.class);
+        viewModel = ViewModelProviders.of(this, viewModelFactory).get(LoginViewModel.class);
 
-        if (isUserLoggedIn()) {
+        if (viewModel.isUserLoggedIn()) {
             navigateToMainActivity();
         }
         binding = DataBindingUtil.setContentView(this, R.layout.activity_login);
@@ -44,31 +48,28 @@ public class LoginActivity extends AppCompatActivity {
 
     private void init() {
 
-        final Observer<LoginResponse> loginResponseObserver = new Observer<LoginResponse>() {
+        final Observer<LoginUser.ResponseValue> loginResponseObserver = new Observer<LoginUser.ResponseValue>() {
             @Override
-            public void onChanged(@Nullable LoginResponse loginResponse) {
-                switch (loginResponse.getReponse()) {
+            public void onChanged(@Nullable LoginUser.ResponseValue responseValue) {
+                assert responseValue != null;
+                assert responseValue.getResponse() != null;
+                switch (responseValue.getResponse().getReponse()) {
                     case SUCCESS: {
                         binding.loginProgress.setVisibility(View.GONE);
-                        loginResponse.getUser().saveInstance(getApplicationContext());
                         navigateToMainActivity();
                         break;
                     }
-                    case WRONG_CREDENTIALS: {
-                        Log.d(this.getClass().getSimpleName(), "Wrong Credentials");
-                        break;
-                    }
-                    case IO_ERROR: {
-                        Log.d(this.getClass().getSimpleName(), "I/O Error");
-                    }
-                    default: Log.d(this.getClass().getSimpleName(), "Unknown Error");
+                    case Error:
+                        binding.loginProgress.setVisibility(View.GONE);
+                        showErrorToast(responseValue);
+                    default:
+                        Log.d(this.getClass().getSimpleName(), "Unknown Error");
 
                 }
             }
         };
 
         viewModel.getLiveData().observe(this, loginResponseObserver);
-
         binding.loginButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -80,16 +81,19 @@ public class LoginActivity extends AppCompatActivity {
         });
     }
 
-    private boolean isUserLoggedIn() {
-        SharedPreferences preferences = getSharedPreferences(SHARED_PREFS, Context.MODE_PRIVATE);
-        return preferences.contains(SHAREDPREF_NAME);
-    }
 
     private void navigateToMainActivity() {
         Intent intent = new Intent(this, MainActivity.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         startActivity(intent);
         finish();
+    }
+
+    private void showErrorToast(LoginUser.ResponseValue responseValue) {
+        InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+        imm.hideSoftInputFromWindow(binding.username.getWindowToken(), 0);
+        imm.hideSoftInputFromWindow(binding.password.getWindowToken(), 0);
+        Toast.makeText(this, responseValue.getMessage(), Toast.LENGTH_LONG).show();
     }
 
 }

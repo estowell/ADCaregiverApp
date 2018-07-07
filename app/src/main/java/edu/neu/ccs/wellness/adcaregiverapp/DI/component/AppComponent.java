@@ -6,12 +6,11 @@ import javax.inject.Singleton;
 
 import dagger.BindsInstance;
 import dagger.Component;
-import dagger.android.AndroidInjector;
-import dagger.android.support.AndroidSupportInjection;
 import dagger.android.support.AndroidSupportInjectionModule;
 import edu.neu.ccs.wellness.adcaregiverapp.App;
 import edu.neu.ccs.wellness.adcaregiverapp.DI.ActivityBuilder;
-import edu.neu.ccs.wellness.adcaregiverapp.DI.module.NetworkModules.AppModule;
+import edu.neu.ccs.wellness.adcaregiverapp.DI.ViewModelBuilder;
+import edu.neu.ccs.wellness.adcaregiverapp.DI.module.AppModule;
 
 /**
  * Created by amritanshtripathi on 6/20/18.
@@ -21,7 +20,8 @@ import edu.neu.ccs.wellness.adcaregiverapp.DI.module.NetworkModules.AppModule;
 @Component(modules = {
         AndroidSupportInjectionModule.class,
         AppModule.class,
-        ActivityBuilder.class})
+        ActivityBuilder.class,
+        ViewModelBuilder.class})
 public interface AppComponent {
 
     @Component.Builder
