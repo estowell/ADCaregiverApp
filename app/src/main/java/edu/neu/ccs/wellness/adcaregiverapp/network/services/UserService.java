@@ -1,34 +1,28 @@
 package edu.neu.ccs.wellness.adcaregiverapp.network.services;
 
-public class UserService {
+import edu.neu.ccs.wellness.adcaregiverapp.network.services.model.OauthToken;
+import edu.neu.ccs.wellness.adcaregiverapp.network.services.model.UserId;
+import retrofit2.Call;
+import retrofit2.http.Field;
+import retrofit2.http.FormUrlEncoded;
+import retrofit2.http.GET;
+import retrofit2.http.Header;
+import retrofit2.http.POST;
+
+public interface UserService {
+
+    @FormUrlEncoded
+    @POST("oauth/token/")
+    Call<OauthToken> login(@Field("grant_type") String grantType,
+                           @Field("client_id") String clientId, @Field("client_secret") String clientSecret, @Field("username") String username,
+                           @Field("password") String password);
 
 
-    private final String client_id = "IYWMhbU1NCBF7o0Putz5C52EnzmFaz2Nz5BDCNAn";
-    private final String client_secret = "OIOftryscsaETXUb6amf5DPA8ewpXYX0vpSDtzftljyBi0cbLAkOj8C5uIz5xIpOzLugHvZQNcs7AS4MTpBUJr2QYPC733yQ2e8LWzLbdELJiAZu77PXy9O6qcUxbdIc";
-    private static final String SERVER_URL = "http://wellness.ccs.neu.edu/adc_dev/";
-    private static final String API_PATH = "api/";
-    private static final String OAUTH_TOKEN_PATH = "oauth/token/";
+    @GET("api/person/info/")
+    Call<UserId> getUserId(@Header("Authorization") String token);
 
-//    public LoginResponse loginUser(@NonNull final String username, @NonNull final String password) {
-//
-//        LoginResponse response = new LoginResponse();
-////        try {
-////            WellnessUser user = new WellnessUser(username, password, client_id, client_secret, SERVER_URL, OAUTH_TOKEN_PATH);
-////            response.setUser(user);
-////            response.setReponse(LoginResponse.LoginStatus.SUCCESS);
-////
-////        } catch (OAuth2Exception e) {
-////            response.setReponse(LoginResponse.LoginStatus.WRONG_CREDENTIALS);
-////            e.printStackTrace();
-////        } catch (IOException e) {
-////            response.setReponse(LoginResponse.LoginStatus.IO_ERROR);
-////            e.printStackTrace();
-////        }
-//        return response;
-//
-//    }
-
-
+    @FormUrlEncoded
+    @POST("oauth/token/")
+    Call<OauthToken> refreshToken(@Field("grant_type") String grantType, @Field("refresh_token") String refreshToken,
+                                  @Field("client_id") String clientId, @Field("client_secret") String clientSecret);
 }
-
-

@@ -39,15 +39,12 @@ public class LoginActivity extends DaggerAppCompatActivity {
 
         viewModel = ViewModelProviders.of(this, viewModelFactory).get(LoginViewModel.class);
 
-        if (viewModel.isUserLoggedIn()) {
-            navigateToMainActivity();
-        }
         binding = DataBindingUtil.setContentView(this, R.layout.activity_login);
         init();
     }
 
     private void init() {
-
+        binding.loginProgress.setVisibility(View.VISIBLE);
         final Observer<LoginUser.ResponseValue> loginResponseObserver = new Observer<LoginUser.ResponseValue>() {
             @Override
             public void onChanged(@Nullable LoginUser.ResponseValue responseValue) {
@@ -69,7 +66,22 @@ public class LoginActivity extends DaggerAppCompatActivity {
             }
         };
 
+        Observer<Boolean> isUserLoggedIn = new Observer<Boolean>() {
+            @Override
+            public void onChanged(@Nullable Boolean aBoolean) {
+                if (aBoolean) {
+                    binding.loginProgress.setVisibility(View.GONE);
+                    navigateToMainActivity();
+                } else {
+                    binding.loginProgress.setVisibility(View.GONE);
+                }
+
+            }
+        };
+
+        viewModel.getUserLoggedInLiveData().observe(this, isUserLoggedIn);
         viewModel.getLiveData().observe(this, loginResponseObserver);
+        viewModel.isUserLoggedIn();
         binding.loginButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

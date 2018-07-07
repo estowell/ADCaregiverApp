@@ -58,4 +58,9 @@ public class UserManager {
     public String getAutharizationTokenWithType() {
         return "Bearer " + getToken();
     }
+
+
+    public boolean isTokenExpired() {
+        return System.currentTimeMillis() >= this.getTokenExpirationDate();
+    }
 }

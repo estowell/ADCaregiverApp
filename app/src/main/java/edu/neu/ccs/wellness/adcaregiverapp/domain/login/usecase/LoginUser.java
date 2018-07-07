@@ -16,7 +16,7 @@ import retrofit2.Response;
 
 import static edu.neu.ccs.wellness.adcaregiverapp.network.services.model.LoginResponse.LoginStatus;
 
-public class LoginUser extends UseCase<LoginUser.RequestValues, LoginUser.ResponseValue, User> {
+public class LoginUser extends UseCase<LoginUser.RequestValues, LoginUser.ResponseValue> {
 
     private UserRepository repository;
 

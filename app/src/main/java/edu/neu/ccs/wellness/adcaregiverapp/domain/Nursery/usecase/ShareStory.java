@@ -6,7 +6,7 @@ import edu.neu.ccs.wellness.adcaregiverapp.repository.NurseryRepository;
 
 import static edu.neu.ccs.wellness.adcaregiverapp.network.services.Firebase.Status;
 
-public class ShareStory extends UseCase<ShareStory.RequestValues, ShareStory.ResponseValue, StoryPost> {
+public class ShareStory extends UseCase<ShareStory.RequestValues, ShareStory.ResponseValue> {
 
 
     private NurseryRepository repository = new NurseryRepository();

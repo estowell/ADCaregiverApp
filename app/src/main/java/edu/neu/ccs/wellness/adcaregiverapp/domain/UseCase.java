@@ -2,7 +2,7 @@ package edu.neu.ccs.wellness.adcaregiverapp.domain;
 
 import android.os.AsyncTask;
 
-public abstract class UseCase<Q extends UseCase.RequestValues, P extends UseCase.ResponseValue, T extends Model> {
+public abstract class UseCase<Q extends UseCase.RequestValues, P extends UseCase.ResponseValue> {
 
     private UseCaseCallback callback;
 

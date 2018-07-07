@@ -11,5 +11,7 @@ public class Constants {
 
     public static String GRANT_TYPE = "password";
 
+    public static String GRANT_TYPE_REFRESH = "refresh_token";
+
     public static int CHALLENEGE_ACTIVITY_CODE = 1;
 }
