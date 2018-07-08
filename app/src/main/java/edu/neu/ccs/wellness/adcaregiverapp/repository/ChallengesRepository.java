@@ -2,8 +2,9 @@ package edu.neu.ccs.wellness.adcaregiverapp.repository;
 
 import javax.inject.Inject;
 
-import edu.neu.ccs.wellness.adcaregiverapp.network.services.ChallengeServicesInterface;
+import edu.neu.ccs.wellness.adcaregiverapp.common.utils.UserManager;
 import edu.neu.ccs.wellness.adcaregiverapp.network.services.model.AvailableChallenges;
+import edu.neu.ccs.wellness.adcaregiverapp.network.services.retrofitInterfaces.ChallengeServicesInterface;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -13,17 +14,18 @@ import static edu.neu.ccs.wellness.adcaregiverapp.presentation.challenges.Challe
 
 public class ChallengesRepository {
 
-
+    private UserManager userManager;
     private ChallengeServicesInterface availableChallengesInterface;
 
     @Inject
-    public ChallengesRepository(Retrofit retrofit) {
+    public ChallengesRepository(Retrofit retrofit, UserManager userManager) {
         availableChallengesInterface = retrofit.create(ChallengeServicesInterface.class);
-
+        this.userManager = userManager;
     }
 
     public void getAvailableChallenges(final ChallengeViewModelCallback callback) {
-        Call<AvailableChallenges> call = availableChallengesInterface.getAvailableChallenges("Bearer lTP0KOIIZySMJkqqjrdB2mDTF9e1Wo");
+
+        Call<AvailableChallenges> call = availableChallengesInterface.getAvailableChallenges();
 
         call.enqueue(new Callback<AvailableChallenges>() {
             @Override

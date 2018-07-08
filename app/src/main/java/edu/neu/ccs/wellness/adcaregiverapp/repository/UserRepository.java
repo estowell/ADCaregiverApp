@@ -5,11 +5,10 @@ import android.support.annotation.NonNull;
 import javax.inject.Inject;
 
 import edu.neu.ccs.wellness.adcaregiverapp.common.utils.Constants;
-import edu.neu.ccs.wellness.adcaregiverapp.network.services.UserService;
 import edu.neu.ccs.wellness.adcaregiverapp.network.services.model.OauthToken;
 import edu.neu.ccs.wellness.adcaregiverapp.network.services.model.UserId;
+import edu.neu.ccs.wellness.adcaregiverapp.network.services.retrofitInterfaces.UserService;
 import retrofit2.Call;
-import retrofit2.Retrofit;
 
 
 public class UserRepository {
@@ -18,8 +17,8 @@ public class UserRepository {
 
 
     @Inject
-    public UserRepository(Retrofit retrofit) {
-        service = retrofit.create(UserService.class);
+    public UserRepository(UserService service) {
+        this.service = service;
     }
 
 
