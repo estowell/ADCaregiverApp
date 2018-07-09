@@ -21,7 +21,7 @@ import edu.neu.ccs.wellness.adcaregiverapp.databinding.FragmentSelectChallengeBi
 import edu.neu.ccs.wellness.adcaregiverapp.network.services.model.AvailableChallenges;
 import edu.neu.ccs.wellness.adcaregiverapp.network.services.model.UnitChallenge;
 import edu.neu.ccs.wellness.adcaregiverapp.presentation.challenges.ChallengesViewModel;
-import edu.neu.ccs.wellness.adcaregiverapp.presentation.challenges.ChallengesViewModelFactory;
+import edu.neu.ccs.wellness.adcaregiverapp.presentation.ViewModelFactory;
 
 public class SelectChallengeFragment extends Fragment {
 
@@ -29,7 +29,7 @@ public class SelectChallengeFragment extends Fragment {
     private ChallengesViewModel viewModel;
 
     @Inject
-    ChallengesViewModelFactory viewModelFactory;
+    ViewModelFactory viewModelFactory;
 
     public static SelectChallengeFragment newInstance() {
 
@@ -84,7 +84,7 @@ public class SelectChallengeFragment extends Fragment {
 
         Observer<AvailableChallenges> availableChallengesObserver = new Observer<AvailableChallenges>() {
             @Override
-            public void onChanged(@Nullable AvailableChallenges availableChallenges) {
+            public void onChanged(@Nullable AvailableChallenges challenges) {
                 binding.progressBarSelectChallenges.setVisibility(View.GONE);
                 binding.container.setVisibility(View.VISIBLE);
             }

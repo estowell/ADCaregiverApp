@@ -28,10 +28,14 @@ import com.google.firebase.database.Transaction;
 
 import java.util.Objects;
 
+import javax.inject.Inject;
+
 import edu.neu.ccs.wellness.adcaregiverapp.R;
 import edu.neu.ccs.wellness.adcaregiverapp.common.utils.NumberUtils;
+import edu.neu.ccs.wellness.adcaregiverapp.common.utils.UserManager;
 import edu.neu.ccs.wellness.adcaregiverapp.databinding.DialogShareStoryBinding;
 import edu.neu.ccs.wellness.adcaregiverapp.domain.Nursery.model.StoryPost;
+import edu.neu.ccs.wellness.adcaregiverapp.domain.login.model.User;
 
 public class ShareStoriesDialog extends DialogFragment {
 
@@ -44,6 +48,8 @@ public class ShareStoriesDialog extends DialogFragment {
     private Dialog dialog;
     private String userName;
     private AlertDialog sharePostDialog;
+    @Inject
+    UserManager userManager;
 
     public static ShareStoriesDialog newInstance(float progress, String userName) {
 
@@ -156,18 +162,25 @@ public class ShareStoriesDialog extends DialogFragment {
             @Override
             public void onComplete(@Nullable DatabaseError databaseError, boolean b, @Nullable DataSnapshot dataSnapshot) {
                 DatabaseReference childref = userStories.child(String.valueOf(count[0]));
-                childref.setValue(new StoryPost(message, count[0].intValue(), userName)).addOnSuccessListener(new OnSuccessListener<Void>() {
-                    @Override
-                    public void onSuccess(Void aVoid) {
-                        sharePostDialog.dismiss();
-                    }
-                }).addOnFailureListener(new OnFailureListener() {
-                    @Override
-                    public void onFailure(@NonNull Exception e) {
-                        Toast.makeText(getContext(), "Please Try again", Toast.LENGTH_LONG);
-                    }
-                });
+                User user = userManager.getUser();
+                if (user != null) {
+                    int userId = user.getUserId();
+                    childref.setValue(new StoryPost(message, userId, userName)).addOnSuccessListener(new OnSuccessListener<Void>() {
+                        @Override
+                        public void onSuccess(Void aVoid) {
+                            sharePostDialog.dismiss();
+                        }
+                    }).addOnFailureListener(new OnFailureListener() {
+                        @Override
+                        public void onFailure(@NonNull Exception e) {
+                            Toast.makeText(getContext(), "Please Try again", Toast.LENGTH_LONG).show();
+                        }
+                    });
+                } else {
 
+                    //TODO: Remove me later
+                    Toast.makeText(getContext(), "User Id is null", Toast.LENGTH_LONG).show();
+                }
             }
         });
     }

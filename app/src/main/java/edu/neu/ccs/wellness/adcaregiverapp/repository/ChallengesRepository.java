@@ -1,9 +1,14 @@
 package edu.neu.ccs.wellness.adcaregiverapp.repository;
 
+import java.util.Calendar;
+
 import javax.inject.Inject;
 
-import edu.neu.ccs.wellness.adcaregiverapp.common.utils.UserManager;
-import edu.neu.ccs.wellness.adcaregiverapp.network.services.model.AvailableChallenges;
+import edu.neu.ccs.wellness.adcaregiverapp.common.utils.ChallengeManager;
+import edu.neu.ccs.wellness.adcaregiverapp.domain.Challenge.usecase.AvailableChallengesUseCase.AvailableChallengesCallBack;
+import edu.neu.ccs.wellness.adcaregiverapp.network.services.model.Challenges;
+import edu.neu.ccs.wellness.adcaregiverapp.network.services.model.RunningChallenges;
+import edu.neu.ccs.wellness.adcaregiverapp.network.services.model.UnitChallenge;
 import edu.neu.ccs.wellness.adcaregiverapp.network.services.retrofitInterfaces.ChallengeServicesInterface;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -14,31 +19,72 @@ import static edu.neu.ccs.wellness.adcaregiverapp.presentation.challenges.Challe
 
 public class ChallengesRepository {
 
-    private UserManager userManager;
-    private ChallengeServicesInterface availableChallengesInterface;
+
+    private ChallengeServicesInterface challengeService;
+    private ChallengeManager challengeManager;
 
     @Inject
-    public ChallengesRepository(Retrofit retrofit, UserManager userManager) {
-        availableChallengesInterface = retrofit.create(ChallengeServicesInterface.class);
-        this.userManager = userManager;
+    public ChallengesRepository(Retrofit retrofit, ChallengeManager challengeManager) {
+        challengeService = retrofit.create(ChallengeServicesInterface.class);
+        this.challengeManager = challengeManager;
     }
 
-    public void getAvailableChallenges(final ChallengeViewModelCallback callback) {
+    public void getRunningChallenge(AvailableChallengesCallBack callback) {
+        RunningChallenges runningChallenge = challengeManager.getRunningChallenge();
+        if (runningChallenge != null && runningChallenge.getIsCurrentlyRunning() && runningChallenge.getEndDatetime().after(Calendar.getInstance().getTime())) {
+            callback.running(runningChallenge);
+        } else {
+            getChallenges(callback);
+        }
+    }
 
-        Call<AvailableChallenges> call = availableChallengesInterface.getAvailableChallenges();
+    public void getChallenges(final AvailableChallengesCallBack callback) {
 
-        call.enqueue(new Callback<AvailableChallenges>() {
+        Call<Challenges> call = challengeService.getChallenges();
+
+        call.enqueue(new Callback<Challenges>() {
             @Override
-            public void onResponse(Call<AvailableChallenges> call, Response<AvailableChallenges> response) {
+            public void onResponse(Call<Challenges> call, Response<Challenges> response) {
                 if (response.errorBody() == null) {
-                    callback.success(response);
+                    Challenges challenges = response.body();
+                    switch (challenges.getStatus()) {
+                        case AVAILABLE:
+                            callback.available(challenges.getAvailableChallenges());
+                            break;
+                        case RUNNING:
+                            RunningChallenges challenge = challenges.getRunningChallenge();
+                            challengeManager.saveRunningChallenge(challenge);
+                            callback.running(challenge);
+                            break;
+                    }
                 } else {
                     callback.error(response.errorBody());
                 }
             }
 
             @Override
-            public void onFailure(Call<AvailableChallenges> call, Throwable t) {
+            public void onFailure(Call<Challenges> call, Throwable t) {
+                callback.failure(t);
+            }
+        });
+    }
+
+
+    public void postAcceptedChallenge(UnitChallenge unitChallenge, final ChallengeViewModelCallback viewModelCallback) {
+        Call<RunningChallenges> call = challengeService.postAcceptedChallenge(unitChallenge);
+
+        call.enqueue(new Callback<RunningChallenges>() {
+            @Override
+            public void onResponse(Call<RunningChallenges> call, Response<RunningChallenges> response) {
+                if (response.errorBody() == null) {
+                    viewModelCallback.success(response);
+                } else {
+                    viewModelCallback.error(response.errorBody());
+                }
+            }
+
+            @Override
+            public void onFailure(Call<RunningChallenges> call, Throwable t) {
 
             }
         });

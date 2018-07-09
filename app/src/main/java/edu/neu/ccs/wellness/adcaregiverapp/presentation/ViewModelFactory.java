@@ -1,4 +1,4 @@
-package edu.neu.ccs.wellness.adcaregiverapp.presentation.challenges;
+package edu.neu.ccs.wellness.adcaregiverapp.presentation;
 
 import android.arch.lifecycle.ViewModel;
 import android.arch.lifecycle.ViewModelProvider;
@@ -9,12 +9,12 @@ import java.util.Map;
 import javax.inject.Inject;
 import javax.inject.Provider;
 
-public class ChallengesViewModelFactory implements ViewModelProvider.Factory {
+public class ViewModelFactory implements ViewModelProvider.Factory {
 
     private final Map<Class<? extends ViewModel>, Provider<ViewModel>> creators;
 
     @Inject
-    public ChallengesViewModelFactory(Map<Class<? extends ViewModel>, Provider<ViewModel>> creators) {
+    public ViewModelFactory(Map<Class<? extends ViewModel>, Provider<ViewModel>> creators) {
         this.creators = creators;
     }
 

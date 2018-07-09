@@ -10,6 +10,7 @@ import javax.inject.Inject;
 
 import dagger.android.support.DaggerAppCompatActivity;
 import edu.neu.ccs.wellness.adcaregiverapp.R;
+import edu.neu.ccs.wellness.adcaregiverapp.presentation.ViewModelFactory;
 import edu.neu.ccs.wellness.adcaregiverapp.presentation.challenges.fragments.SelectChallengeFragment;
 
 public class ChallengesActivity extends DaggerAppCompatActivity {
@@ -17,7 +18,7 @@ public class ChallengesActivity extends DaggerAppCompatActivity {
     private ChallengesViewModel viewModel;
 
     @Inject
-    ChallengesViewModelFactory viewModelFactory;
+    ViewModelFactory viewModelFactory;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {

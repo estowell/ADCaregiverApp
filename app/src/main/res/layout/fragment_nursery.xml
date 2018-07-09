@@ -7,20 +7,32 @@
         android:layout_height="match_parent"
         android:background="@color/nursery_background">
 
+        <ProgressBar
+            android:visibility="gone"
+            android:id="@+id/nursery_progress_bar"
+            android:layout_width="147dp"
+            android:layout_height="140dp"
+            android:layout_marginBottom="8dp"
+            android:layout_marginStart="8dp"
+            custom:layout_constraintBottom_toBottomOf="parent"
+            custom:layout_constraintEnd_toEndOf="parent"
+            custom:layout_constraintStart_toStartOf="parent"
+            custom:layout_constraintTop_toTopOf="parent" />
+
         <com.github.lzyzsd.circleprogress.DonutProgress
             android:id="@+id/stories"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="42dp"
             android:layout_marginTop="41dp"
+            android:clickable="true"
+            android:focusable="true"
             custom:donut_finished_color="@color/green_progress"
             custom:donut_progress="30"
             custom:donut_text_color="@color/white"
             custom:donut_unfinished_color="@color/progress_bar_unfinished"
             custom:layout_constraintStart_toStartOf="parent"
-            custom:layout_constraintTop_toTopOf="parent"
-            android:clickable="true"
-            android:focusable="true"/>
+            custom:layout_constraintTop_toTopOf="parent" />
 
         <com.github.lzyzsd.circleprogress.DonutProgress
             android:id="@+id/exercise_progress"
@@ -28,16 +40,17 @@
             android:layout_height="wrap_content"
             android:layout_marginRight="42dp"
             android:layout_marginTop="41dp"
+            android:clickable="true"
+            android:focusable="true"
             custom:donut_finished_color="@color/blue_progress"
             custom:donut_progress="30"
             custom:donut_text_color="@color/white"
             custom:donut_unfinished_color="@color/progress_bar_unfinished"
             custom:layout_constraintEnd_toEndOf="parent"
-            custom:layout_constraintTop_toTopOf="parent"
-            android:clickable="true"
-            android:focusable="true"/>
+            custom:layout_constraintTop_toTopOf="parent" />
 
         <ImageView
+            android:visibility="gone"
             android:id="@+id/select_new_challenge"
             android:layout_width="147dp"
             android:layout_height="138dp"
@@ -60,11 +73,11 @@
             android:text="@string/steps"
             android:textColor="@color/white"
             android:textSize="24sp"
-            custom:layout_constraintBottom_toTopOf="@+id/progressBar2"
-            custom:layout_constraintStart_toStartOf="@+id/progressBar2" />
+            custom:layout_constraintBottom_toTopOf="@+id/steps_bar"
+            custom:layout_constraintStart_toStartOf="@+id/steps_bar" />
 
         <ProgressBar
-            android:id="@+id/progressBar2"
+            android:id="@+id/steps_bar"
             style="@style/CustomProgressBar"
             android:layout_width="match_parent"
             android:layout_height="20dp"
@@ -76,6 +89,21 @@
             custom:layout_constraintEnd_toEndOf="parent"
             custom:layout_constraintHorizontal_bias="0.0"
             custom:layout_constraintStart_toStartOf="parent" />
+
+        <ImageView
+            android:visibility="gone"
+            android:id="@+id/flower_image"
+            android:layout_width="145dp"
+            android:layout_height="134dp"
+            android:layout_marginBottom="8dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
+            custom:layout_constraintBottom_toBottomOf="parent"
+            custom:layout_constraintEnd_toEndOf="parent"
+            custom:layout_constraintStart_toStartOf="parent"
+            custom:layout_constraintTop_toTopOf="parent"
+            custom:srcCompat="@android:drawable/btn_star_big_on" />
 
     </android.support.constraint.ConstraintLayout>
 </layout>

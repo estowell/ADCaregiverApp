@@ -35,10 +35,14 @@ public class UserManager {
         return gson.fromJson(userJson, User.class);
     }
 
+    @Nullable
     public String getToken() {
         User user = getUser();
-        assert user != null;
-        return user.getToken().getAccessToken();
+        if (user != null) {
+            return user.getToken().getAccessToken();
+        } else {
+            return null;
+        }
     }
 
 
@@ -48,6 +52,7 @@ public class UserManager {
         return user.getToken().getRefreshToken();
     }
 
+    @Nullable
     public long getTokenExpirationDate() {
         User user = getUser();
         assert user != null;
@@ -55,8 +60,15 @@ public class UserManager {
 
     }
 
+    @Nullable
     public String getAutharizationTokenWithType() {
-        return "Bearer " + getToken();
+        String token = getToken();
+        if (token != null) {
+            return "Bearer " + token;
+        } else {
+            return null;
+        }
+
     }
 
 

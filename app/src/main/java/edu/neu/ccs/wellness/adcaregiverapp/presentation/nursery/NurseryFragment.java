@@ -1,33 +1,43 @@
 package edu.neu.ccs.wellness.adcaregiverapp.presentation.nursery;
 
+import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModelProviders;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import javax.inject.Inject;
+
+import dagger.android.support.DaggerFragment;
 import edu.neu.ccs.wellness.adcaregiverapp.R;
-import edu.neu.ccs.wellness.adcaregiverapp.common.utils.Constants;
+import edu.neu.ccs.wellness.adcaregiverapp.common.utils.UserManager;
 import edu.neu.ccs.wellness.adcaregiverapp.databinding.FragmentNurseryBinding;
-import edu.neu.ccs.wellness.adcaregiverapp.wellnessLib.server.WellnessUser;
+import edu.neu.ccs.wellness.adcaregiverapp.domain.login.model.User;
 import edu.neu.ccs.wellness.adcaregiverapp.presentation.MainActivity;
+import edu.neu.ccs.wellness.adcaregiverapp.presentation.ViewModelFactory;
 import edu.neu.ccs.wellness.adcaregiverapp.presentation.nursery.dialogs.ShareStoriesDialog;
 
 /**
  * Created by amritanshtripathi on 6/12/18.
  */
 
-public class NurseryFragment extends Fragment {
+public class NurseryFragment extends DaggerFragment {
 
     private FragmentNurseryBinding binding;
 
     private NurseryViewModel viewModel;
-    private WellnessUser user;
+    private User user;
+
+    @Inject
+    ViewModelFactory viewModelFactory;
+
+    @Inject
+    UserManager userManager;
 
     public static NurseryFragment newInstance() {
 
@@ -41,7 +51,7 @@ public class NurseryFragment extends Fragment {
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        viewModel = ViewModelProviders.of(this).get(NurseryViewModel.class);
+        viewModel = ViewModelProviders.of(this, viewModelFactory).get(NurseryViewModel.class);
         getUser();
     }
 
@@ -56,6 +66,22 @@ public class NurseryFragment extends Fragment {
 
 
     private void init() {
+        binding.nurseryProgressBar.setVisibility(View.VISIBLE);
+
+        Observer<Boolean> isChallengeRunning = new Observer<Boolean>() {
+            @Override
+            public void onChanged(@Nullable Boolean aBoolean) {
+                binding.nurseryProgressBar.setVisibility(View.GONE);
+                if (aBoolean) {
+                    binding.selectNewChallenge.setVisibility(View.GONE);
+                    binding.flowerImage.setVisibility(View.VISIBLE);
+                } else {
+                    binding.selectNewChallenge.setVisibility(View.VISIBLE);
+                    binding.flowerImage.setVisibility(View.GONE);
+                }
+            }
+        };
+
         binding.exerciseProgress.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -68,6 +94,9 @@ public class NurseryFragment extends Fragment {
                 navigateToChallengeActivity();
             }
         });
+
+        viewModel.getRunningChallengeLivedata().observe(this, isChallengeRunning);
+        viewModel.isChallengeRunning();
     }
 
     private void navigateToChallengeActivity() {
@@ -86,6 +115,6 @@ public class NurseryFragment extends Fragment {
     }
 
     private void getUser() {
-        user = WellnessUser.getSavedInstance(Constants.SHARED_PREFS, getContext());
+        user = userManager.getUser();
     }
 }

@@ -5,7 +5,10 @@ import android.arch.lifecycle.ViewModel;
 
 import javax.inject.Inject;
 
+import edu.neu.ccs.wellness.adcaregiverapp.domain.Challenge.usecase.AvailableChallengesUseCase;
+import edu.neu.ccs.wellness.adcaregiverapp.domain.UseCase;
 import edu.neu.ccs.wellness.adcaregiverapp.network.services.model.AvailableChallenges;
+import edu.neu.ccs.wellness.adcaregiverapp.network.services.model.UnitChallenge;
 import edu.neu.ccs.wellness.adcaregiverapp.repository.ChallengesRepository;
 import okhttp3.ResponseBody;
 import retrofit2.Response;
@@ -40,18 +43,33 @@ public class ChallengesViewModel extends ViewModel {
     }
 
     public void fetchAvailableChallenges() {
-        repository.getAvailableChallenges(new ChallengeViewModelCallback() {
-            @Override
-            public void success(Response response) {
-                availableChallenges = (AvailableChallenges) response.body();
-                availableChallengesLiveData.setValue((AvailableChallenges) response.body());
-            }
+        AvailableChallengesUseCase availableChallengesUseCase = new AvailableChallengesUseCase(
+                new UseCase.UseCaseCallback<AvailableChallengesUseCase.ResponseValues>() {
 
-            @Override
-            public void error(ResponseBody error) {
-                errorLiveData.setValue("Error getting Challenges");
-            }
-        });
+                    @Override
+                    public void onSuccess(AvailableChallengesUseCase.ResponseValues response) {
+                        switch (response.getStatus()) {
+                            case RUNNING:
+                                //doNothing
+                                break;
+                            case AVAILABLE:
+                                availableChallenges = response.getAvailableChallenges();
+                                availableChallengesLiveData.setValue(response.getAvailableChallenges());
+                                break;
+                        }
+                    }
+
+                    @Override
+                    public void onError(AvailableChallengesUseCase.ResponseValues response) {
+                        errorLiveData.setValue("Error getting Challenges");
+                    }
+
+                    @Override
+                    public void onFailure() {
+
+                    }
+                }, repository);
+        availableChallengesUseCase.run();
     }
 
     public AvailableChallenges getAvailableChallenges() {
@@ -62,5 +80,20 @@ public class ChallengesViewModel extends ViewModel {
         void success(Response response);
 
         void error(ResponseBody error);
+    }
+
+
+    public void acceptChallenge(UnitChallenge unitChallenge) {
+        repository.postAcceptedChallenge(unitChallenge, new ChallengeViewModelCallback() {
+            @Override
+            public void success(Response response) {
+
+            }
+
+            @Override
+            public void error(ResponseBody error) {
+
+            }
+        });
     }
 }

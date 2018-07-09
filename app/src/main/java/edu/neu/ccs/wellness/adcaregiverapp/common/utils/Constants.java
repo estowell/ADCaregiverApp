@@ -3,6 +3,7 @@ package edu.neu.ccs.wellness.adcaregiverapp.common.utils;
 public class Constants {
 
     public static final String SHARED_PREFS_USER = "wellness_user";
+    public static final String SHARED_PREFS_RUNNING = "RUNNING_CHALLENGE";
     public static final String SHARED_PREFS = "WELLNESS";
 
     public static String CLIENT_ID = "IYWMhbU1NCBF7o0Putz5C52EnzmFaz2Nz5BDCNAn";

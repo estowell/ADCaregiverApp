@@ -17,6 +17,7 @@ import javax.inject.Singleton;
 
 import dagger.Module;
 import dagger.Provides;
+import edu.neu.ccs.wellness.adcaregiverapp.common.utils.ChallengeManager;
 import edu.neu.ccs.wellness.adcaregiverapp.common.utils.Constants;
 import edu.neu.ccs.wellness.adcaregiverapp.common.utils.UserManager;
 import edu.neu.ccs.wellness.adcaregiverapp.domain.login.model.User;
@@ -94,6 +95,7 @@ public class AppModule {
                         if (uauthorized && userManager.isTokenExpired()) {
                             UserService service = serviceHolder.getService();
                             User user = userManager.getUser();
+                            assert service != null;
                             OauthToken oauthToken = service.refreshToken(Constants.GRANT_TYPE_REFRESH, userManager.geRefreshtToken(), Constants.CLIENT_ID, Constants.CLIENT_SECRET).execute().body();
                             assert user != null;
                             user.setToken(oauthToken);
@@ -166,12 +168,10 @@ public class AppModule {
         return new UserManager(sharedPreferences);
     }
 
-    public class AuthenticationInterceptor implements Interceptor {
-
-        @Override
-        public Response intercept(Chain chain) throws IOException {
-            return null;
-        }
+    @Provides
+    @Singleton
+    public ChallengeManager getChallengeManager(SharedPreferences sharedPreferences) {
+        return new ChallengeManager(sharedPreferences);
     }
 
     @Provides

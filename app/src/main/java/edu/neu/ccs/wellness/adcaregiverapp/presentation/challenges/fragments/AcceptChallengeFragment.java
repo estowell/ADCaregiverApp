@@ -8,6 +8,7 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 
 import java.util.Objects;
 
@@ -16,7 +17,7 @@ import javax.inject.Inject;
 import edu.neu.ccs.wellness.adcaregiverapp.R;
 import edu.neu.ccs.wellness.adcaregiverapp.network.services.model.UnitChallenge;
 import edu.neu.ccs.wellness.adcaregiverapp.presentation.challenges.ChallengesViewModel;
-import edu.neu.ccs.wellness.adcaregiverapp.presentation.challenges.ChallengesViewModelFactory;
+import edu.neu.ccs.wellness.adcaregiverapp.presentation.ViewModelFactory;
 
 public class AcceptChallengeFragment extends Fragment {
 
@@ -26,7 +27,7 @@ public class AcceptChallengeFragment extends Fragment {
     private UnitChallenge unitChallenge;
 
     @Inject
-    ChallengesViewModelFactory viewModelFactory;
+    ViewModelFactory viewModelFactory;
 
     public static AcceptChallengeFragment newInstance(UnitChallenge unitChallenge) {
 
@@ -59,6 +60,12 @@ public class AcceptChallengeFragment extends Fragment {
     }
 
     private void init(View view) {
-
+        Button acceptChallengeButton = view.findViewById(R.id.accept_challenge);
+        acceptChallengeButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                viewModel.acceptChallenge(unitChallenge);
+            }
+        });
     }
 }
