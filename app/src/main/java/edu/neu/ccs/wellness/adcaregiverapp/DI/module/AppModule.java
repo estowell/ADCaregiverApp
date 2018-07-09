@@ -21,7 +21,7 @@ import edu.neu.ccs.wellness.adcaregiverapp.common.utils.ChallengeManager;
 import edu.neu.ccs.wellness.adcaregiverapp.common.utils.Constants;
 import edu.neu.ccs.wellness.adcaregiverapp.common.utils.UserManager;
 import edu.neu.ccs.wellness.adcaregiverapp.domain.login.model.User;
-import edu.neu.ccs.wellness.adcaregiverapp.network.services.UserServiceHolder;
+import edu.neu.ccs.wellness.adcaregiverapp.network.services.serviceHolders.UserServiceHolder;
 import edu.neu.ccs.wellness.adcaregiverapp.network.services.model.OauthToken;
 import edu.neu.ccs.wellness.adcaregiverapp.network.services.retrofitInterfaces.UserService;
 import okhttp3.Cache;
