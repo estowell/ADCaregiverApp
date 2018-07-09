@@ -14,11 +14,12 @@ import android.view.ViewGroup;
 
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import edu.neu.ccs.wellness.adcaregiverapp.R;
@@ -32,7 +33,7 @@ public class GardenGazetteFragment extends Fragment {
     private RecyclerView.LayoutManager layoutManager;
     private FragmentGardenGazetteBinding binding;
     private GardenGazetteViewModel viewModel;
-    private final List<StoryPost> result = new ArrayList<>();
+
 
     public static GardenGazetteFragment newInstance() {
 
@@ -51,17 +52,21 @@ public class GardenGazetteFragment extends Fragment {
 
 
         FirebaseDatabase database = FirebaseDatabase.getInstance();
-        DatabaseReference myRef = database.getReference().child("user-stories");
+        Query myRef = database.getReference().child("user-stories").orderByKey();
 
 
         init();
         myRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                binding.gardenGazetteProgress.setVisibility(View.GONE);
+                binding.recyclerView.setVisibility(View.VISIBLE);
+                List<StoryPost> result = new ArrayList<>();
                 for (DataSnapshot postSnapShot : dataSnapshot.getChildren()) {
                     StoryPost post = postSnapShot.getValue(StoryPost.class);
                     result.add(post);
                 }
+                Collections.reverse(result);
                 adapter.setResult(result);
             }
 
@@ -77,12 +82,20 @@ public class GardenGazetteFragment extends Fragment {
 
     private void init() {
         if (binding != null) {
+            binding.gardenGazetteProgress.setVisibility(View.VISIBLE);
             recyclerView = binding.recyclerView;
             layoutManager = new LinearLayoutManager(this.getActivity().getApplicationContext());
             recyclerView.setLayoutManager(layoutManager);
             adapter = new GardenGazetteAdapter();
             adapter.setHasStableIds(true);
             recyclerView.setAdapter(adapter);
+
+            binding.back.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    getFragmentManager().popBackStack();
+                }
+            });
         } else {
             Log.d(this.getClass().getSimpleName(), "binding is null");
         }

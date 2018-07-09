@@ -21,7 +21,7 @@ public class Firebase {
 
         final DatabaseError[] response = new DatabaseError[1];
         final FirebaseDatabase database = FirebaseDatabase.getInstance();
-        DatabaseReference myRef = database.getReference().child("user-stories").child(String.valueOf(post.count));
+        DatabaseReference myRef = database.getReference().child("user-stories").child(String.valueOf(post.userId));
         myRef.setValue(post, new DatabaseReference.CompletionListener() {
             @Override
             public void onComplete(@Nullable DatabaseError databaseError, @NonNull DatabaseReference databaseReference) {

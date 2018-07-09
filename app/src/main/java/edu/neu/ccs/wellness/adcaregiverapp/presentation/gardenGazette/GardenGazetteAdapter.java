@@ -15,17 +15,16 @@ public class GardenGazetteAdapter extends RecyclerView.Adapter<GardenGazetteAdap
 
     private List<StoryPost> result = new ArrayList<>();
 
-    public GardenGazetteAdapter(List<StoryPost> result) {
-        this.result = result;
-    }
-
     public GardenGazetteAdapter() {
+
     }
 
     public void setResult(List<StoryPost> result) {
-        this.result = result;
+        this.result.clear();
+        this.result.addAll(result);
         notifyDataSetChanged();
     }
+
 
     @NonNull
     @Override
@@ -33,12 +32,15 @@ public class GardenGazetteAdapter extends RecyclerView.Adapter<GardenGazetteAdap
         LayoutInflater layoutInflater = LayoutInflater.from(parent.getContext());
         ItemGardenGazetteBinding binding = ItemGardenGazetteBinding.inflate(layoutInflater, parent, false);
         ViewHolder holder = new ViewHolder(binding);
+        //TODO: Fix ME
+        holder.setIsRecyclable(false);
         return holder;
     }
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         holder.bind(position);
+
     }
 
     @Override
@@ -47,7 +49,7 @@ public class GardenGazetteAdapter extends RecyclerView.Adapter<GardenGazetteAdap
     }
 
     class ViewHolder extends RecyclerView.ViewHolder {
-        ItemGardenGazetteBinding binding;
+        private ItemGardenGazetteBinding binding;
 
         ViewHolder(ItemGardenGazetteBinding binding) {
             super(binding.getRoot());
@@ -59,6 +61,7 @@ public class GardenGazetteAdapter extends RecyclerView.Adapter<GardenGazetteAdap
             String userMessage = result.get(pos).message;
             binding.username.setText(usernmae);
             binding.userMessage.setText(userMessage);
+            binding.executePendingBindings();
         }
 
     }

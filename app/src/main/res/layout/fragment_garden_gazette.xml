@@ -8,6 +8,20 @@
         android:background="@color/nursery_background">
 
 
+        <ProgressBar
+            android:id="@+id/garden_gazette_progress"
+            android:visibility="gone"
+            android:layout_width="125dp"
+            android:layout_height="113dp"
+            android:layout_marginBottom="8dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/textView4" />
+
         <ImageView
             android:id="@+id/back"
             android:layout_width="43dp"
@@ -22,11 +36,14 @@
 
         <android.support.v7.widget.RecyclerView
             android:id="@+id/recyclerView"
+            android:visibility="gone"
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_margin="8dp"
+            android:layout_marginBottom="40dp"
             android:layout_marginTop="24dp"
             android:background="@color/nursery_background"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"

@@ -6,16 +6,17 @@ public class StoryPost implements Model {
 
     public String message;
 
-    public long count;
+    public int userId;
 
     public String userName;
+
 
     public StoryPost() {
     }
 
-    public StoryPost(String message, long count, String userName) {
+    public StoryPost(String message, int userId, String userName) {
         this.message = message;
-        this.count = count;
+        this.userId = userId;
         this.userName = userName;
     }
 }
