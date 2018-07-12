@@ -26,7 +26,7 @@ public class ChallengeManager {
 
     @Nullable
     public RunningChallenges getRunningChallenge() {
-        String runningChallenge = preferences.getString(Constants.SHARED_PREFS_USER, null);
+        String runningChallenge = preferences.getString(Constants.SHARED_PREFS_RUNNING, null);
         Gson gson = new Gson();
         return gson.fromJson(runningChallenge, RunningChallenges.class);
     }

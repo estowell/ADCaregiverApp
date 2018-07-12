@@ -34,7 +34,7 @@ import edu.neu.ccs.wellness.adcaregiverapp.R;
 import edu.neu.ccs.wellness.adcaregiverapp.common.utils.NumberUtils;
 import edu.neu.ccs.wellness.adcaregiverapp.common.utils.UserManager;
 import edu.neu.ccs.wellness.adcaregiverapp.databinding.DialogShareStoryBinding;
-import edu.neu.ccs.wellness.adcaregiverapp.domain.Nursery.model.StoryPost;
+import edu.neu.ccs.wellness.adcaregiverapp.domain.nursery.model.StoryPost;
 import edu.neu.ccs.wellness.adcaregiverapp.domain.login.model.User;
 
 public class ShareStoriesDialog extends DialogFragment {

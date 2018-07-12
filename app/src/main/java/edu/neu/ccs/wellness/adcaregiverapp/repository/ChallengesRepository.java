@@ -5,7 +5,7 @@ import java.util.Calendar;
 import javax.inject.Inject;
 
 import edu.neu.ccs.wellness.adcaregiverapp.common.utils.ChallengeManager;
-import edu.neu.ccs.wellness.adcaregiverapp.domain.Challenge.usecase.AvailableChallengesUseCase.AvailableChallengesCallBack;
+import edu.neu.ccs.wellness.adcaregiverapp.domain.challenge.usecase.AvailableChallengesUseCase.AvailableChallengesCallBack;
 import edu.neu.ccs.wellness.adcaregiverapp.network.services.model.Challenges;
 import edu.neu.ccs.wellness.adcaregiverapp.network.services.model.RunningChallenges;
 import edu.neu.ccs.wellness.adcaregiverapp.network.services.model.UnitChallenge;

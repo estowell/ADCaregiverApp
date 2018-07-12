@@ -5,7 +5,7 @@ import android.arch.lifecycle.ViewModel;
 
 import javax.inject.Inject;
 
-import edu.neu.ccs.wellness.adcaregiverapp.domain.Challenge.usecase.AvailableChallengesUseCase;
+import edu.neu.ccs.wellness.adcaregiverapp.domain.challenge.usecase.AvailableChallengesUseCase;
 import edu.neu.ccs.wellness.adcaregiverapp.domain.UseCase;
 import edu.neu.ccs.wellness.adcaregiverapp.network.services.model.AvailableChallenges;
 import edu.neu.ccs.wellness.adcaregiverapp.network.services.model.UnitChallenge;

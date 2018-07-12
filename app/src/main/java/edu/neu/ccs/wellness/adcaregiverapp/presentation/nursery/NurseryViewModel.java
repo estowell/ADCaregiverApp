@@ -3,24 +3,47 @@ package edu.neu.ccs.wellness.adcaregiverapp.presentation.nursery;
 import android.arch.lifecycle.MutableLiveData;
 import android.arch.lifecycle.ViewModel;
 
+import java.util.Objects;
+
 import javax.inject.Inject;
 
-import edu.neu.ccs.wellness.adcaregiverapp.domain.Challenge.usecase.RunningChallengesUseCase;
+import edu.neu.ccs.wellness.adcaregiverapp.common.utils.ChallengeManager;
 import edu.neu.ccs.wellness.adcaregiverapp.domain.UseCase;
+import edu.neu.ccs.wellness.adcaregiverapp.domain.activities.model.Activities;
+import edu.neu.ccs.wellness.adcaregiverapp.domain.activities.usecase.SevenDaysActivityUseCase;
+import edu.neu.ccs.wellness.adcaregiverapp.domain.challenge.usecase.RunningChallengesUseCase;
+import edu.neu.ccs.wellness.adcaregiverapp.network.services.model.Progress;
+import edu.neu.ccs.wellness.adcaregiverapp.repository.ActivitiesRepository;
 import edu.neu.ccs.wellness.adcaregiverapp.repository.ChallengesRepository;
 
 public class NurseryViewModel extends ViewModel {
 
 
-    private MutableLiveData<Boolean> runningChallengeLivedata;
+    private MutableLiveData<Boolean> runningChallengeLiveData;
 
     private ChallengesRepository challengesRepository;
 
+    private ChallengeManager challengeManager;
+
     private MutableLiveData<String> errorLiveData;
 
+    private ActivitiesRepository repository;
+
+    private MutableLiveData<Integer> stepsLiveData;
+
     @Inject
-    public NurseryViewModel(ChallengesRepository challengesRepository) {
+    public NurseryViewModel(ChallengesRepository challengesRepository, ChallengeManager challengeManager, ActivitiesRepository repository) {
         this.challengesRepository = challengesRepository;
+        this.challengeManager = challengeManager;
+        this.repository = repository;
+    }
+
+
+    public MutableLiveData<Integer> getStepsLiveData() {
+        if (stepsLiveData == null) {
+            stepsLiveData = new MutableLiveData<>();
+        }
+        return stepsLiveData;
     }
 
     public MutableLiveData<String> getErrorLiveData() {
@@ -30,11 +53,11 @@ public class NurseryViewModel extends ViewModel {
         return errorLiveData;
     }
 
-    public MutableLiveData<Boolean> getRunningChallengeLivedata() {
-        if (runningChallengeLivedata == null) {
-            runningChallengeLivedata = new MutableLiveData<>();
+    public MutableLiveData<Boolean> getRunningChallengeLiveData() {
+        if (runningChallengeLiveData == null) {
+            runningChallengeLiveData = new MutableLiveData<>();
         }
-        return runningChallengeLivedata;
+        return runningChallengeLiveData;
     }
 
     public void isChallengeRunning() {
@@ -44,10 +67,10 @@ public class NurseryViewModel extends ViewModel {
             public void onSuccess(RunningChallengesUseCase.ResponseValues response) {
                 switch (response.getStatus()) {
                     case RUNNING:
-                        runningChallengeLivedata.setValue(true);
+                        runningChallengeLiveData.setValue(true);
                         break;
                     case AVAILABLE:
-                        runningChallengeLivedata.setValue(false);
+                        runningChallengeLiveData.setValue(false);
                         break;
                 }
 
@@ -66,6 +89,44 @@ public class NurseryViewModel extends ViewModel {
         runningChallenge.run();
     }
 
+
+    public void getSevenDaysActivity() {
+        SevenDaysActivityUseCase useCase = new SevenDaysActivityUseCase(new UseCase.UseCaseCallback<SevenDaysActivityUseCase.ResponseValues>() {
+
+            @Override
+            public void onSuccess(SevenDaysActivityUseCase.ResponseValues response) {
+                int stepCount = 0;
+
+                for (Activities activities : response.getActivities())
+                    stepCount += activities.getSteps();
+
+                Progress progress = Objects.requireNonNull(challengeManager.getRunningChallenge()).getProgress().get(0);
+
+                if (stepCount > progress.getGoal())
+                    stepsLiveData.setValue(100);
+                else {
+                    int stepPercentage = (stepCount / progress.getGoal()) * 100;
+                    stepsLiveData.setValue(stepPercentage);
+                }
+            }
+
+            @Override
+            public void onError(SevenDaysActivityUseCase.ResponseValues response) {
+                errorLiveData.setValue("Error retrieving steps");
+            }
+
+            @Override
+            public void onFailure() {
+
+            }
+        }, repository);
+
+        useCase.setRequestValues(new SevenDaysActivityUseCase.RequestValues(challengeManager.getRunningChallenge().getStartDatetime()));
+        useCase.run();
+    }
+
+
+    //TODO: Clean ME
 //    private ShareStory shareStory;
 //    private MutableLiveData<Firebase.Status> sharePost;
 

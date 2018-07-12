@@ -1,4 +1,4 @@
-package edu.neu.ccs.wellness.adcaregiverapp.domain.Challenge.usecase;
+package edu.neu.ccs.wellness.adcaregiverapp.domain.challenge.usecase;
 
 import android.support.annotation.Nullable;
 

@@ -7,7 +7,7 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
-import edu.neu.ccs.wellness.adcaregiverapp.domain.Nursery.model.StoryPost;
+import edu.neu.ccs.wellness.adcaregiverapp.domain.nursery.model.StoryPost;
 import edu.neu.ccs.wellness.adcaregiverapp.repository.NurseryRepository;
 
 public class Firebase {

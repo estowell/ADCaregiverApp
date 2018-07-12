@@ -9,7 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import edu.neu.ccs.wellness.adcaregiverapp.databinding.ItemGardenGazetteBinding;
-import edu.neu.ccs.wellness.adcaregiverapp.domain.Nursery.model.StoryPost;
+import edu.neu.ccs.wellness.adcaregiverapp.domain.nursery.model.StoryPost;
 
 public class GardenGazetteAdapter extends RecyclerView.Adapter<GardenGazetteAdapter.ViewHolder> {
 

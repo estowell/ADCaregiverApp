@@ -1,4 +1,4 @@
-package edu.neu.ccs.wellness.adcaregiverapp.domain.Nursery.model;
+package edu.neu.ccs.wellness.adcaregiverapp.domain.nursery.model;
 
 import edu.neu.ccs.wellness.adcaregiverapp.domain.Model;
 

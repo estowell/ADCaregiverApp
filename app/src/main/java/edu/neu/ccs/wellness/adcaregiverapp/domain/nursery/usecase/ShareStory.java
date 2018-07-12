@@ -1,6 +1,6 @@
-package edu.neu.ccs.wellness.adcaregiverapp.domain.Nursery.usecase;
+package edu.neu.ccs.wellness.adcaregiverapp.domain.nursery.usecase;
 
-import edu.neu.ccs.wellness.adcaregiverapp.domain.Nursery.model.StoryPost;
+import edu.neu.ccs.wellness.adcaregiverapp.domain.nursery.model.StoryPost;
 import edu.neu.ccs.wellness.adcaregiverapp.domain.UseCase;
 import edu.neu.ccs.wellness.adcaregiverapp.repository.NurseryRepository;
 

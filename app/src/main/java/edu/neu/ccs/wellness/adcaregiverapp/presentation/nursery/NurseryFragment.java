@@ -73,6 +73,7 @@ public class NurseryFragment extends DaggerFragment {
             public void onChanged(@Nullable Boolean aBoolean) {
                 binding.nurseryProgressBar.setVisibility(View.GONE);
                 if (aBoolean) {
+                    viewModel.getSevenDaysActivity();
                     binding.selectNewChallenge.setVisibility(View.GONE);
                     binding.flowerImage.setVisibility(View.VISIBLE);
                 } else {
@@ -82,6 +83,12 @@ public class NurseryFragment extends DaggerFragment {
             }
         };
 
+        Observer<Integer> stepsPercentage = new Observer<Integer>() {
+            @Override
+            public void onChanged(@Nullable Integer sPercentage) {
+                binding.stepsBar.setProgress(sPercentage);
+            }
+        };
         binding.exerciseProgress.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -94,9 +101,10 @@ public class NurseryFragment extends DaggerFragment {
                 navigateToChallengeActivity();
             }
         });
-
-        viewModel.getRunningChallengeLivedata().observe(this, isChallengeRunning);
+        viewModel.getStepsLiveData().observe(this, stepsPercentage);
+        viewModel.getRunningChallengeLiveData().observe(this, isChallengeRunning);
         viewModel.isChallengeRunning();
+
     }
 
     private void navigateToChallengeActivity() {
