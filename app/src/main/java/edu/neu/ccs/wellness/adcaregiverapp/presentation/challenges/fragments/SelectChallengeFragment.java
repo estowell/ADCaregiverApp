@@ -20,8 +20,8 @@ import edu.neu.ccs.wellness.adcaregiverapp.R;
 import edu.neu.ccs.wellness.adcaregiverapp.databinding.FragmentSelectChallengeBinding;
 import edu.neu.ccs.wellness.adcaregiverapp.network.services.model.AvailableChallenges;
 import edu.neu.ccs.wellness.adcaregiverapp.network.services.model.UnitChallenge;
-import edu.neu.ccs.wellness.adcaregiverapp.presentation.challenges.ChallengesViewModel;
 import edu.neu.ccs.wellness.adcaregiverapp.presentation.ViewModelFactory;
+import edu.neu.ccs.wellness.adcaregiverapp.presentation.challenges.ChallengesViewModel;
 
 public class SelectChallengeFragment extends Fragment {
 
@@ -68,7 +68,7 @@ public class SelectChallengeFragment extends Fragment {
         binding.option1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                navigateToAcceptChallengeFragment(viewModel.getAvailableChallenges().challenges.get(1));
+                navigateToAcceptChallengeFragment(viewModel.getAvailableChallenges().challenges.get(0));
 
             }
         });
@@ -76,9 +76,17 @@ public class SelectChallengeFragment extends Fragment {
         binding.option2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                navigateToAcceptChallengeFragment(viewModel.getAvailableChallenges().challenges.get(1));
+            }
+        });
+
+        binding.option3.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
                 navigateToAcceptChallengeFragment(viewModel.getAvailableChallenges().challenges.get(2));
             }
         });
+
         binding.container.setVisibility(View.GONE);
         binding.progressBarSelectChallenges.setVisibility(View.VISIBLE);
 
