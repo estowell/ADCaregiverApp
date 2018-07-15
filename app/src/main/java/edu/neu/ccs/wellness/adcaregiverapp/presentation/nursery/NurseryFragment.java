@@ -6,10 +6,13 @@ import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+
+import java.util.ArrayList;
 
 import javax.inject.Inject;
 
@@ -17,10 +20,12 @@ import dagger.android.support.DaggerFragment;
 import edu.neu.ccs.wellness.adcaregiverapp.R;
 import edu.neu.ccs.wellness.adcaregiverapp.common.utils.UserManager;
 import edu.neu.ccs.wellness.adcaregiverapp.databinding.FragmentNurseryBinding;
+import edu.neu.ccs.wellness.adcaregiverapp.domain.activities.model.Activities;
 import edu.neu.ccs.wellness.adcaregiverapp.domain.login.model.User;
 import edu.neu.ccs.wellness.adcaregiverapp.presentation.MainActivity;
 import edu.neu.ccs.wellness.adcaregiverapp.presentation.ViewModelFactory;
 import edu.neu.ccs.wellness.adcaregiverapp.presentation.nursery.dialogs.ShareStoriesDialog;
+import edu.neu.ccs.wellness.adcaregiverapp.presentation.nursery.weeklyProgress.WeeklyProgressFragment;
 
 /**
  * Created by amritanshtripathi on 6/12/18.
@@ -66,8 +71,18 @@ public class NurseryFragment extends DaggerFragment {
 
 
     private void init() {
+
         binding.nurseryProgressBar.setVisibility(View.VISIBLE);
 
+        binding.stepsBar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (binding.stepsBar.getProgress() > 0) {
+                    navigateToWeeklyProgress();
+                }
+
+            }
+        });
         Observer<Boolean> isChallengeRunning = new Observer<Boolean>() {
             @Override
             public void onChanged(@Nullable Boolean aBoolean) {
@@ -113,8 +128,18 @@ public class NurseryFragment extends DaggerFragment {
         mainActivity.startChallengeActivityForResult();
     }
 
+    private void navigateToWeeklyProgress() {
+        ArrayList<Activities> activities = (ArrayList<Activities>) viewModel.getActivities();
+        Fragment fragment = WeeklyProgressFragment.newInstance(activities);
+        FragmentTransaction ft = getFragmentManager().beginTransaction();
+        ft.replace(R.id.fragment_container, fragment);
+        ft.addToBackStack(null);
+        ft.commit();
+
+    }
+
     private void showStoriesDialog() {
-        ShareStoriesDialog dialog = ShareStoriesDialog.newInstance(binding.exerciseProgress.getProgress(), user.getUsername());
+        ShareStoriesDialog dialog = ShareStoriesDialog.newInstance(binding.exerciseProgress.getProgress(), user.getUsername(), user.getUserId());
         assert getFragmentManager() != null;
         FragmentTransaction ft = getFragmentManager().beginTransaction();
         ft.addToBackStack(null);

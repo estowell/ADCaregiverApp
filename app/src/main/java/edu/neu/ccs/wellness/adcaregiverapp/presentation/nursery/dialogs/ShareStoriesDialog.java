@@ -6,7 +6,6 @@ import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.support.v4.app.DialogFragment;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -28,34 +27,31 @@ import com.google.firebase.database.Transaction;
 
 import java.util.Objects;
 
-import javax.inject.Inject;
-
 import edu.neu.ccs.wellness.adcaregiverapp.R;
 import edu.neu.ccs.wellness.adcaregiverapp.common.utils.NumberUtils;
-import edu.neu.ccs.wellness.adcaregiverapp.common.utils.UserManager;
 import edu.neu.ccs.wellness.adcaregiverapp.databinding.DialogShareStoryBinding;
 import edu.neu.ccs.wellness.adcaregiverapp.domain.nursery.model.StoryPost;
-import edu.neu.ccs.wellness.adcaregiverapp.domain.login.model.User;
 
-public class ShareStoriesDialog extends DialogFragment {
+public class ShareStoriesDialog extends android.support.v4.app.DialogFragment {
 
     private static final double DIALOG_TO_SCREEN_HEIGHT_RATIO = .8;
     private static final String PROGRESS_VALUE = "progress_value";
     private static final String USER_NAME = "username";
+    private static final String USER_ID = "USER_ID";
 
     private DialogShareStoryBinding binding;
     private float donutProgress = 0;
     private Dialog dialog;
     private String userName;
     private AlertDialog sharePostDialog;
-    @Inject
-    UserManager userManager;
+    private int userId;
 
-    public static ShareStoriesDialog newInstance(float progress, String userName) {
+    public static ShareStoriesDialog newInstance(float progress, String userName, int userId) {
 
         Bundle args = new Bundle();
         args.putFloat(PROGRESS_VALUE, progress);
         args.putString(USER_NAME, userName);
+        args.putInt(USER_ID, userId);
         ShareStoriesDialog fragment = new ShareStoriesDialog();
         fragment.setArguments(args);
         return fragment;
@@ -68,6 +64,7 @@ public class ShareStoriesDialog extends DialogFragment {
         Bundle bundle = getArguments();
         if (bundle != null && bundle.containsKey(PROGRESS_VALUE)) {
             userName = bundle.getString(USER_NAME);
+            userId = bundle.getInt(USER_ID);
             donutProgress = bundle.getFloat(PROGRESS_VALUE);
         }
         init();
@@ -162,26 +159,21 @@ public class ShareStoriesDialog extends DialogFragment {
             @Override
             public void onComplete(@Nullable DatabaseError databaseError, boolean b, @Nullable DataSnapshot dataSnapshot) {
                 DatabaseReference childref = userStories.child(String.valueOf(count[0]));
-                User user = userManager.getUser();
-                if (user != null) {
-                    int userId = user.getUserId();
-                    childref.setValue(new StoryPost(message, userId, userName)).addOnSuccessListener(new OnSuccessListener<Void>() {
-                        @Override
-                        public void onSuccess(Void aVoid) {
-                            sharePostDialog.dismiss();
-                        }
-                    }).addOnFailureListener(new OnFailureListener() {
-                        @Override
-                        public void onFailure(@NonNull Exception e) {
-                            Toast.makeText(getContext(), "Please Try again", Toast.LENGTH_LONG).show();
-                        }
-                    });
-                } else {
 
-                    //TODO: Remove me later
-                    Toast.makeText(getContext(), "User Id is null", Toast.LENGTH_LONG).show();
-                }
+
+                childref.setValue(new StoryPost(message, userId, userName)).addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void aVoid) {
+                        sharePostDialog.dismiss();
+                    }
+                }).addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Toast.makeText(getActivity().getBaseContext(), "Please Try again", Toast.LENGTH_LONG).show();
+                    }
+                });
             }
+
         });
     }
 }

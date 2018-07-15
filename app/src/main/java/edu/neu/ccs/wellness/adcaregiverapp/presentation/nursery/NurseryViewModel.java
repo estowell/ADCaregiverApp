@@ -3,6 +3,8 @@ package edu.neu.ccs.wellness.adcaregiverapp.presentation.nursery;
 import android.arch.lifecycle.MutableLiveData;
 import android.arch.lifecycle.ViewModel;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
 import javax.inject.Inject;
@@ -31,6 +33,8 @@ public class NurseryViewModel extends ViewModel {
 
     private MutableLiveData<Integer> stepsLiveData;
 
+    private List<Activities> activities = new ArrayList<>();
+
     @Inject
     public NurseryViewModel(ChallengesRepository challengesRepository, ChallengeManager challengeManager, ActivitiesRepository repository) {
         this.challengesRepository = challengesRepository;
@@ -38,6 +42,10 @@ public class NurseryViewModel extends ViewModel {
         this.repository = repository;
     }
 
+
+    public List<Activities> getActivities() {
+        return activities;
+    }
 
     public MutableLiveData<Integer> getStepsLiveData() {
         if (stepsLiveData == null) {
@@ -96,6 +104,7 @@ public class NurseryViewModel extends ViewModel {
             @Override
             public void onSuccess(SevenDaysActivityUseCase.ResponseValues response) {
                 int stepCount = 0;
+                activities = response.getActivities();
 
                 for (Activities activities : response.getActivities())
                     stepCount += activities.getSteps();

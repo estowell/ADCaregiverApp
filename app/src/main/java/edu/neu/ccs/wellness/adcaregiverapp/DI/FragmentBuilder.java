@@ -9,4 +9,5 @@ public abstract class FragmentBuilder {
 
     @ContributesAndroidInjector
     abstract NurseryFragment provideNurseryFragment();
+
 }

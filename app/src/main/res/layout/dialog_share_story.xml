@@ -35,7 +35,6 @@
             android:id="@+id/imageView5"
             android:layout_width="50dp"
             android:layout_height="50dp"
-            android:layout_marginBottom="8dp"
             android:layout_marginTop="8dp"
             android:src="@drawable/dialog_circle3"
             app:layout_constraintBottom_toTopOf="@+id/share_story"
@@ -79,23 +78,25 @@
             android:id="@+id/share_story"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="33dp"
+            android:layout_marginBottom="8dp"
+            android:layout_marginTop="8dp"
+            android:background="@drawable/rounded_button"
+            android:paddingBottom="4dp"
+
+            android:paddingEnd="20dp"
+            android:paddingStart="20dp"
+            android:paddingTop="4dp"
             android:text="@string/share_story"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-
-            android:paddingTop="4dp"
-            android:paddingBottom="4dp"
-            android:paddingEnd="20dp"
-            android:background="@drawable/rounded_button"
             app:layout_constraintStart_toStartOf="parent"
-            android:paddingStart="20dp" />
+            app:layout_constraintTop_toBottomOf="@+id/imageView5" />
 
         <TextView
             android:id="@+id/textView2"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="32dp"
+            android:layout_marginTop="24dp"
             android:text="@string/stories"
             android:textColor="@color/black"
             android:textSize="24sp"
