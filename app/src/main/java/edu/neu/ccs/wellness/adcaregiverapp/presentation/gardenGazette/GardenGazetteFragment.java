@@ -26,6 +26,8 @@ import edu.neu.ccs.wellness.adcaregiverapp.R;
 import edu.neu.ccs.wellness.adcaregiverapp.databinding.FragmentGardenGazetteBinding;
 import edu.neu.ccs.wellness.adcaregiverapp.domain.nursery.model.StoryPost;
 
+import static edu.neu.ccs.wellness.adcaregiverapp.common.utils.Constants.USER_STORIES;
+
 public class GardenGazetteFragment extends Fragment {
 
     private RecyclerView recyclerView;
@@ -52,7 +54,7 @@ public class GardenGazetteFragment extends Fragment {
 
 
         FirebaseDatabase database = FirebaseDatabase.getInstance();
-        Query myRef = database.getReference().child("user-stories").orderByKey();
+        Query myRef = database.getReference().child(USER_STORIES).orderByKey();
 
 
         init();

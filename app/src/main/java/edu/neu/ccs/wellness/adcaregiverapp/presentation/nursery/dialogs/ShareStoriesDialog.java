@@ -32,6 +32,10 @@ import edu.neu.ccs.wellness.adcaregiverapp.common.utils.NumberUtils;
 import edu.neu.ccs.wellness.adcaregiverapp.databinding.DialogShareStoryBinding;
 import edu.neu.ccs.wellness.adcaregiverapp.domain.nursery.model.StoryPost;
 
+import static edu.neu.ccs.wellness.adcaregiverapp.common.utils.Constants.TOTAL_POST_COUNT;
+import static edu.neu.ccs.wellness.adcaregiverapp.common.utils.Constants.USER_POST_COUNT;
+import static edu.neu.ccs.wellness.adcaregiverapp.common.utils.Constants.USER_STORIES;
+
 public class ShareStoriesDialog extends android.support.v4.app.DialogFragment {
 
     private static final double DIALOG_TO_SCREEN_HEIGHT_RATIO = .8;
@@ -138,9 +142,10 @@ public class ShareStoriesDialog extends android.support.v4.app.DialogFragment {
         final String message = editText.getText().toString();
         FirebaseDatabase database = FirebaseDatabase.getInstance();
         DatabaseReference databaseReference = database.getReference();
-        final DatabaseReference postCountref = databaseReference.child("postCount");
+        final DatabaseReference postCountref = databaseReference.child(TOTAL_POST_COUNT);
         final Integer[] count = {0};
-        final DatabaseReference userStories = databaseReference.child("user-stories");
+        final DatabaseReference userStories = databaseReference.child(USER_STORIES);
+        final DatabaseReference userPostCount = databaseReference.child(USER_POST_COUNT);
 
         postCountref.runTransaction(new Transaction.Handler() {
             @NonNull
@@ -148,6 +153,7 @@ public class ShareStoriesDialog extends android.support.v4.app.DialogFragment {
             public Transaction.Result doTransaction(@NonNull MutableData mutableData) {
                 count[0] = mutableData.getValue(Integer.class);
                 if (count[0] == null) {
+                    count[0]=1;
                     mutableData.setValue(1);
                 } else {
                     mutableData.setValue(++count[0]);
@@ -160,11 +166,30 @@ public class ShareStoriesDialog extends android.support.v4.app.DialogFragment {
             public void onComplete(@Nullable DatabaseError databaseError, boolean b, @Nullable DataSnapshot dataSnapshot) {
                 DatabaseReference childref = userStories.child(String.valueOf(count[0]));
 
-
                 childref.setValue(new StoryPost(message, userId, userName)).addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
                     public void onSuccess(Void aVoid) {
-                        sharePostDialog.dismiss();
+                        DatabaseReference reference = userPostCount.child(String.valueOf(userId));
+
+                        reference.runTransaction(new Transaction.Handler() {
+                            @NonNull
+                            @Override
+                            public Transaction.Result doTransaction(@NonNull MutableData mutableData) {
+                                Integer postcount = mutableData.getValue(Integer.class);
+                                if (postcount == null) {
+                                    mutableData.setValue(1);
+                                } else {
+                                    postcount++;
+                                    mutableData.setValue(postcount);
+                                }
+                                return Transaction.success(mutableData);
+                            }
+
+                            @Override
+                            public void onComplete(@Nullable DatabaseError databaseError, boolean b, @Nullable DataSnapshot dataSnapshot) {
+                                sharePostDialog.dismiss();
+                            }
+                        });
                     }
                 }).addOnFailureListener(new OnFailureListener() {
                     @Override

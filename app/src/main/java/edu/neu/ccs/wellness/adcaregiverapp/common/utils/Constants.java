@@ -15,4 +15,9 @@ public class Constants {
     public static String GRANT_TYPE_REFRESH = "refresh_token";
 
     public static int CHALLENEGE_ACTIVITY_CODE = 1;
+
+    //FIREBASE
+    public static String USER_POST_COUNT = "UserPostCount";
+    public static String USER_STORIES = "user-stories";
+    public static String TOTAL_POST_COUNT = "TotalPostCount";
 }

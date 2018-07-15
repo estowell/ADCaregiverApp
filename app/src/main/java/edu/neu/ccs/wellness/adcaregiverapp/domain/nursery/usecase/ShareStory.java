@@ -1,6 +1,5 @@
 package edu.neu.ccs.wellness.adcaregiverapp.domain.nursery.usecase;
 
-import edu.neu.ccs.wellness.adcaregiverapp.domain.nursery.model.StoryPost;
 import edu.neu.ccs.wellness.adcaregiverapp.domain.UseCase;
 import edu.neu.ccs.wellness.adcaregiverapp.repository.NurseryRepository;
 
@@ -66,20 +65,20 @@ public class ShareStory extends UseCase<ShareStory.RequestValues, ShareStory.Res
     private class Async {
 
         void execute() {
-            repository.postStory(new StoryPost(getRequestValues().message, getRequestValues().userId, getRequestValues().userName), new NurseryRepository.FireBaseCallBack() {
-                @Override
-                public Status callBackMethod(Status status) {
-                    switch (status) {
-                        case SUCCESS:
-                            getUseCaseCallback().onSuccess(new ResponseValue(status));
-                            break;
-
-                        case ERROR:
-                            getUseCaseCallback().onError(new ResponseValue(status));
-                    }
-                    return status;
-                }
-            });
+//            repository.postStory(new StoryPost(getRequestValues().message, getRequestValues().userId, getRequestValues().userName), new NurseryRepository.FireBaseCallBack() {
+//                @Override
+//                public Status callBackMethod(Status status) {
+//                    switch (status) {
+//                        case SUCCESS:
+//                            getUseCaseCallback().onSuccess(new ResponseValue(status));
+//                            break;
+//
+//                        case ERROR:
+//                            getUseCaseCallback().onError(new ResponseValue(status));
+//                    }
+//                    return status;
+//                }
+//            });
         }
 
     }
