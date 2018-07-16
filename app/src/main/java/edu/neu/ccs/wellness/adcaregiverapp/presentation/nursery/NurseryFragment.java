@@ -12,6 +12,12 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+
 import java.util.ArrayList;
 
 import javax.inject.Inject;
@@ -26,6 +32,8 @@ import edu.neu.ccs.wellness.adcaregiverapp.presentation.MainActivity;
 import edu.neu.ccs.wellness.adcaregiverapp.presentation.ViewModelFactory;
 import edu.neu.ccs.wellness.adcaregiverapp.presentation.nursery.dialogs.ShareStoriesDialog;
 import edu.neu.ccs.wellness.adcaregiverapp.presentation.nursery.weeklyProgress.WeeklyProgressFragment;
+
+import static edu.neu.ccs.wellness.adcaregiverapp.common.utils.Constants.USER_POST_COUNT;
 
 /**
  * Created by amritanshtripathi on 6/12/18.
@@ -120,6 +128,9 @@ public class NurseryFragment extends DaggerFragment {
         viewModel.getRunningChallengeLiveData().observe(this, isChallengeRunning);
         viewModel.isChallengeRunning();
 
+
+        updateStoriesProgress();
+
     }
 
     private void navigateToChallengeActivity() {
@@ -149,5 +160,28 @@ public class NurseryFragment extends DaggerFragment {
 
     private void getUser() {
         user = userManager.getUser();
+    }
+
+
+    private void updateStoriesProgress() {
+        int userId = userManager.getUser().getUserId();
+        FirebaseDatabase database = FirebaseDatabase.getInstance();
+        final DatabaseReference databaseReference = database.getReference().child(USER_POST_COUNT).child(String.valueOf(userId));
+        databaseReference.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                Integer count = dataSnapshot.getValue(Integer.class);
+                if (count % 2 == 0) {
+                    binding.exerciseProgress.setProgress(50);
+                } else {
+                    binding.exerciseProgress.setProgress(0);
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
     }
 }

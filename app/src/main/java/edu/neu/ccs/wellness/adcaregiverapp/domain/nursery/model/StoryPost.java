@@ -11,7 +11,8 @@ public class StoryPost implements Model {
     public String userName;
 
 
-
+    public StoryPost() {
+    }
 
     public StoryPost(String message, int userId, String userName) {
         this.message = message;

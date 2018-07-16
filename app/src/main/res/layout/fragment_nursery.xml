@@ -8,12 +8,12 @@
         android:background="@color/nursery_background">
 
         <ProgressBar
-            android:visibility="gone"
             android:id="@+id/nursery_progress_bar"
             android:layout_width="147dp"
             android:layout_height="140dp"
             android:layout_marginBottom="8dp"
             android:layout_marginStart="8dp"
+            android:visibility="gone"
             custom:layout_constraintBottom_toBottomOf="parent"
             custom:layout_constraintEnd_toEndOf="parent"
             custom:layout_constraintStart_toStartOf="parent"
@@ -42,15 +42,15 @@
             android:layout_marginTop="41dp"
             android:clickable="true"
             android:focusable="true"
+            custom:donut_circle_starting_degree="270"
             custom:donut_finished_color="@color/blue_progress"
-            custom:donut_progress="30"
+            custom:donut_progress="0"
             custom:donut_text_color="@color/white"
             custom:donut_unfinished_color="@color/progress_bar_unfinished"
             custom:layout_constraintEnd_toEndOf="parent"
             custom:layout_constraintTop_toTopOf="parent" />
 
         <ImageView
-            android:visibility="gone"
             android:id="@+id/select_new_challenge"
             android:layout_width="147dp"
             android:layout_height="138dp"
@@ -58,6 +58,7 @@
             android:layout_marginEnd="8dp"
             android:layout_marginStart="8dp"
             android:layout_marginTop="8dp"
+            android:visibility="gone"
             custom:layout_constraintBottom_toBottomOf="parent"
             custom:layout_constraintEnd_toEndOf="parent"
             custom:layout_constraintStart_toStartOf="parent"
@@ -91,7 +92,6 @@
             custom:layout_constraintStart_toStartOf="parent" />
 
         <ImageView
-            android:visibility="gone"
             android:id="@+id/flower_image"
             android:layout_width="145dp"
             android:layout_height="134dp"
@@ -99,11 +99,40 @@
             android:layout_marginEnd="8dp"
             android:layout_marginStart="8dp"
             android:layout_marginTop="8dp"
+            android:visibility="gone"
             custom:layout_constraintBottom_toBottomOf="parent"
             custom:layout_constraintEnd_toEndOf="parent"
             custom:layout_constraintStart_toStartOf="parent"
             custom:layout_constraintTop_toTopOf="parent"
             custom:srcCompat="@android:drawable/btn_star_big_on" />
+
+        <TextView
+            android:id="@+id/textView9"
+            android:layout_width="wrap_content"
+            android:layout_height="34dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
+            android:text="@string/stories"
+            android:textColor="@color/white"
+            android:textSize="20sp"
+            custom:layout_constraintEnd_toEndOf="@+id/exercise_progress"
+            custom:layout_constraintStart_toStartOf="@+id/exercise_progress"
+            custom:layout_constraintTop_toBottomOf="@+id/exercise_progress" />
+
+        <TextView
+            android:id="@+id/textView10"
+            android:layout_width="wrap_content"
+            android:layout_height="37dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
+            android:text="@string/exercise"
+            android:textColor="@color/white"
+            android:textSize="20sp"
+            custom:layout_constraintEnd_toEndOf="@+id/stories"
+            custom:layout_constraintStart_toStartOf="@+id/stories"
+            custom:layout_constraintTop_toBottomOf="@+id/stories" />
 
     </android.support.constraint.ConstraintLayout>
 </layout>
