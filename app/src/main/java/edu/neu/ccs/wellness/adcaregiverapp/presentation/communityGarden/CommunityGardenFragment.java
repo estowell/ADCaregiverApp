@@ -1,5 +1,6 @@
 package edu.neu.ccs.wellness.adcaregiverapp.presentation.communityGarden;
 
+import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModelProviders;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -17,6 +18,7 @@ import javax.inject.Inject;
 
 import dagger.android.support.DaggerFragment;
 import edu.neu.ccs.wellness.adcaregiverapp.R;
+import edu.neu.ccs.wellness.adcaregiverapp.network.services.model.Member;
 import edu.neu.ccs.wellness.adcaregiverapp.presentation.ViewModelFactory;
 
 /**
@@ -27,7 +29,7 @@ public class CommunityGardenFragment extends DaggerFragment {
 
     private static int SPAN_COUNT = 2;
     private RecyclerView recyclerView;
-    private RecyclerView.Adapter adapter;
+    private CommunityGardenAdapter adapter;
     private RecyclerView.LayoutManager layoutManager;
     private CommunityGardenViewModel viewModel;
     @Inject
@@ -63,10 +65,24 @@ public class CommunityGardenFragment extends DaggerFragment {
         recyclerView = view.findViewById(R.id.garden_recycler_view);
         layoutManager = new StaggeredGridLayoutManager(SPAN_COUNT, StaggeredGridLayoutManager.VERTICAL);
         recyclerView.setLayoutManager(layoutManager);
-        adapter = new CommunityGardenAdapter(mock);
+        adapter = new CommunityGardenAdapter();
         recyclerView.setAdapter(adapter);
+        initialiseLiveDataObservers();
+
     }
 
+
+    private void initialiseLiveDataObservers() {
+        Observer<List<Member>> memberObserver = new Observer<List<Member>>() {
+            @Override
+            public void onChanged(@Nullable List<Member> members) {
+                adapter.setData(members);
+            }
+        };
+
+        viewModel.getMembersLiveData().observe(this, memberObserver);
+        viewModel.getMembers();
+    }
 
     //TODO: Remove MockData
     List<String> mock = new ArrayList() {{

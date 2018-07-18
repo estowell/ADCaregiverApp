@@ -11,11 +11,13 @@ import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import edu.neu.ccs.wellness.adcaregiverapp.R;
-import edu.neu.ccs.wellness.adcaregiverapp.presentation.gardenGazette.GardenGazetteFragment;
 import edu.neu.ccs.wellness.adcaregiverapp.common.utils.NumberUtils;
+import edu.neu.ccs.wellness.adcaregiverapp.network.services.model.Member;
+import edu.neu.ccs.wellness.adcaregiverapp.presentation.gardenGazette.GardenGazetteFragment;
 
 
 /**
@@ -25,10 +27,12 @@ import edu.neu.ccs.wellness.adcaregiverapp.common.utils.NumberUtils;
 public class CommunityGardenAdapter extends RecyclerView.Adapter<CommunityGardenAdapter.ViewHolder> {
 
 
-    private List<String> data;
+    private List<Member> data;
 
-    public CommunityGardenAdapter(List<String> data) {
-        this.data = data;
+
+    public CommunityGardenAdapter() {
+        data = new ArrayList<>(10);
+        data.add(0, new Member("Garden Gazette"));
     }
 
     @NonNull
@@ -52,13 +56,21 @@ public class CommunityGardenAdapter extends RecyclerView.Adapter<CommunityGarden
                 }
             });
         }
-        holder.textView.setText(data.get(position));
+        String name = data.get(position).getName();
+        if (name == null) holder.textView.setText("");
+        else holder.textView.setText(name);
         holder.itemView.setBackgroundColor(holder.backgroundColor());
     }
 
     @Override
     public int getItemCount() {
+        if (data == null) return 0;
         return data.size();
+    }
+
+    public void setData(List<Member> data) {
+        this.data.addAll(data);
+        notifyDataSetChanged();
     }
 
     private void navigateToGardenGazette(View itemView) {
@@ -76,7 +88,6 @@ public class CommunityGardenAdapter extends RecyclerView.Adapter<CommunityGarden
         View itemView;
         LinearLayout container;
         private int colorCount = 0;
-        //        private String[] array = {"@color/green1", "@color/green2", "@color/green3", "@color/green4", "@color/green5", "@color/green6", "@color/green7"};
         private int[] array;
 
         ViewHolder(View itemView) {
