@@ -1,9 +1,9 @@
 package edu.neu.ccs.wellness.adcaregiverapp.presentation.communityGarden;
 
+import android.arch.lifecycle.ViewModelProviders;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.view.LayoutInflater;
@@ -13,18 +13,25 @@ import android.view.ViewGroup;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.inject.Inject;
+
+import dagger.android.support.DaggerFragment;
 import edu.neu.ccs.wellness.adcaregiverapp.R;
+import edu.neu.ccs.wellness.adcaregiverapp.presentation.ViewModelFactory;
 
 /**
  * Created by amritanshtripathi on 6/10/18.
  */
 
-public class CommunityGardenFragment extends Fragment {
+public class CommunityGardenFragment extends DaggerFragment {
 
     private static int SPAN_COUNT = 2;
     private RecyclerView recyclerView;
     private RecyclerView.Adapter adapter;
     private RecyclerView.LayoutManager layoutManager;
+    private CommunityGardenViewModel viewModel;
+    @Inject
+    ViewModelFactory viewModelFactory;
 
     public static CommunityGardenFragment newInstance() {
 
@@ -33,6 +40,12 @@ public class CommunityGardenFragment extends Fragment {
         CommunityGardenFragment fragment = new CommunityGardenFragment();
         fragment.setArguments(args);
         return fragment;
+    }
+
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        viewModel = ViewModelProviders.of(this, viewModelFactory).get(CommunityGardenViewModel.class);
     }
 
     @Nullable

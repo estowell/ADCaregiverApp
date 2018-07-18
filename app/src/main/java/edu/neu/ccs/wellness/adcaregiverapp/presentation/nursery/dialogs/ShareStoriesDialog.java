@@ -16,6 +16,7 @@ import android.view.WindowManager;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.github.lzyzsd.circleprogress.DonutProgress;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.database.DataSnapshot;
@@ -44,16 +45,16 @@ public class ShareStoriesDialog extends android.support.v4.app.DialogFragment {
     private static final String USER_ID = "USER_ID";
 
     private DialogShareStoryBinding binding;
-    private float donutProgress = 0;
+    private Integer donutProgress = 0;
     private Dialog dialog;
     private String userName;
     private AlertDialog sharePostDialog;
     private int userId;
 
-    public static ShareStoriesDialog newInstance(float progress, String userName, int userId) {
+    public static ShareStoriesDialog newInstance(Integer progress, String userName, int userId) {
 
         Bundle args = new Bundle();
-        args.putFloat(PROGRESS_VALUE, progress);
+        args.putInt(PROGRESS_VALUE, progress);
         args.putString(USER_NAME, userName);
         args.putInt(USER_ID, userId);
         ShareStoriesDialog fragment = new ShareStoriesDialog();
@@ -69,7 +70,7 @@ public class ShareStoriesDialog extends android.support.v4.app.DialogFragment {
         if (bundle != null && bundle.containsKey(PROGRESS_VALUE)) {
             userName = bundle.getString(USER_NAME);
             userId = bundle.getInt(USER_ID);
-            donutProgress = bundle.getFloat(PROGRESS_VALUE);
+            donutProgress = bundle.getInt(PROGRESS_VALUE);
         }
         init();
         return super.onCreateView(inflater, container, savedInstanceState);
@@ -90,8 +91,6 @@ public class ShareStoriesDialog extends android.support.v4.app.DialogFragment {
     }
 
     private void init() {
-        binding.stories.setProgress(donutProgress);
-        binding.stories.setText(String.valueOf((int) donutProgress));
         dialog.findViewById(R.id.share_story).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -116,6 +115,10 @@ public class ShareStoriesDialog extends android.support.v4.app.DialogFragment {
                 dialog.cancel();
             }
         });
+
+        DonutProgress donut = dialog.findViewById(R.id.stories);
+        donut.setProgress(donutProgress);
+        donut.setText(String.valueOf(donutProgress));
     }
 
     private void navigateToSharePostDialog() {
@@ -153,7 +156,7 @@ public class ShareStoriesDialog extends android.support.v4.app.DialogFragment {
             public Transaction.Result doTransaction(@NonNull MutableData mutableData) {
                 count[0] = mutableData.getValue(Integer.class);
                 if (count[0] == null) {
-                    count[0]=1;
+                    count[0] = 1;
                     mutableData.setValue(1);
                 } else {
                     mutableData.setValue(++count[0]);

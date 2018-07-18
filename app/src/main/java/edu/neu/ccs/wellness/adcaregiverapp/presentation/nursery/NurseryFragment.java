@@ -45,7 +45,7 @@ public class NurseryFragment extends DaggerFragment {
 
     private NurseryViewModel viewModel;
     private User user;
-
+    private Integer storiesProgress = 0;
     @Inject
     ViewModelFactory viewModelFactory;
 
@@ -79,7 +79,7 @@ public class NurseryFragment extends DaggerFragment {
 
 
     private void init() {
-
+        updateStoriesProgress();
         binding.nurseryProgressBar.setVisibility(View.VISIBLE);
 
         binding.stepsBar.setOnClickListener(new View.OnClickListener() {
@@ -112,12 +112,7 @@ public class NurseryFragment extends DaggerFragment {
                 binding.stepsBar.setProgress(sPercentage);
             }
         };
-        binding.exerciseProgress.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                showStoriesDialog();
-            }
-        });
+
         binding.selectNewChallenge.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -128,8 +123,6 @@ public class NurseryFragment extends DaggerFragment {
         viewModel.getRunningChallengeLiveData().observe(this, isChallengeRunning);
         viewModel.isChallengeRunning();
 
-
-        updateStoriesProgress();
 
     }
 
@@ -150,7 +143,7 @@ public class NurseryFragment extends DaggerFragment {
     }
 
     private void showStoriesDialog() {
-        ShareStoriesDialog dialog = ShareStoriesDialog.newInstance(binding.exerciseProgress.getProgress(), user.getUsername(), user.getUserId());
+        ShareStoriesDialog dialog = ShareStoriesDialog.newInstance(storiesProgress, user.getUsername(), user.getUserId());
         assert getFragmentManager() != null;
         FragmentTransaction ft = getFragmentManager().beginTransaction();
         ft.addToBackStack(null);
@@ -172,10 +165,19 @@ public class NurseryFragment extends DaggerFragment {
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 Integer count = dataSnapshot.getValue(Integer.class);
                 if (count % 2 == 0) {
+                    storiesProgress = 50;
                     binding.exerciseProgress.setProgress(50);
                 } else {
+                    storiesProgress = 0;
                     binding.exerciseProgress.setProgress(0);
                 }
+
+                binding.exerciseProgress.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        showStoriesDialog();
+                    }
+                });
             }
 
             @Override
@@ -184,4 +186,6 @@ public class NurseryFragment extends DaggerFragment {
             }
         });
     }
+
+
 }
