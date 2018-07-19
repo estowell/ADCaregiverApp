@@ -3,9 +3,18 @@ package edu.neu.ccs.wellness.adcaregiverapp.presentation;
 import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.view.View;
+
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import dagger.android.support.DaggerAppCompatActivity;
 import edu.neu.ccs.wellness.adcaregiverapp.R;
@@ -48,7 +57,7 @@ public class MainActivity extends DaggerAppCompatActivity {
         setBottomNavigationOnClickListener();
 
         navigateToCommunityGarden(true);
-
+        test();
 
     }
 
@@ -139,5 +148,32 @@ public class MainActivity extends DaggerAppCompatActivity {
         transaction.addToBackStack(null);
         transaction.commit();
     }
+//TODO: Remove ME
+    private void test() {
+        FirebaseStorage storage = FirebaseStorage.getInstance();
+        StorageReference storageRef = storage.getReference();
+        StorageReference imagesRef = storageRef.child("Exercises/images");
+        StorageReference insref = storageRef.child("Exercises/instructions");
 
+        StorageReference jsonref = insref.child("flexibility:next.json");
+        final long ONE_MEGABYTE = 1024 * 1024;
+        final JSONObject[] json = new JSONObject[1];
+        jsonref.getBytes(ONE_MEGABYTE).addOnSuccessListener(new OnSuccessListener<byte[]>() {
+            @Override
+            public void onSuccess(byte[] bytes) {
+                try {
+                    json[0] = new JSONObject(new String(bytes));
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+                // Data for "images/island.jpg" is returns, use this as needed
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception exception) {
+                // Handle any errors
+            }
+        });
+
+    }
 }
