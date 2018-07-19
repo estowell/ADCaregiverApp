@@ -12,6 +12,7 @@ import edu.neu.ccs.wellness.adcaregiverapp.R;
 import edu.neu.ccs.wellness.adcaregiverapp.databinding.ActivityMainBinding;
 import edu.neu.ccs.wellness.adcaregiverapp.presentation.challenges.ChallengesActivity;
 import edu.neu.ccs.wellness.adcaregiverapp.presentation.communityGarden.CommunityGardenFragment;
+import edu.neu.ccs.wellness.adcaregiverapp.presentation.garden.GardenFragment;
 import edu.neu.ccs.wellness.adcaregiverapp.presentation.nursery.NurseryFragment;
 
 public class MainActivity extends DaggerAppCompatActivity {
@@ -99,11 +100,14 @@ public class MainActivity extends DaggerAppCompatActivity {
                 binding.nurseryButton.setBackgroundColor(getResources().getColor(R.color.white));
                 binding.myGarden.setTextColor(getResources().getColor(R.color.white));
                 binding.myGarden.setBackgroundColor(getResources().getColor(R.color.bottom_navigation_color));
+                navigateToMyGarden();
             }
         });
 
 
     }
+
+    //TODO: Generalise navigation logic into one function
 
     private void navigateToCommunityGarden(boolean initialLaunch) {
         // Create new fragment and transaction
@@ -125,6 +129,14 @@ public class MainActivity extends DaggerAppCompatActivity {
         transaction.replace(R.id.fragment_container, newFragment);
         transaction.addToBackStack(null);
 
+        transaction.commit();
+    }
+
+    private void navigateToMyGarden() {
+        Fragment newFragment = GardenFragment.newInstance();
+        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+        transaction.replace(R.id.fragment_container, newFragment);
+        transaction.addToBackStack(null);
         transaction.commit();
     }
 

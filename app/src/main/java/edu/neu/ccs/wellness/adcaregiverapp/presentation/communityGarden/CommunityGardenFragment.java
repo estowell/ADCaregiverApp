@@ -11,7 +11,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -62,7 +61,7 @@ public class CommunityGardenFragment extends DaggerFragment {
     }
 
     private void init(View view) {
-        recyclerView = view.findViewById(R.id.garden_recycler_view);
+        recyclerView = view.findViewById(R.id.community_garden_recycler_view);
         layoutManager = new StaggeredGridLayoutManager(SPAN_COUNT, StaggeredGridLayoutManager.VERTICAL);
         recyclerView.setLayoutManager(layoutManager);
         adapter = new CommunityGardenAdapter();
@@ -83,19 +82,5 @@ public class CommunityGardenFragment extends DaggerFragment {
         viewModel.getMembersLiveData().observe(this, memberObserver);
         viewModel.getMembers();
     }
-
-    //TODO: Remove MockData
-    List<String> mock = new ArrayList() {{
-        add("Amy");
-        add("John");
-        add("Rob");
-        add("Amy");
-        add("John");
-        add("Rob");
-        add("Amy");
-        add("John");
-        add("Rob");
-    }};
-
 
 }
