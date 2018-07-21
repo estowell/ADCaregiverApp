@@ -1,8 +1,5 @@
 package edu.neu.ccs.wellness.adcaregiverapp.presentation.communityGarden;
 
-import android.app.Activity;
-import android.app.FragmentManager;
-import android.app.FragmentTransaction;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -17,7 +14,6 @@ import java.util.List;
 import edu.neu.ccs.wellness.adcaregiverapp.R;
 import edu.neu.ccs.wellness.adcaregiverapp.common.utils.NumberUtils;
 import edu.neu.ccs.wellness.adcaregiverapp.network.services.model.Member;
-import edu.neu.ccs.wellness.adcaregiverapp.presentation.gardenGazette.GardenGazetteFragment;
 
 
 /**
@@ -32,7 +28,6 @@ public class CommunityGardenAdapter extends RecyclerView.Adapter<CommunityGarden
 
     public CommunityGardenAdapter() {
         data = new ArrayList<>(10);
-        data.add(0, new Member("Garden Gazette"));
     }
 
     @NonNull
@@ -48,14 +43,6 @@ public class CommunityGardenAdapter extends RecyclerView.Adapter<CommunityGarden
 
     @Override
     public void onBindViewHolder(@NonNull final ViewHolder holder, int position) {
-        if (position == 0) {
-            holder.container.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    navigateToGardenGazette(holder.itemView);
-                }
-            });
-        }
         String name = data.get(position).getName();
         if (name == null) holder.textView.setText("");
         else holder.textView.setText(name);
@@ -71,15 +58,6 @@ public class CommunityGardenAdapter extends RecyclerView.Adapter<CommunityGarden
     public void setData(List<Member> data) {
         this.data.addAll(data);
         notifyDataSetChanged();
-    }
-
-    private void navigateToGardenGazette(View itemView) {
-        FragmentManager fragmentManager = ((Activity) itemView.getContext()).getFragmentManager();
-        FragmentTransaction transaction = fragmentManager.beginTransaction();
-
-        transaction.replace(R.id.fragment_container, GardenGazetteFragment.newInstance());
-        transaction.addToBackStack(null);
-        transaction.commit();
     }
 
     static class ViewHolder extends RecyclerView.ViewHolder {

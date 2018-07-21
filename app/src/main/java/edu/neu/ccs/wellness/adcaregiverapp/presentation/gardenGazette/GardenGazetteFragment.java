@@ -1,10 +1,11 @@
 package edu.neu.ccs.wellness.adcaregiverapp.presentation.gardenGazette;
 
-import android.app.Fragment;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -25,6 +26,7 @@ import java.util.List;
 import edu.neu.ccs.wellness.adcaregiverapp.R;
 import edu.neu.ccs.wellness.adcaregiverapp.databinding.FragmentGardenGazetteBinding;
 import edu.neu.ccs.wellness.adcaregiverapp.domain.nursery.model.StoryPost;
+import edu.neu.ccs.wellness.adcaregiverapp.presentation.nursery.dialogs.ShareStoriesDialog;
 
 import static edu.neu.ccs.wellness.adcaregiverapp.common.utils.Constants.USER_STORIES;
 
@@ -36,11 +38,19 @@ public class GardenGazetteFragment extends Fragment {
     private FragmentGardenGazetteBinding binding;
     private GardenGazetteViewModel viewModel;
 
+    private static final String PROGRESS_VALUE = "progress_value";
+    private static final String USER_NAME = "username";
+    private static final String USER_ID = "USER_ID";
+    private Integer donutProgress = 0;
+    private String userName;
+    private int userId;
 
-    public static GardenGazetteFragment newInstance() {
+    public static GardenGazetteFragment newInstance(Integer progress, String userName, int userId) {
 
         Bundle args = new Bundle();
-
+        args.putInt(PROGRESS_VALUE, progress);
+        args.putString(USER_NAME, userName);
+        args.putInt(USER_ID, userId);
         GardenGazetteFragment fragment = new GardenGazetteFragment();
         fragment.setArguments(args);
         return fragment;
@@ -55,7 +65,12 @@ public class GardenGazetteFragment extends Fragment {
 
         FirebaseDatabase database = FirebaseDatabase.getInstance();
         Query myRef = database.getReference().child(USER_STORIES).orderByKey();
-
+        Bundle bundle = getArguments();
+        if (bundle != null && bundle.containsKey(PROGRESS_VALUE)) {
+            userName = bundle.getString(USER_NAME);
+            userId = bundle.getInt(USER_ID);
+            donutProgress = bundle.getInt(PROGRESS_VALUE);
+        }
 
         init();
         myRef.addValueEventListener(new ValueEventListener() {
@@ -98,9 +113,27 @@ public class GardenGazetteFragment extends Fragment {
                     getFragmentManager().popBackStack();
                 }
             });
+
+            binding.addNewPost.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    showNewPostDialog();
+                }
+            });
         } else {
             Log.d(this.getClass().getSimpleName(), "binding is null");
         }
+
+    }
+
+
+    private void showNewPostDialog() {
+
+        ShareStoriesDialog dialog = ShareStoriesDialog.newInstance(donutProgress, userName, userId);
+        assert getFragmentManager() != null;
+        FragmentTransaction ft = getFragmentManager().beginTransaction();
+        ft.addToBackStack(null);
+        dialog.show(ft, ShareStoriesDialog.class.getSimpleName());
 
     }
 }

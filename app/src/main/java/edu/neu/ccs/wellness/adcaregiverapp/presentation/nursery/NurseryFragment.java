@@ -30,7 +30,7 @@ import edu.neu.ccs.wellness.adcaregiverapp.domain.activities.model.Activities;
 import edu.neu.ccs.wellness.adcaregiverapp.domain.login.model.User;
 import edu.neu.ccs.wellness.adcaregiverapp.presentation.MainActivity;
 import edu.neu.ccs.wellness.adcaregiverapp.presentation.ViewModelFactory;
-import edu.neu.ccs.wellness.adcaregiverapp.presentation.nursery.dialogs.ShareStoriesDialog;
+import edu.neu.ccs.wellness.adcaregiverapp.presentation.gardenGazette.GardenGazetteFragment;
 import edu.neu.ccs.wellness.adcaregiverapp.presentation.nursery.weeklyProgress.WeeklyProgressFragment;
 
 import static edu.neu.ccs.wellness.adcaregiverapp.common.utils.Constants.USER_POST_COUNT;
@@ -143,11 +143,18 @@ public class NurseryFragment extends DaggerFragment {
     }
 
     private void showStoriesDialog() {
-        ShareStoriesDialog dialog = ShareStoriesDialog.newInstance(storiesProgress, user.getUsername(), user.getUserId());
-        assert getFragmentManager() != null;
-        FragmentTransaction ft = getFragmentManager().beginTransaction();
-        ft.addToBackStack(null);
-        dialog.show(ft, ShareStoriesDialog.class.getSimpleName());
+        android.support.v4.app.FragmentManager fragmentManager = getFragmentManager();
+        FragmentTransaction transaction = fragmentManager.beginTransaction();
+
+        transaction.replace(R.id.fragment_container, GardenGazetteFragment.newInstance(storiesProgress,user.getUsername(),user.getUserId()));
+        transaction.addToBackStack(null);
+        transaction.commit();
+
+//        ShareStoriesDialog dialog = ShareStoriesDialog.newInstance(storiesProgress, user.getUsername(), user.getUserId());
+//        assert getFragmentManager() != null;
+//        FragmentTransaction ft = getFragmentManager().beginTransaction();
+//        ft.addToBackStack(null);
+//        dialog.show(ft, ShareStoriesDialog.class.getSimpleName());
 
     }
 

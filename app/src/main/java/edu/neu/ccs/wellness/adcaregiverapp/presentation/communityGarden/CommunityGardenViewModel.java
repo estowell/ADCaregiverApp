@@ -58,12 +58,12 @@ public class CommunityGardenViewModel extends ViewModel {
             public void onSuccess(GetCircleUseCase.Response response) {
 
                 List<Member> members = response.getMembers();
-                if (members.size() < 7) {
-                    while (members.size() != 7) {
+                if (members.size() < 8) {
+                    while (members.size() != 8) {
                         members.add(new Member());
                     }
 
-                } else if (members.size() % 2 == 0) {
+                } else if (members.size() % 2 != 0) {
                     members.add(new Member());
                 }
 
