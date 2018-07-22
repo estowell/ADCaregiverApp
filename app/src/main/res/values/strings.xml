@@ -28,4 +28,8 @@
     <string name="share_story">Share Story</string>
     <string name="back">Back</string>
     <string name="exercise">Exercise</string>
+
+    <string name="logs">Logs</string>
+    <string name="tutorial">Tutorials</string>
+
 </resources>

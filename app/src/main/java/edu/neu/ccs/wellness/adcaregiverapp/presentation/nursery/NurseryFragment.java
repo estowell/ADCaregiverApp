@@ -30,6 +30,7 @@ import edu.neu.ccs.wellness.adcaregiverapp.domain.activities.model.Activities;
 import edu.neu.ccs.wellness.adcaregiverapp.domain.login.model.User;
 import edu.neu.ccs.wellness.adcaregiverapp.presentation.MainActivity;
 import edu.neu.ccs.wellness.adcaregiverapp.presentation.ViewModelFactory;
+import edu.neu.ccs.wellness.adcaregiverapp.presentation.exercises.ExerciseFragment;
 import edu.neu.ccs.wellness.adcaregiverapp.presentation.gardenGazette.GardenGazetteFragment;
 import edu.neu.ccs.wellness.adcaregiverapp.presentation.nursery.weeklyProgress.WeeklyProgressFragment;
 
@@ -119,6 +120,14 @@ public class NurseryFragment extends DaggerFragment {
                 navigateToChallengeActivity();
             }
         });
+
+        binding.stories.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+                showExercisesFragment();
+            }
+        });
         viewModel.getStepsLiveData().observe(this, stepsPercentage);
         viewModel.getRunningChallengeLiveData().observe(this, isChallengeRunning);
         viewModel.isChallengeRunning();
@@ -146,7 +155,7 @@ public class NurseryFragment extends DaggerFragment {
         android.support.v4.app.FragmentManager fragmentManager = getFragmentManager();
         FragmentTransaction transaction = fragmentManager.beginTransaction();
 
-        transaction.replace(R.id.fragment_container, GardenGazetteFragment.newInstance(storiesProgress,user.getUsername(),user.getUserId()));
+        transaction.replace(R.id.fragment_container, GardenGazetteFragment.newInstance(storiesProgress, user.getUsername(), user.getUserId()));
         transaction.addToBackStack(null);
         transaction.commit();
 
@@ -156,6 +165,17 @@ public class NurseryFragment extends DaggerFragment {
 //        ft.addToBackStack(null);
 //        dialog.show(ft, ShareStoriesDialog.class.getSimpleName());
 
+    }
+
+
+    private void showExercisesFragment() {
+        android.support.v4.app.FragmentManager fragmentManager = getFragmentManager();
+        FragmentTransaction transaction = fragmentManager.beginTransaction();
+        ExerciseFragment fragment = ExerciseFragment.newInstance();
+
+        transaction.replace(R.id.fragment_container, fragment);
+        transaction.addToBackStack(null);
+        transaction.commit();
     }
 
     private void getUser() {

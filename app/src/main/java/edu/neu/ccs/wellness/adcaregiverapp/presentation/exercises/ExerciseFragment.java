@@ -1,0 +1,49 @@
+package edu.neu.ccs.wellness.adcaregiverapp.presentation.exercises;
+
+import android.os.Bundle;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
+import android.support.design.widget.TabLayout;
+import android.support.v4.view.ViewPager;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+
+import dagger.android.support.DaggerFragment;
+import edu.neu.ccs.wellness.adcaregiverapp.R;
+
+public class ExerciseFragment extends DaggerFragment {
+
+    private ExercisePagerAdapter pagerAdapter;
+    private ViewPager viewPager;
+    private TabLayout tabLayout;
+
+
+    public static ExerciseFragment newInstance() {
+
+        Bundle args = new Bundle();
+
+        ExerciseFragment fragment = new ExerciseFragment();
+        fragment.setArguments(args);
+        return fragment;
+    }
+
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+
+    }
+
+    @Nullable
+    @Override
+    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        View view = inflater.inflate(R.layout.fragment_exercise_main, container, false);
+        viewPager = view.findViewById(R.id.viewpager);
+        pagerAdapter = new ExercisePagerAdapter(getFragmentManager(), this.getContext());
+        viewPager.setAdapter(pagerAdapter);
+        tabLayout = view.findViewById(R.id.sliding_tabs);
+        tabLayout.setupWithViewPager(viewPager);
+
+        return view;
+    }
+}
