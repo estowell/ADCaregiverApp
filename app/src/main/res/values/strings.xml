@@ -31,5 +31,9 @@
 
     <string name="logs">Logs</string>
     <string name="tutorial">Tutorials</string>
+    <string name="endurance">Endurance</string>
+    <string name="balance">Balance</string>
+    <string name="strength">Strength</string>
+    <string name="flexibility">Flexibility</string>
 
 </resources>

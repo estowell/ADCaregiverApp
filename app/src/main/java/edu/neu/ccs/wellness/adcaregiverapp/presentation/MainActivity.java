@@ -61,6 +61,15 @@ public class MainActivity extends DaggerAppCompatActivity {
 
     }
 
+    public void hideBottomNavigation() {
+        binding.bottomNavigation.setVisibility(View.GONE);
+    }
+
+
+    public void showBottomNavigation() {
+        binding.bottomNavigation.setVisibility(View.VISIBLE);
+    }
+
     public void startChallengeActivityForResult() {
         Intent intent = new Intent(this, ChallengesActivity.class);
         startActivity(intent);
@@ -116,6 +125,7 @@ public class MainActivity extends DaggerAppCompatActivity {
 
     }
 
+
     //TODO: Generalise navigation logic into one function
 
     private void navigateToCommunityGarden(boolean initialLaunch) {
@@ -148,7 +158,8 @@ public class MainActivity extends DaggerAppCompatActivity {
         transaction.addToBackStack(null);
         transaction.commit();
     }
-//TODO: Remove ME
+
+    //TODO: Remove ME
     private void test() {
         FirebaseStorage storage = FirebaseStorage.getInstance();
         StorageReference storageRef = storage.getReference();

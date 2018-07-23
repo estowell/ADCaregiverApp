@@ -47,6 +47,7 @@ public class NurseryFragment extends DaggerFragment {
     private NurseryViewModel viewModel;
     private User user;
     private Integer storiesProgress = 0;
+    private MainActivity activity;
     @Inject
     ViewModelFactory viewModelFactory;
 
@@ -66,6 +67,7 @@ public class NurseryFragment extends DaggerFragment {
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         viewModel = ViewModelProviders.of(this, viewModelFactory).get(NurseryViewModel.class);
+        activity = (MainActivity) getActivity();
         getUser();
     }
 
@@ -81,6 +83,9 @@ public class NurseryFragment extends DaggerFragment {
 
     private void init() {
         updateStoriesProgress();
+        if(activity!=null){
+            activity.showBottomNavigation();
+        }
         binding.nurseryProgressBar.setVisibility(View.VISIBLE);
 
         binding.stepsBar.setOnClickListener(new View.OnClickListener() {
@@ -133,6 +138,7 @@ public class NurseryFragment extends DaggerFragment {
         viewModel.isChallengeRunning();
 
 
+
     }
 
     private void navigateToChallengeActivity() {
@@ -158,12 +164,6 @@ public class NurseryFragment extends DaggerFragment {
         transaction.replace(R.id.fragment_container, GardenGazetteFragment.newInstance(storiesProgress, user.getUsername(), user.getUserId()));
         transaction.addToBackStack(null);
         transaction.commit();
-
-//        ShareStoriesDialog dialog = ShareStoriesDialog.newInstance(storiesProgress, user.getUsername(), user.getUserId());
-//        assert getFragmentManager() != null;
-//        FragmentTransaction ft = getFragmentManager().beginTransaction();
-//        ft.addToBackStack(null);
-//        dialog.show(ft, ShareStoriesDialog.class.getSimpleName());
 
     }
 
