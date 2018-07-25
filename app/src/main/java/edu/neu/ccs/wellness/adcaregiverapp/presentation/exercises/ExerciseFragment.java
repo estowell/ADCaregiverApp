@@ -33,7 +33,7 @@ public class ExerciseFragment extends DaggerFragment {
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
+        pagerAdapter = new ExercisePagerAdapter(getFragmentManager(), this.getContext());
     }
 
     @Nullable
@@ -42,7 +42,6 @@ public class ExerciseFragment extends DaggerFragment {
 
         View view = inflater.inflate(R.layout.fragment_exercise_main, container, false);
         viewPager = view.findViewById(R.id.viewpager);
-        pagerAdapter = new ExercisePagerAdapter(getFragmentManager(), this.getContext());
         viewPager.setAdapter(pagerAdapter);
         tabLayout = view.findViewById(R.id.sliding_tabs);
         tabLayout.setupWithViewPager(viewPager);
@@ -54,13 +53,13 @@ public class ExerciseFragment extends DaggerFragment {
         activity = (MainActivity) getActivity();
         if (activity != null) {
             activity.hideBottomNavigation();
+            activity.setAdapter(pagerAdapter);
         }
         view.findViewById(R.id.back_exercise).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 activity.onBackPressed();
                 activity.showBottomNavigation();
-
             }
         });
 
@@ -68,4 +67,9 @@ public class ExerciseFragment extends DaggerFragment {
     }
 
 
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        activity.setAdapter(null);
+    }
 }

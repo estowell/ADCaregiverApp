@@ -4,6 +4,7 @@ import dagger.Module;
 import dagger.android.ContributesAndroidInjector;
 import edu.neu.ccs.wellness.adcaregiverapp.presentation.communityGarden.CommunityGardenFragment;
 import edu.neu.ccs.wellness.adcaregiverapp.presentation.exercises.ExerciseFragment;
+import edu.neu.ccs.wellness.adcaregiverapp.presentation.exercises.tutorialFragments.TutorialListFragment;
 import edu.neu.ccs.wellness.adcaregiverapp.presentation.exercises.viewPagerFragments.ExerciseLogFragment;
 import edu.neu.ccs.wellness.adcaregiverapp.presentation.exercises.viewPagerFragments.ExerciseTutorialFragment;
 import edu.neu.ccs.wellness.adcaregiverapp.presentation.garden.GardenFragment;
@@ -30,4 +31,6 @@ public abstract class FragmentBuilder {
     @ContributesAndroidInjector
     abstract ExerciseLogFragment provideExerciseLogFragment();
 
+    @ContributesAndroidInjector
+    abstract TutorialListFragment provideTutorialListFragment();
 }

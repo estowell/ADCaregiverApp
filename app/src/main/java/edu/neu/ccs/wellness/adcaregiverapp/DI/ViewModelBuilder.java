@@ -39,4 +39,9 @@ public abstract class ViewModelBuilder {
     @IntoMap
     @ViewModelKey(GardenViewModel.class)
     abstract ViewModel bindGardenViewModel(GardenViewModel viewModel);
+
+//    @Binds
+//    @IntoMap
+//    @ViewModelKey(TutorialListViewModel.class)
+//    abstract ViewModel bindTutorailListViewModel(TutorialListFragment viewModel);
 }

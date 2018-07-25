@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.view.View;
@@ -21,6 +22,7 @@ import edu.neu.ccs.wellness.adcaregiverapp.R;
 import edu.neu.ccs.wellness.adcaregiverapp.databinding.ActivityMainBinding;
 import edu.neu.ccs.wellness.adcaregiverapp.presentation.challenges.ChallengesActivity;
 import edu.neu.ccs.wellness.adcaregiverapp.presentation.communityGarden.CommunityGardenFragment;
+import edu.neu.ccs.wellness.adcaregiverapp.presentation.exercises.ExercisePagerAdapter;
 import edu.neu.ccs.wellness.adcaregiverapp.presentation.garden.GardenFragment;
 import edu.neu.ccs.wellness.adcaregiverapp.presentation.nursery.NurseryFragment;
 
@@ -37,6 +39,9 @@ public class MainActivity extends DaggerAppCompatActivity {
 
 
     private ActivityMainBinding binding;
+
+    @Nullable
+    private ExercisePagerAdapter adapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -186,5 +191,26 @@ public class MainActivity extends DaggerAppCompatActivity {
             }
         });
 
+    }
+
+    @Override
+    public void onBackPressed() {
+
+        if (adapter != null) {
+            if (!adapter.onBackPressed()) {
+                super.onBackPressed();
+            }
+        } else {
+            super.onBackPressed();
+        }
+    }
+
+    @Nullable
+    public ExercisePagerAdapter getAdapter() {
+        return adapter;
+    }
+
+    public void setAdapter(@Nullable ExercisePagerAdapter adapter) {
+        this.adapter = adapter;
     }
 }
