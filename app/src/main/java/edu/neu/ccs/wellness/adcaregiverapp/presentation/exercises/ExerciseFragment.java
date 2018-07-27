@@ -63,7 +63,6 @@ public class ExerciseFragment extends DaggerFragment {
             }
         });
 
-
     }
 
 

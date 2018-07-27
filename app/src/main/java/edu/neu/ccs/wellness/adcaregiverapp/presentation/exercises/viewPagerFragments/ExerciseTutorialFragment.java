@@ -62,11 +62,6 @@ public class ExerciseTutorialFragment extends DaggerFragment {
                 activity.getAdapter().switchFragments(TutorialListFragment.newInstance(type));
 
         }
-//        TutorialListFragment fragment = TutorialListFragment.newInstance(type);
-//        FragmentTransaction ft = getChildFragmentManager().beginTransaction();
-//        ft.replace(R.id.exercise_container, fragment);
-//        ft.addToBackStack(null);
-//        ft.commit();
     }
 
 

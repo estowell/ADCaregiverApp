@@ -71,12 +71,4 @@ public class TutorialListFragment extends DaggerFragment {
         }
     }
 
-//    @Override
-//    public void onDestroy() {
-//        super.onDestroy();
-//        MainActivity activity = (MainActivity) getActivity();
-//        if (activity != null) {
-//            activity.setAdapter(null);
-//        }
-//    }
 }
