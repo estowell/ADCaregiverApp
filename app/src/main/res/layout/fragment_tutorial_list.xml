@@ -6,24 +6,29 @@
     android:layout_height="match_parent"
     android:background="@color/nursery_background">
 
-    <ImageView
-        android:id="@+id/exercise_list_back"
-        android:layout_width="51dp"
-        android:layout_height="37dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="16dp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/ic_arrow_back_white_24dp" />
-
     <android.support.v7.widget.RecyclerView
         android:id="@+id/exercise_list_recycler_view"
         android:layout_width="344dp"
-        android:layout_height="492dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="4dp"
+        android:layout_height="0dp"
+        android:layout_marginTop="8dp"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/exercise_list_back" />
+        app:layout_constraintTop_toBottomOf="@+id/exercise_type" />
+
+    <TextView
+        android:id="@+id/exercise_type"
+        android:layout_width="wrap_content"
+        android:layout_height="27dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:textColor="@color/white"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toTopOf="@+id/exercise_list_recycler_view"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:text="Balance" />
 </android.support.constraint.ConstraintLayout>

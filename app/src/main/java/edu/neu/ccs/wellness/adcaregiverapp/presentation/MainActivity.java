@@ -7,6 +7,7 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
+import android.util.Log;
 import android.view.View;
 
 import com.google.android.gms.tasks.OnFailureListener;
@@ -16,6 +17,8 @@ import com.google.firebase.storage.StorageReference;
 
 import org.json.JSONException;
 import org.json.JSONObject;
+
+import java.io.IOException;
 
 import dagger.android.support.DaggerAppCompatActivity;
 import edu.neu.ccs.wellness.adcaregiverapp.R;
@@ -63,16 +66,28 @@ public class MainActivity extends DaggerAppCompatActivity {
 
         navigateToCommunityGarden(true);
         test();
-
+        String[] assests = new String[0];
+        try {
+            assests = this.getAssets().list("");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        for (String assest : assests) {
+            Log.i("Assest ", assest);
+        }
     }
 
     public void hideBottomNavigation() {
+
         binding.bottomNavigation.setVisibility(View.GONE);
+
     }
 
 
     public void showBottomNavigation() {
+
         binding.bottomNavigation.setVisibility(View.VISIBLE);
+
     }
 
     public void startChallengeActivityForResult() {

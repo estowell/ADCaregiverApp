@@ -38,7 +38,7 @@ public class UserManager {
     @Nullable
     public String getToken() {
         User user = getUser();
-        if (user != null) {
+        if (user != null && user.getToken() != null) {
             return user.getToken().getAccessToken();
         } else {
             return null;

@@ -36,4 +36,12 @@ public class Firebase {
     }
 
 
+    public void LogExercise(int UserId) {
+        FirebaseDatabase database = FirebaseDatabase.getInstance();
+
+
+//        DatabaseReference reference = database.getReference().child("exercise-log").child()
+    }
+
+
 }

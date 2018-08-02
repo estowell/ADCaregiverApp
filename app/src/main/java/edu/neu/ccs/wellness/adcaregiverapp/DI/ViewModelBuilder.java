@@ -7,6 +7,7 @@ import dagger.Module;
 import dagger.multibindings.IntoMap;
 import edu.neu.ccs.wellness.adcaregiverapp.presentation.challenges.ChallengesViewModel;
 import edu.neu.ccs.wellness.adcaregiverapp.presentation.communityGarden.CommunityGardenViewModel;
+import edu.neu.ccs.wellness.adcaregiverapp.presentation.exercises.tutorialFragments.TutorialListViewModel;
 import edu.neu.ccs.wellness.adcaregiverapp.presentation.garden.GardenViewModel;
 import edu.neu.ccs.wellness.adcaregiverapp.presentation.login.LoginViewModel;
 import edu.neu.ccs.wellness.adcaregiverapp.presentation.nursery.NurseryViewModel;
@@ -40,8 +41,8 @@ public abstract class ViewModelBuilder {
     @ViewModelKey(GardenViewModel.class)
     abstract ViewModel bindGardenViewModel(GardenViewModel viewModel);
 
-//    @Binds
-//    @IntoMap
-//    @ViewModelKey(TutorialListViewModel.class)
-//    abstract ViewModel bindTutorailListViewModel(TutorialListFragment viewModel);
+    @Binds
+    @IntoMap
+    @ViewModelKey(TutorialListViewModel.class)
+    abstract ViewModel bindTutorailListViewModel(TutorialListViewModel viewModel);
 }
