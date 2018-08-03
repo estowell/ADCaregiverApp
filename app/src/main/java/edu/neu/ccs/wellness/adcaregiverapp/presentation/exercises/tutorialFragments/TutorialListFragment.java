@@ -19,11 +19,9 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.MutableData;
-import com.google.firebase.database.ServerValue;
 import com.google.firebase.database.Transaction;
 
 import java.util.List;
-import java.util.Objects;
 
 import javax.inject.Inject;
 
@@ -145,8 +143,6 @@ public class TutorialListFragment extends DaggerFragment {
         DatabaseReference databaseReference = database.getReference();
         DatabaseReference logCount = databaseReference.child(TOTAL_LOG_COUNT);
         final DatabaseReference logRef = databaseReference.child(EXERCISE_LOG);
-        final DatabaseReference userRef = logRef.child(String.valueOf(Objects.requireNonNull(userManager.getUser()).getUserId()));
-
 
         final Integer[] count = {0};
         logCount.runTransaction(new Transaction.Handler() {
@@ -167,7 +163,7 @@ public class TutorialListFragment extends DaggerFragment {
             @Override
             public void onComplete(@Nullable DatabaseError databaseError, boolean b, @Nullable DataSnapshot dataSnapshot) {
                 DatabaseReference ref = logRef.child(String.valueOf(count[0]));
-                ref.setValue(new LogExerciseModel(userManager.getUser().getUserId(), ServerValue.TIMESTAMP));
+                ref.setValue(new LogExerciseModel(userManager.getUser().getUserId()));
             }
         });
     }

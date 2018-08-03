@@ -62,7 +62,6 @@ public class GardenGazetteFragment extends Fragment {
 
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_garden_gazette, container, false);
 
-
         FirebaseDatabase database = FirebaseDatabase.getInstance();
         Query myRef = database.getReference().child(USER_STORIES).orderByKey();
         Bundle bundle = getArguments();
@@ -73,6 +72,7 @@ public class GardenGazetteFragment extends Fragment {
         }
 
         init();
+
         myRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {

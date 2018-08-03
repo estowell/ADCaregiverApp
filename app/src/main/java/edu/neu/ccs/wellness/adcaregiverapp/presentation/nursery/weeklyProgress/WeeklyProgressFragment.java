@@ -70,6 +70,7 @@ public class WeeklyProgressFragment extends Fragment {
         Collections.sort(activities);
         int xAxis = 1;
         for (Activities activity : activities) {
+            //TODO: Checklogic
             Calendar cal = Calendar.getInstance();
             cal.setTime(activity.getDate());
             entries.add(new BarEntry(xAxis, activity.getSteps()));

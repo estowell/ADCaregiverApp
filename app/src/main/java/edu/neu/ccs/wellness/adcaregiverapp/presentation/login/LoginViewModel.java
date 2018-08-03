@@ -69,6 +69,7 @@ public class LoginViewModel extends ViewModel {
 
     public void isUserLoggedIn() {
         isUserLoggedInLiveData.setValue(userManager.getUser() != null);
+
 //        final boolean isLoggedIn = userManager.getUser() != null;
 //        if (isLoggedIn) {
 //            if (userManager.isTokenExpired()) {
