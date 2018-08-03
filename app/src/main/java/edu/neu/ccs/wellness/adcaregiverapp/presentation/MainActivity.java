@@ -32,7 +32,7 @@ import edu.neu.ccs.wellness.adcaregiverapp.presentation.nursery.NurseryFragment;
 public class MainActivity extends DaggerAppCompatActivity {
 
 
-    private enum CurrentTab {
+    public enum CurrentTab {
         NURSERY,
         MY_GARDEN,
         COMMUNITY_GARDEN
@@ -95,6 +95,11 @@ public class MainActivity extends DaggerAppCompatActivity {
         startActivity(intent);
     }
 
+    public void setSelectedTab(CurrentTab selectedTab) {
+        this.selectedTab = selectedTab;
+        updateBottombar();
+    }
+
     private void setBottomNavigationOnClickListener() {
 
         binding.communityGarden.setOnClickListener(new View.OnClickListener() {
@@ -102,12 +107,7 @@ public class MainActivity extends DaggerAppCompatActivity {
             public void onClick(View v) {
                 if (selectedTab != CurrentTab.COMMUNITY_GARDEN) {
                     selectedTab = CurrentTab.COMMUNITY_GARDEN;
-                    binding.nurseryButton.setTextColor(getResources().getColor(R.color.black));
-                    binding.nurseryButton.setBackgroundColor(getResources().getColor(R.color.white));
-                    binding.myGarden.setTextColor(getResources().getColor(R.color.black));
-                    binding.myGarden.setBackgroundColor(getResources().getColor(R.color.white));
-                    binding.communityGarden.setTextColor(getResources().getColor(R.color.white));
-                    binding.communityGarden.setBackgroundColor(getResources().getColor(R.color.bottom_navigation_color));
+                    updateBottombar();
                     navigateToCommunityGarden(false);
                 }
             }
@@ -117,12 +117,7 @@ public class MainActivity extends DaggerAppCompatActivity {
             @Override
             public void onClick(View v) {
                 selectedTab = CurrentTab.NURSERY;
-                binding.communityGarden.setTextColor(getResources().getColor(R.color.black));
-                binding.communityGarden.setBackgroundColor(getResources().getColor(R.color.white));
-                binding.myGarden.setTextColor(getResources().getColor(R.color.black));
-                binding.myGarden.setBackgroundColor(getResources().getColor(R.color.white));
-                binding.nurseryButton.setTextColor(getResources().getColor(R.color.white));
-                binding.nurseryButton.setBackgroundColor(getResources().getColor(R.color.bottom_navigation_color));
+                updateBottombar();
                 navigateToNursery();
             }
         });
@@ -132,17 +127,44 @@ public class MainActivity extends DaggerAppCompatActivity {
             @Override
             public void onClick(View v) {
                 selectedTab = CurrentTab.MY_GARDEN;
+                updateBottombar();
+                navigateToMyGarden();
+            }
+        });
+
+
+    }
+
+
+    private void updateBottombar() {
+        switch (selectedTab) {
+            case COMMUNITY_GARDEN:
+                binding.nurseryButton.setTextColor(getResources().getColor(R.color.black));
+                binding.nurseryButton.setBackgroundColor(getResources().getColor(R.color.white));
+                binding.myGarden.setTextColor(getResources().getColor(R.color.black));
+                binding.myGarden.setBackgroundColor(getResources().getColor(R.color.white));
+                binding.communityGarden.setTextColor(getResources().getColor(R.color.white));
+                binding.communityGarden.setBackgroundColor(getResources().getColor(R.color.bottom_navigation_color));
+                break;
+
+            case NURSERY:
+                binding.communityGarden.setTextColor(getResources().getColor(R.color.black));
+                binding.communityGarden.setBackgroundColor(getResources().getColor(R.color.white));
+                binding.myGarden.setTextColor(getResources().getColor(R.color.black));
+                binding.myGarden.setBackgroundColor(getResources().getColor(R.color.white));
+                binding.nurseryButton.setTextColor(getResources().getColor(R.color.white));
+                binding.nurseryButton.setBackgroundColor(getResources().getColor(R.color.bottom_navigation_color));
+                break;
+
+            case MY_GARDEN:
                 binding.communityGarden.setTextColor(getResources().getColor(R.color.black));
                 binding.communityGarden.setBackgroundColor(getResources().getColor(R.color.white));
                 binding.nurseryButton.setTextColor(getResources().getColor(R.color.black));
                 binding.nurseryButton.setBackgroundColor(getResources().getColor(R.color.white));
                 binding.myGarden.setTextColor(getResources().getColor(R.color.white));
                 binding.myGarden.setBackgroundColor(getResources().getColor(R.color.bottom_navigation_color));
-                navigateToMyGarden();
-            }
-        });
-
-
+                break;
+        }
     }
 
 

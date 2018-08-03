@@ -35,5 +35,6 @@
     <string name="balance">Balance</string>
     <string name="strength">Strength</string>
     <string name="flexibility">Flexibility</string>
+    <string name="garden_heading">\'s Garden</string>
 
 </resources>

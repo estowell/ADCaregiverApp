@@ -18,6 +18,7 @@ import javax.inject.Inject;
 import dagger.android.support.DaggerFragment;
 import edu.neu.ccs.wellness.adcaregiverapp.R;
 import edu.neu.ccs.wellness.adcaregiverapp.network.services.model.Member;
+import edu.neu.ccs.wellness.adcaregiverapp.presentation.MainActivity;
 import edu.neu.ccs.wellness.adcaregiverapp.presentation.ViewModelFactory;
 
 /**
@@ -61,6 +62,11 @@ public class CommunityGardenFragment extends DaggerFragment {
     }
 
     private void init(View view) {
+        MainActivity mainActivity = (MainActivity) getActivity();
+        if (mainActivity != null) {
+            mainActivity.setSelectedTab(MainActivity.CurrentTab.COMMUNITY_GARDEN);
+        }
+
         recyclerView = view.findViewById(R.id.community_garden_recycler_view);
         layoutManager = new StaggeredGridLayoutManager(SPAN_COUNT, StaggeredGridLayoutManager.VERTICAL);
         recyclerView.setLayoutManager(layoutManager);

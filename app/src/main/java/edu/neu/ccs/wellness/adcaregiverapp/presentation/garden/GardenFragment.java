@@ -11,11 +11,15 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import java.util.Objects;
+
 import javax.inject.Inject;
 
 import dagger.android.support.DaggerFragment;
 import edu.neu.ccs.wellness.adcaregiverapp.R;
+import edu.neu.ccs.wellness.adcaregiverapp.common.utils.UserManager;
 import edu.neu.ccs.wellness.adcaregiverapp.databinding.FragmentGardenBinding;
+import edu.neu.ccs.wellness.adcaregiverapp.presentation.MainActivity;
 import edu.neu.ccs.wellness.adcaregiverapp.presentation.ViewModelFactory;
 
 public class GardenFragment extends DaggerFragment {
@@ -30,6 +34,9 @@ public class GardenFragment extends DaggerFragment {
     @Inject
     ViewModelFactory viewModelFactory;
 
+    @Inject
+    UserManager userManager;
+
     public static GardenFragment newInstance() {
         GardenFragment fragment = new GardenFragment();
         return fragment;
@@ -41,6 +48,7 @@ public class GardenFragment extends DaggerFragment {
         super.onCreate(savedInstanceState);
 
         viewModel = ViewModelProviders.of(this, viewModelFactory).get(GardenViewModel.class);
+
     }
 
     @Nullable
@@ -52,11 +60,20 @@ public class GardenFragment extends DaggerFragment {
     }
 
     private void init() {
+
+        MainActivity mainActivity = (MainActivity) getActivity();
+        if (mainActivity != null) {
+            mainActivity.setSelectedTab(MainActivity.CurrentTab.MY_GARDEN);
+        }
+
+
         binding.gardenProgress.setVisibility(View.GONE);
         recyclerView = binding.gardenRecyclerView;
         layoutManager = new StaggeredGridLayoutManager(SPAN_COUNT, StaggeredGridLayoutManager.VERTICAL);
         recyclerView.setLayoutManager(layoutManager);
         adapter = new GardenAdapter();
         recyclerView.setAdapter(adapter);
+
+        binding.gradenUsername.setText(Objects.requireNonNull(userManager.getUser()).getUsername() + getString(R.string.garden_heading));
     }
 }

@@ -85,6 +85,7 @@ public class NurseryFragment extends DaggerFragment {
         updateStoriesProgress();
         if(activity!=null){
             activity.showBottomNavigation();
+            activity.setSelectedTab(MainActivity.CurrentTab.NURSERY);
         }
         binding.nurseryProgressBar.setVisibility(View.VISIBLE);
 
