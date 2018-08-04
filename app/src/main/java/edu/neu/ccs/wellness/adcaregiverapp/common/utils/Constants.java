@@ -20,7 +20,9 @@ public class Constants {
     public static String USER_POST_COUNT = "UserPostCount";
     public static String USER_STORIES = "user-stories";
     public static String TOTAL_POST_COUNT = "TotalPostCount";
-    public static String EXERCISE_LOG="Exercise-Logs";
-    public static String TOTAL_LOG_COUNT="TotalLogCount";
+    public static String EXERCISE_LOG = "Exercise-Logs";
+    public static String TOTAL_LOG_COUNT = "TotalLogCount";
+    public static String USER_GARDEN = "User-Garden";
+
 
 }
