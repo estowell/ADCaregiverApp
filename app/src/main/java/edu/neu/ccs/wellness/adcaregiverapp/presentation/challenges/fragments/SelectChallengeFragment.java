@@ -12,6 +12,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import java.util.List;
 import java.util.Objects;
 
 import javax.inject.Inject;
@@ -95,6 +96,8 @@ public class SelectChallengeFragment extends Fragment {
             public void onChanged(@Nullable AvailableChallenges challenges) {
                 binding.progressBarSelectChallenges.setVisibility(View.GONE);
                 binding.container.setVisibility(View.VISIBLE);
+                updateButtons(challenges.challenges);
+
             }
         };
 
@@ -110,6 +113,12 @@ public class SelectChallengeFragment extends Fragment {
         viewModel.getAvailableChallengesLiveData().observe(this, availableChallengesObserver);
         viewModel.getErrorLiveData().observe(this, errorObserver);
         viewModel.fetchAvailableChallenges();
+    }
+
+    private void updateButtons(List<UnitChallenge> challenges) {
+        binding.option1.setText(challenges.get(0).text);
+        binding.option2.setText(challenges.get(1).text);
+        binding.option3.setText(challenges.get(2).text);
     }
 
     private void navigateToAcceptChallengeFragment(UnitChallenge unitChallenge) {

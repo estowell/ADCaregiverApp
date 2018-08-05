@@ -116,9 +116,11 @@ public class MainActivity extends DaggerAppCompatActivity {
         binding.nurseryButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                selectedTab = CurrentTab.NURSERY;
-                updateBottombar();
-                navigateToNursery();
+                if (selectedTab != CurrentTab.NURSERY) {
+                    selectedTab = CurrentTab.NURSERY;
+                    updateBottombar();
+                    navigateToNursery();
+                }
             }
         });
 
@@ -126,9 +128,11 @@ public class MainActivity extends DaggerAppCompatActivity {
 
             @Override
             public void onClick(View v) {
-                selectedTab = CurrentTab.MY_GARDEN;
-                updateBottombar();
-                navigateToMyGarden();
+                if (selectedTab != CurrentTab.MY_GARDEN) {
+                    selectedTab = CurrentTab.MY_GARDEN;
+                    updateBottombar();
+                    navigateToMyGarden();
+                }
             }
         });
 

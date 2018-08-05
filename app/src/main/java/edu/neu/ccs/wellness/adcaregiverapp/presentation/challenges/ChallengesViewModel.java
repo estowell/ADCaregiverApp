@@ -5,8 +5,8 @@ import android.arch.lifecycle.ViewModel;
 
 import javax.inject.Inject;
 
-import edu.neu.ccs.wellness.adcaregiverapp.domain.challenge.usecase.AvailableChallengesUseCase;
 import edu.neu.ccs.wellness.adcaregiverapp.domain.UseCase;
+import edu.neu.ccs.wellness.adcaregiverapp.domain.challenge.usecase.AvailableChallengesUseCase;
 import edu.neu.ccs.wellness.adcaregiverapp.network.services.model.AvailableChallenges;
 import edu.neu.ccs.wellness.adcaregiverapp.network.services.model.UnitChallenge;
 import edu.neu.ccs.wellness.adcaregiverapp.repository.ChallengesRepository;
@@ -28,6 +28,8 @@ public class ChallengesViewModel extends ViewModel {
 
     private MutableLiveData<String> errorLiveData;
 
+    private MutableLiveData<Boolean> acceptChallengeResponse;
+
     public MutableLiveData<AvailableChallenges> getAvailableChallengesLiveData() {
         if (availableChallengesLiveData == null) {
             availableChallengesLiveData = new MutableLiveData<>();
@@ -40,6 +42,13 @@ public class ChallengesViewModel extends ViewModel {
             errorLiveData = new MutableLiveData<>();
         }
         return errorLiveData;
+    }
+
+    public MutableLiveData<Boolean> getAcceptChallengeResponse() {
+        if (acceptChallengeResponse == null) {
+            acceptChallengeResponse = new MutableLiveData();
+        }
+        return acceptChallengeResponse;
     }
 
     public void fetchAvailableChallenges() {
@@ -87,12 +96,12 @@ public class ChallengesViewModel extends ViewModel {
         repository.postAcceptedChallenge(unitChallenge, new ChallengeViewModelCallback() {
             @Override
             public void success(Response response) {
-
+                acceptChallengeResponse.setValue(true);
             }
 
             @Override
             public void error(ResponseBody error) {
-
+                acceptChallengeResponse.setValue(false);
             }
         });
     }

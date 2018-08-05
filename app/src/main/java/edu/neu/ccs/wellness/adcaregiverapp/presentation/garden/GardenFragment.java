@@ -128,6 +128,10 @@ public class GardenFragment extends DaggerFragment {
                         data.add(new UserGardenModel());
                     }
                     adapter.setData(data);
+                } else if (data.size() % 3 != 0) {
+                    while (data.size() % 3 != 0) {
+                        data.add(new UserGardenModel());
+                    }
                 }
                 adapter.setData(data);
             }
