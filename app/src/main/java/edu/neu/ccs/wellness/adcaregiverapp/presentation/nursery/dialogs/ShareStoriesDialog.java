@@ -39,7 +39,7 @@ import static edu.neu.ccs.wellness.adcaregiverapp.common.utils.Constants.USER_ST
 
 public class ShareStoriesDialog extends android.support.v4.app.DialogFragment {
 
-    private static final double DIALOG_TO_SCREEN_HEIGHT_RATIO = .8;
+    private static final double DIALOG_TO_SCREEN_HEIGHT_RATIO = .9;
     private static final String PROGRESS_VALUE = "progress_value";
     private static final String USER_NAME = "username";
     private static final String USER_ID = "USER_ID";

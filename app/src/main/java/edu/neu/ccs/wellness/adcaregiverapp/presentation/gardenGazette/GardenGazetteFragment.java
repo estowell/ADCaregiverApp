@@ -26,6 +26,7 @@ import java.util.List;
 import edu.neu.ccs.wellness.adcaregiverapp.R;
 import edu.neu.ccs.wellness.adcaregiverapp.databinding.FragmentGardenGazetteBinding;
 import edu.neu.ccs.wellness.adcaregiverapp.domain.nursery.model.StoryPost;
+import edu.neu.ccs.wellness.adcaregiverapp.presentation.MainActivity;
 import edu.neu.ccs.wellness.adcaregiverapp.presentation.nursery.dialogs.ShareStoriesDialog;
 
 import static edu.neu.ccs.wellness.adcaregiverapp.common.utils.Constants.USER_STORIES;
@@ -56,6 +57,7 @@ public class GardenGazetteFragment extends Fragment {
         return fragment;
     }
 
+
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -71,6 +73,10 @@ public class GardenGazetteFragment extends Fragment {
             donutProgress = bundle.getInt(PROGRESS_VALUE);
         }
 
+        MainActivity activity = (MainActivity) getActivity();
+        if (activity != null) {
+            activity.hideBottomNavigation();
+        }
         init();
 
         myRef.addValueEventListener(new ValueEventListener() {
@@ -99,6 +105,7 @@ public class GardenGazetteFragment extends Fragment {
 
     private void init() {
         if (binding != null) {
+
             binding.gardenGazetteProgress.setVisibility(View.VISIBLE);
             recyclerView = binding.recyclerView;
             layoutManager = new LinearLayoutManager(this.getActivity().getApplicationContext());
