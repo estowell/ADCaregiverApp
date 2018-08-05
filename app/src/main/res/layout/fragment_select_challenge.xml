@@ -9,6 +9,29 @@
         android:layout_height="match_parent"
         android:background="@color/nursery_background">
 
+        <ImageView
+            android:id="@+id/imageView2"
+            android:layout_width="49dp"
+            android:layout_height="64dp"
+            android:layout_marginStart="4dp"
+            android:elevation="4dp"
+            android:src="@drawable/option1_image"
+            app:layout_constraintBottom_toBottomOf="@+id/option1"
+            app:layout_constraintStart_toStartOf="@+id/option1"
+            app:layout_constraintTop_toTopOf="@+id/option1" />
+
+
+        <ImageView
+            android:id="@+id/imageView3"
+            android:layout_width="49dp"
+            android:layout_height="64dp"
+            android:layout_marginStart="4dp"
+            android:elevation="4dp"
+            android:src="@drawable/option3_image"
+            app:layout_constraintBottom_toBottomOf="@+id/option3"
+            app:layout_constraintStart_toStartOf="@+id/option3"
+            app:layout_constraintTop_toTopOf="@+id/option3" />
+
         <Button
             android:id="@+id/option3"
             android:layout_width="match_parent"
@@ -18,7 +41,9 @@
             android:layout_marginStart="16dp"
             android:layout_marginTop="32dp"
             android:background="@drawable/select_challenge_button_background"
+            android:paddingRight="12dp"
             android:text="option3"
+            android:textAlignment="viewEnd"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -26,9 +51,9 @@
 
         <android.support.constraint.Group
             android:id="@+id/container"
-            android:visibility="visible"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:visibility="visible"
             app:constraint_referenced_ids="option1,back3,textView5,option2,textView6" />
 
         <ProgressBar
@@ -45,7 +70,9 @@
             android:layout_marginStart="16dp"
             android:layout_marginTop="32dp"
             android:background="@drawable/select_challenge_button_background"
+            android:paddingRight="12dp"
             android:text="option2"
+            android:textAlignment="viewEnd"
             app:layout_constraintBottom_toTopOf="@+id/option3"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -84,7 +111,9 @@
             android:layout_marginStart="16dp"
             android:layout_marginTop="32dp"
             android:background="@drawable/select_challenge_button_background"
+            android:paddingRight="12dp"
             android:text="option1"
+            android:textAlignment="viewEnd"
             app:layout_constraintBottom_toTopOf="@+id/option2"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -105,5 +134,16 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@+id/back3"
             app:layout_constraintTop_toTopOf="parent" />
+
+        <ImageView
+            android:id="@+id/imageView"
+            android:layout_width="49dp"
+            android:layout_height="64dp"
+            android:layout_marginStart="4dp"
+            android:elevation="2dp"
+            android:src="@drawable/option2_image"
+            app:layout_constraintBottom_toBottomOf="@+id/option2"
+            app:layout_constraintStart_toStartOf="@+id/option2"
+            app:layout_constraintTop_toTopOf="@+id/option2" />
     </android.support.constraint.ConstraintLayout>
 </layout>
