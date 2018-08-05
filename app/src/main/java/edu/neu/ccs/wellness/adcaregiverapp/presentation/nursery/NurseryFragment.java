@@ -83,7 +83,7 @@ public class NurseryFragment extends DaggerFragment {
 
     private void init() {
         updateStoriesProgress();
-        if(activity!=null){
+        if (activity != null) {
             activity.showBottomNavigation();
             activity.setSelectedTab(MainActivity.CurrentTab.NURSERY);
         }
@@ -137,8 +137,6 @@ public class NurseryFragment extends DaggerFragment {
         viewModel.getStepsLiveData().observe(this, stepsPercentage);
         viewModel.getRunningChallengeLiveData().observe(this, isChallengeRunning);
         viewModel.isChallengeRunning();
-
-
 
     }
 

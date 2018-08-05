@@ -10,8 +10,8 @@
 
         <com.github.lzyzsd.circleprogress.DonutProgress
             android:id="@+id/stories"
-            android:layout_width="142dp"
-            android:layout_height="138dp"
+            android:layout_width="122dp"
+            android:layout_height="118dp"
             android:layout_marginTop="88dp"
             app:layout_constraintStart_toStartOf="parent"
             custom:donut_circle_starting_degree="270"
@@ -78,7 +78,7 @@
             android:id="@+id/share_story"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="8dp"
+            android:layout_marginBottom="16dp"
             android:layout_marginTop="8dp"
             android:background="@drawable/rounded_button"
             android:paddingBottom="4dp"
@@ -109,7 +109,7 @@
             android:id="@+id/textView3"
             android:layout_width="280dp"
             android:layout_height="83dp"
-            android:layout_marginTop="24dp"
+            android:layout_marginTop="8dp"
             android:text="@string/unlock_more_colors_by_sharing_a_story"
             android:textAlignment="center"
             android:textColor="@color/black"

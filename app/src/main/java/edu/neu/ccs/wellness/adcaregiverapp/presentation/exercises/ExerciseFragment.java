@@ -59,7 +59,6 @@ public class ExerciseFragment extends DaggerFragment {
             @Override
             public void onClick(View v) {
                 activity.onBackPressed();
-                activity.showBottomNavigation();
             }
         });
 
