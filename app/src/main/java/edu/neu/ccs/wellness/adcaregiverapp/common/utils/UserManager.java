@@ -5,6 +5,8 @@ import android.support.annotation.Nullable;
 
 import com.google.gson.Gson;
 
+import java.util.Objects;
+
 import javax.inject.Inject;
 
 import edu.neu.ccs.wellness.adcaregiverapp.domain.login.model.User;
@@ -55,8 +57,7 @@ public class UserManager {
     @Nullable
     public long getTokenExpirationDate() {
         User user = getUser();
-        assert user != null;
-        return user.getToken().getExpiresIn();
+        return Objects.requireNonNull(user).getToken().getExpiresIn();
 
     }
 

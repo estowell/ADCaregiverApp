@@ -44,8 +44,11 @@ public class CommunityGardenAdapter extends RecyclerView.Adapter<CommunityGarden
     @Override
     public void onBindViewHolder(@NonNull final ViewHolder holder, int position) {
         String name = data.get(position).getName();
-        if (name == null) holder.textView.setText("");
-        else holder.textView.setText(name);
+        if (name == null) {
+            holder.textView.setText("");
+        } else {
+            holder.textView.setText(name);
+        }
         holder.itemView.setBackgroundColor(holder.backgroundColor());
     }
 

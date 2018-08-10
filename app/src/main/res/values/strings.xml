@@ -36,5 +36,7 @@
     <string name="strength">Strength</string>
     <string name="flexibility">Flexibility</string>
     <string name="garden_heading">\'s Garden</string>
+    <string name="select_a_new_seed_to_plant_some_flowers_are_more_challenging_to_grow">Select a new seed to plant. Some flowers are more challenging to grow!</string>
+    <string name="this_week_my_step_goal_is_last_week">This week, my step goal is ________ last week</string>
 
 </resources>

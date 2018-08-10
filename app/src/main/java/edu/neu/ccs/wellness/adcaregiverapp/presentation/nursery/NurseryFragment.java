@@ -19,6 +19,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
+import java.util.Objects;
 
 import javax.inject.Inject;
 
@@ -149,7 +150,7 @@ public class NurseryFragment extends DaggerFragment {
     private void navigateToWeeklyProgress() {
         ArrayList<Activities> activities = (ArrayList<Activities>) viewModel.getActivities();
         Fragment fragment = WeeklyProgressFragment.newInstance(activities);
-        FragmentTransaction ft = getFragmentManager().beginTransaction();
+        FragmentTransaction ft = Objects.requireNonNull(getFragmentManager()).beginTransaction();
         ft.replace(R.id.fragment_container, fragment);
         ft.addToBackStack(null);
         ft.commit();
@@ -158,7 +159,7 @@ public class NurseryFragment extends DaggerFragment {
 
     private void showStoriesDialog() {
         android.support.v4.app.FragmentManager fragmentManager = getFragmentManager();
-        FragmentTransaction transaction = fragmentManager.beginTransaction();
+        FragmentTransaction transaction = Objects.requireNonNull(fragmentManager).beginTransaction();
 
         transaction.replace(R.id.fragment_container, GardenGazetteFragment.newInstance(storiesProgress, user.getUsername(), user.getUserId()));
         transaction.addToBackStack(null);
@@ -169,7 +170,7 @@ public class NurseryFragment extends DaggerFragment {
 
     private void showExercisesFragment() {
         android.support.v4.app.FragmentManager fragmentManager = getFragmentManager();
-        FragmentTransaction transaction = fragmentManager.beginTransaction();
+        FragmentTransaction transaction = Objects.requireNonNull(fragmentManager).beginTransaction();
         ExerciseFragment fragment = ExerciseFragment.newInstance();
 
         transaction.replace(R.id.fragment_container, fragment);
@@ -183,7 +184,7 @@ public class NurseryFragment extends DaggerFragment {
 
 
     private void updateStoriesProgress() {
-        int userId = userManager.getUser().getUserId();
+        int userId = Objects.requireNonNull(userManager.getUser()).getUserId();
         FirebaseDatabase database = FirebaseDatabase.getInstance();
         final DatabaseReference databaseReference = database.getReference().child(USER_POST_COUNT).child(String.valueOf(userId));
         databaseReference.addValueEventListener(new ValueEventListener() {

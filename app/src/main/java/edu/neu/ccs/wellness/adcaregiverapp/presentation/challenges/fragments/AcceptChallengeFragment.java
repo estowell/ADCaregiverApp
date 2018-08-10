@@ -26,15 +26,18 @@ public class AcceptChallengeFragment extends Fragment {
 
 
     private static String UNIT_CHALLENGE = "UNIT_CHALLENGE";
+    private static String Image_Name = "Image_name";
     private ChallengesViewModel viewModel;
     private UnitChallenge unitChallenge;
+    private String imageName;
 
     @Inject
     ViewModelFactory viewModelFactory;
 
-    public static AcceptChallengeFragment newInstance(UnitChallenge unitChallenge) {
+    public static AcceptChallengeFragment newInstance(UnitChallenge unitChallenge, String imageName) {
 
         Bundle args = new Bundle();
+        args.putString(Image_Name, imageName);
         args.putParcelable(UNIT_CHALLENGE, unitChallenge);
         AcceptChallengeFragment fragment = new AcceptChallengeFragment();
         fragment.setArguments(args);
@@ -59,6 +62,7 @@ public class AcceptChallengeFragment extends Fragment {
 
         if (bundle != null) {
             unitChallenge = bundle.getParcelable(UNIT_CHALLENGE);
+            imageName = bundle.getString(Image_Name);
         }
         init(binding);
         return binding.getRoot();

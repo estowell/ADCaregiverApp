@@ -21,9 +21,9 @@ import edu.neu.ccs.wellness.adcaregiverapp.common.utils.ChallengeManager;
 import edu.neu.ccs.wellness.adcaregiverapp.common.utils.Constants;
 import edu.neu.ccs.wellness.adcaregiverapp.common.utils.UserManager;
 import edu.neu.ccs.wellness.adcaregiverapp.domain.login.model.User;
-import edu.neu.ccs.wellness.adcaregiverapp.network.services.serviceHolders.UserServiceHolder;
 import edu.neu.ccs.wellness.adcaregiverapp.network.services.model.OauthToken;
 import edu.neu.ccs.wellness.adcaregiverapp.network.services.retrofitInterfaces.UserService;
+import edu.neu.ccs.wellness.adcaregiverapp.network.services.serviceHolders.UserServiceHolder;
 import okhttp3.Cache;
 import okhttp3.Interceptor;
 import okhttp3.OkHttpClient;
@@ -84,7 +84,7 @@ public class AppModule {
                     public Response intercept(Chain chain) throws IOException {
                         Request intialRequest = chain.request();
                         Request modifiedRequest = intialRequest;
-                        if (userManager.getUser() != null) {
+                        if (userManager.getUser() != null && userManager.getAutharizationTokenWithType() != null) {
                             modifiedRequest = intialRequest.newBuilder()
                                     .addHeader("Authorization", userManager.getAutharizationTokenWithType())
                                     .build();
