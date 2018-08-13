@@ -6,6 +6,9 @@ public class UnlockedFlowersModel {
     boolean week2;
     boolean week3;
 
+    public UnlockedFlowersModel() {
+    }
+
     public UnlockedFlowersModel(boolean week1, boolean week2, boolean week3) {
         this.week1 = week1;
         this.week2 = week2;

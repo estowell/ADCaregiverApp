@@ -12,7 +12,7 @@ public abstract class ActivityBuilder {
     @ContributesAndroidInjector(modules = FragmentBuilder.class)
     abstract MainActivity bindMainActivity();
 
-    @ContributesAndroidInjector
+    @ContributesAndroidInjector(modules = ChallengeActivityFragmentBuilder.class)
     abstract ChallengesActivity challengesActivity();
 
     @ContributesAndroidInjector

@@ -7,7 +7,6 @@ import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -27,6 +26,7 @@ import java.util.Objects;
 
 import javax.inject.Inject;
 
+import dagger.android.support.DaggerFragment;
 import edu.neu.ccs.wellness.adcaregiverapp.R;
 import edu.neu.ccs.wellness.adcaregiverapp.common.utils.UserManager;
 import edu.neu.ccs.wellness.adcaregiverapp.databinding.FragmentSelectChallengeBinding;
@@ -38,7 +38,7 @@ import edu.neu.ccs.wellness.adcaregiverapp.presentation.challenges.ChallengesVie
 
 import static edu.neu.ccs.wellness.adcaregiverapp.common.utils.Constants.UNLOCKED_FLOWERS;
 
-public class SelectChallengeFragment extends Fragment {
+public class SelectChallengeFragment extends DaggerFragment {
 
     private FragmentSelectChallengeBinding binding;
     private ChallengesViewModel viewModel;
@@ -197,11 +197,11 @@ public class SelectChallengeFragment extends Fragment {
     private void getUnlockedFlowerStatus() {
         final FirebaseDatabase database = FirebaseDatabase.getInstance();
         DatabaseReference databaseReferenceEasy = database.getReference().child(UNLOCKED_FLOWERS)
-                .child("1").child("easy");
+                .child(String.valueOf(Objects.requireNonNull(userManager.getUser()).getUserId())).child("easy");
         final DatabaseReference databaseReferenceMedium = database.getReference().child(UNLOCKED_FLOWERS)
-                .child("1").child("medium");
+                .child(String.valueOf(Objects.requireNonNull(userManager.getUser()).getUserId())).child("medium");
         final DatabaseReference databaseReferenceHard = database.getReference().child(UNLOCKED_FLOWERS)
-                .child("1").child("hard");
+                .child(String.valueOf(Objects.requireNonNull(userManager.getUser()).getUserId())).child("hard");
 
         getFlowerStatusForLessThan(databaseReferenceEasy, databaseReferenceMedium, databaseReferenceHard);
 

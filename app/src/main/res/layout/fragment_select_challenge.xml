@@ -4,17 +4,19 @@
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:fillViewport="true"
         android:background="@color/nursery_background">
 
-        <LinearLayout
+        <FrameLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:background="@color/nursery_background">
 
             <ProgressBar
                 android:id="@+id/select_new_challenge_progress_bar"
                 android:layout_width="80dp"
-                android:layout_height="80dp" />
+                android:layout_height="80dp"
+                android:layout_gravity="center"/>
 
             <LinearLayout
                 android:id="@+id/challenges_container"
@@ -229,7 +231,7 @@
 
             </LinearLayout>
 
-        </LinearLayout>
+        </FrameLayout>
 
 
     </ScrollView>
