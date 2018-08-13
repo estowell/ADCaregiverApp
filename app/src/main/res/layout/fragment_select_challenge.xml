@@ -9,207 +9,221 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="@color/nursery_background"
-            android:orientation="vertical"
-            android:padding="8dp">
+            android:background="@color/nursery_background">
 
-            <TextView
-                android:padding="8dp"
-                android:id="@+id/header_text"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="@string/select_a_new_seed_to_plant_some_flowers_are_more_challenging_to_grow"
-                android:textAlignment="center"
-                android:textColor="@color/white"
-                android:textSize="24sp" />
-
-            <TextView
-                android:id="@+id/subheader"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="32dp"
-                android:text="@string/this_week_my_step_goal_is_last_week"
-                android:textColor="@color/white"
-                android:textSize="20sp" />
+            <ProgressBar
+                android:id="@+id/select_new_challenge_progress_bar"
+                android:layout_width="80dp"
+                android:layout_height="80dp" />
 
             <LinearLayout
+                android:id="@+id/challenges_container"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="32dp"
-                android:orientation="vertical">
+                android:layout_height="match_parent"
+                android:background="@color/nursery_background"
+                android:orientation="vertical"
+                android:padding="8dp">
 
-                <LinearLayout
-                    android:id="@+id/less_than"
+
+                <TextView
+                    android:id="@+id/header_text"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:background="@drawable/select_challenge_button_background"
-                    android:orientation="horizontal">
+                    android:padding="8dp"
+                    android:text="@string/select_a_new_seed_to_plant_some_flowers_are_more_challenging_to_grow"
+                    android:textAlignment="center"
+                    android:textColor="@color/white"
+                    android:textSize="24sp" />
 
-                    <ImageView
-                        android:layout_width="64dp"
-                        android:layout_height="64dp"
-                        android:layout_marginLeft="16dp"
-                        android:layout_weight="1"
-                        android:src="@drawable/option1_image" />
+                <TextView
+                    android:id="@+id/subheader"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="32dp"
+                    android:text="@string/this_week_my_step_goal_is_last_week"
+                    android:textColor="@color/white"
+                    android:textSize="20sp" />
 
-                    <TextView
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="32dp"
+                    android:orientation="vertical">
+
+                    <LinearLayout
+                        android:id="@+id/less_than"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:padding="16dp"
-                        android:text="Less than"
-                        android:textAlignment="center"
-                        android:textSize="20sp" />
+                        android:background="@drawable/select_challenge_button_background"
+                        android:orientation="horizontal">
 
-                </LinearLayout>
+                        <ImageView
+                            android:layout_width="64dp"
+                            android:layout_height="64dp"
+                            android:layout_marginLeft="16dp"
+                            android:layout_weight="1"
+                            android:src="@drawable/week1_flower_easy_7" />
 
-                <LinearLayout
-                    android:id="@+id/less_than_images_container"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:background="@color/white"
-                    android:orientation="horizontal"
-                    android:visibility="gone">
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:padding="16dp"
+                            android:text="Less than"
+                            android:textAlignment="center"
+                            android:textSize="20sp" />
 
-                    <ImageView
-                        android:id="@+id/less_than_image1"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1" />
+                    </LinearLayout>
 
-                    <ImageView
-                        android:id="@+id/less_than_image2"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1" />
-
-                    <ImageView
-                        android:id="@+id/less_than_image3"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1" />
-
-                </LinearLayout>
-
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
-                android:orientation="vertical">
-
-                <LinearLayout
-                    android:id="@+id/same"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:background="@drawable/select_challenge_button_background"
-                    android:orientation="horizontal">
-
-                    <ImageView
-                        android:layout_width="64dp"
-                        android:layout_height="64dp"
-                        android:layout_marginLeft="16dp"
-                        android:layout_weight="1"
-                        android:src="@drawable/option2_image" />
-
-                    <TextView
+                    <LinearLayout
+                        android:id="@+id/less_than_images_container"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:padding="16dp"
-                        android:text="Same as"
-                        android:textAlignment="center"
-                        android:textSize="20sp" />
+                        android:background="@color/white"
+                        android:orientation="horizontal"
+                        android:visibility="gone">
+
+                        <ImageView
+                            android:id="@+id/less_than_image1"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1" />
+
+                        <ImageView
+                            android:id="@+id/less_than_image2"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1" />
+
+                        <ImageView
+                            android:id="@+id/less_than_image3"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1" />
+
+                    </LinearLayout>
 
                 </LinearLayout>
 
                 <LinearLayout
-                    android:id="@+id/same_images_container"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:background="@color/white"
-                    android:orientation="horizontal"
-                    android:visibility="gone">
+                    android:layout_marginTop="16dp"
+                    android:orientation="vertical">
 
-                    <ImageView
-                        android:id="@+id/same_image1"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1" />
-
-                    <ImageView
-                        android:id="@+id/same_image2"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1" />
-
-                    <ImageView
-                        android:id="@+id/same_image3"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1" />
-
-                </LinearLayout>
-
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
-                android:orientation="vertical">
-
-                <LinearLayout
-                    android:id="@+id/More_than"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:background="@drawable/select_challenge_button_background"
-                    android:orientation="horizontal">
-
-                    <ImageView
-                        android:layout_width="64dp"
-                        android:layout_height="64dp"
-                        android:layout_marginLeft="16dp"
-                        android:layout_weight="1"
-                        android:src="@drawable/option3_image" />
-
-                    <TextView
+                    <LinearLayout
+                        android:id="@+id/same"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:padding="16dp"
-                        android:text="More than"
-                        android:textAlignment="center"
-                        android:textSize="20sp" />
+                        android:background="@drawable/select_challenge_button_background"
+                        android:orientation="horizontal">
+
+                        <ImageView
+                            android:layout_width="64dp"
+                            android:layout_height="64dp"
+                            android:layout_marginLeft="16dp"
+                            android:layout_weight="1"
+                            android:src="@drawable/week1_flower_medium_7" />
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:padding="16dp"
+                            android:text="Same as"
+                            android:textAlignment="center"
+                            android:textSize="20sp" />
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/same_images_container"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="@color/white"
+                        android:orientation="horizontal"
+                        android:visibility="gone">
+
+                        <ImageView
+                            android:id="@+id/same_image1"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1" />
+
+                        <ImageView
+                            android:id="@+id/same_image2"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1" />
+
+                        <ImageView
+                            android:id="@+id/same_image3"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1" />
+
+                    </LinearLayout>
 
                 </LinearLayout>
 
                 <LinearLayout
-                    android:id="@+id/More_than_images_container"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:background="@color/white"
-                    android:orientation="horizontal"
-                    android:visibility="gone">
+                    android:layout_marginTop="16dp"
+                    android:orientation="vertical">
 
-                    <ImageView
-                        android:id="@+id/More_than_image1"
-                        android:layout_width="wrap_content"
+                    <LinearLayout
+                        android:id="@+id/More_than"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_weight="1" />
+                        android:background="@drawable/select_challenge_button_background"
+                        android:orientation="horizontal">
 
-                    <ImageView
-                        android:id="@+id/More_than_image2"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1" />
+                        <ImageView
+                            android:layout_width="64dp"
+                            android:layout_height="64dp"
+                            android:layout_marginLeft="16dp"
+                            android:layout_weight="1"
+                            android:src="@drawable/week1_flower_hard_7" />
 
-                    <ImageView
-                        android:id="@+id/More_than_image3"
-                        android:layout_width="wrap_content"
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:padding="16dp"
+                            android:text="More than"
+                            android:textAlignment="center"
+                            android:textSize="20sp" />
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/More_than_images_container"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_weight="1" />
+                        android:background="@color/white"
+                        android:orientation="horizontal"
+                        android:visibility="gone">
+
+                        <ImageView
+                            android:id="@+id/More_than_image1"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1" />
+
+                        <ImageView
+                            android:id="@+id/More_than_image2"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1" />
+
+                        <ImageView
+                            android:id="@+id/More_than_image3"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1" />
+
+                    </LinearLayout>
 
                 </LinearLayout>
 

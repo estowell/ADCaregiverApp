@@ -17,6 +17,7 @@ import java.util.Objects;
 import javax.inject.Inject;
 
 import edu.neu.ccs.wellness.adcaregiverapp.R;
+import edu.neu.ccs.wellness.adcaregiverapp.common.utils.DrawableUntils;
 import edu.neu.ccs.wellness.adcaregiverapp.databinding.FragmentAcceptChallengeBinding;
 import edu.neu.ccs.wellness.adcaregiverapp.network.services.model.UnitChallenge;
 import edu.neu.ccs.wellness.adcaregiverapp.presentation.ViewModelFactory;
@@ -81,6 +82,7 @@ public class AcceptChallengeFragment extends Fragment {
             }
         };
 
+        binding.imageView7.setImageResource(DrawableUntils.getDrawableIdByName(getContext(), imageName));
         binding.header.setText(unitChallenge.total_duration + " Days Challenge");
         binding.subheader.setText(unitChallenge.text);
         binding.acceptChallenge.setOnClickListener(new View.OnClickListener() {

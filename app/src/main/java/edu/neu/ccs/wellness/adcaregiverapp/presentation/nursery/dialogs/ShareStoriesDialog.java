@@ -144,7 +144,7 @@ public class ShareStoriesDialog extends android.support.v4.app.DialogFragment {
         EditText editText = sharePostDialog.findViewById(R.id.story_message_edittext);
         final String message = editText.getText().toString();
         FirebaseDatabase database = FirebaseDatabase.getInstance();
-        DatabaseReference databaseReference = database.getReference();
+        final DatabaseReference databaseReference = database.getReference();
         final DatabaseReference postCountref = databaseReference.child(TOTAL_POST_COUNT);
         final Integer[] count = {0};
         final DatabaseReference userStories = databaseReference.child(USER_STORIES);
@@ -168,7 +168,7 @@ public class ShareStoriesDialog extends android.support.v4.app.DialogFragment {
             @Override
             public void onComplete(@Nullable DatabaseError databaseError, boolean b, @Nullable DataSnapshot dataSnapshot) {
                 DatabaseReference childref = userStories.child(String.valueOf(count[0]));
-
+                final Integer[] postcount = new Integer[1];
                 childref.setValue(new StoryPost(message, userId, userName)).addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
                     public void onSuccess(Void aVoid) {
@@ -178,18 +178,39 @@ public class ShareStoriesDialog extends android.support.v4.app.DialogFragment {
                             @NonNull
                             @Override
                             public Transaction.Result doTransaction(@NonNull MutableData mutableData) {
-                                Integer postcount = mutableData.getValue(Integer.class);
-                                if (postcount == null) {
+                                postcount[0] = mutableData.getValue(Integer.class);
+                                if (postcount[0] == null) {
                                     mutableData.setValue(1);
                                 } else {
-                                    postcount++;
-                                    mutableData.setValue(postcount);
+                                    postcount[0]++;
+                                    mutableData.setValue(postcount[0]);
                                 }
                                 return Transaction.success(mutableData);
                             }
 
                             @Override
                             public void onComplete(@Nullable DatabaseError databaseError, boolean b, @Nullable DataSnapshot dataSnapshot) {
+
+//                                DatabaseReference unlockedFlowers = databaseReference.child(UNLOCKED_FLOWERS).child(String.valueOf(userId));
+//
+//                                unlockedFlowers.runTransaction(new Transaction.Handler() {
+//                                    @NonNull
+//                                    @Override
+//                                    public Transaction.Result doTransaction(@NonNull MutableData mutableData) {
+//
+//                                        UnlockedFlowersModel model = mutableData.getValue(UnlockedFlowersModel.class);
+//                                        if (postcount[0] % 2 == 0) {
+//
+//                                        }
+//                                        return null;
+//                                    }
+//
+//                                    @Override
+//                                    public void onComplete(@Nullable DatabaseError databaseError, boolean b, @Nullable DataSnapshot dataSnapshot) {
+//
+//                                    }
+//                                });
+
                                 sharePostDialog.dismiss();
                             }
                         });

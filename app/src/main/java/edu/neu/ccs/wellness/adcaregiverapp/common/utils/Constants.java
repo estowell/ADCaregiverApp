@@ -23,6 +23,7 @@ public class Constants {
     public static String EXERCISE_LOG = "Exercise-Logs";
     public static String TOTAL_LOG_COUNT = "TotalLogCount";
     public static String USER_GARDEN = "User-Garden";
+    public static String UNLOCKED_FLOWERS = "Unlocked-Flowers";
 
 
 }

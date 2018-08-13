@@ -191,12 +191,16 @@ public class NurseryFragment extends DaggerFragment {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 Integer count = dataSnapshot.getValue(Integer.class);
-                if (count % 2 == 0) {
-                    storiesProgress = 50;
-                    binding.exerciseProgress.setProgress(50);
-                } else {
+                if (count == null) {
+
                     storiesProgress = 0;
                     binding.exerciseProgress.setProgress(0);
+                } else if (count % 2 == 0) {
+                    storiesProgress = 100;
+                    binding.exerciseProgress.setProgress(100);
+                } else {
+                    storiesProgress = 50;
+                    binding.exerciseProgress.setProgress(50);
                 }
 
                 binding.exerciseProgress.setOnClickListener(new View.OnClickListener() {
