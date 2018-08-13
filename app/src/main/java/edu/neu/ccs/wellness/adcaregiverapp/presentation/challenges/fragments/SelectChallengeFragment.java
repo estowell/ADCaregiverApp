@@ -11,6 +11,7 @@ import android.support.v4.app.FragmentTransaction;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.google.firebase.database.DataSnapshot;
@@ -21,6 +22,7 @@ import com.google.firebase.database.MutableData;
 import com.google.firebase.database.Transaction;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
 
@@ -28,6 +30,7 @@ import javax.inject.Inject;
 
 import dagger.android.support.DaggerFragment;
 import edu.neu.ccs.wellness.adcaregiverapp.R;
+import edu.neu.ccs.wellness.adcaregiverapp.common.utils.DrawableUntils;
 import edu.neu.ccs.wellness.adcaregiverapp.common.utils.UserManager;
 import edu.neu.ccs.wellness.adcaregiverapp.databinding.FragmentSelectChallengeBinding;
 import edu.neu.ccs.wellness.adcaregiverapp.network.services.model.AvailableChallenges;
@@ -44,7 +47,7 @@ public class SelectChallengeFragment extends DaggerFragment {
     private ChallengesViewModel viewModel;
     private ChallengeSelected challengeSelected;
     private UnitChallenge currUnitChallenge;
-    private List<UnlockedFlowersModel> unlockedFlowersModelList = new ArrayList<>();
+    private List<UnlockedFlowersModel> unlockedFlowersModelList;
 
 
     public enum ChallengeSelected {
@@ -80,6 +83,7 @@ public class SelectChallengeFragment extends DaggerFragment {
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
 
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_select_challenge, container, false);
+
         init();
         return binding.getRoot();
     }
@@ -131,13 +135,13 @@ public class SelectChallengeFragment extends DaggerFragment {
 
             @Override
             public void onClick(View v) {
-                UnlockedFlowersModel model = unlockedFlowersModelList.get(1);
-                currUnitChallenge = challenges.getChallenges().get(1);
+                UnlockedFlowersModel model = unlockedFlowersModelList.get(2);
+                currUnitChallenge = challenges.getChallenges().get(2);
                 challengeSelected = ChallengeSelected.MORE_THAN;
                 if (isFlowerUnlocked(model)) {
                     updateView();
                 } else {
-                    navigateToAcceptChallengeFragment(getResources().getResourceName(R.drawable.week1_flower_medium_1_7));
+                    navigateToAcceptChallengeFragment(getResources().getResourceName(R.drawable.week1_flower_hard_1_7));
                 }
             }
         });
@@ -145,13 +149,13 @@ public class SelectChallengeFragment extends DaggerFragment {
         binding.same.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                UnlockedFlowersModel model = unlockedFlowersModelList.get(2);
-                currUnitChallenge = challenges.getChallenges().get(2);
+                UnlockedFlowersModel model = unlockedFlowersModelList.get(1);
+                currUnitChallenge = challenges.getChallenges().get(1);
                 challengeSelected = ChallengeSelected.SAME_AS;
                 if (isFlowerUnlocked(model)) {
                     updateView();
                 } else {
-                    navigateToAcceptChallengeFragment(getResources().getResourceName(R.drawable.week1_flower_hard_1_7));
+                    navigateToAcceptChallengeFragment(getResources().getResourceName(R.drawable.week1_flower_medium_1_7));
                 }
             }
         });
@@ -160,23 +164,72 @@ public class SelectChallengeFragment extends DaggerFragment {
     private void updateView() {
         switch (challengeSelected) {
             case LESS_THAN:
+                List<ImageView> imageViews = Arrays.asList(new ImageView[]{binding.lessThanImage1, binding.lessThanImage2, binding.lessThanImage3});
+                setflowers("easy", imageViews);
                 binding.subheader.setText("This week, my step goal is LESS THAN last week");
                 binding.lessThanImagesContainer.setVisibility(View.VISIBLE);
                 binding.MoreThanImagesContainer.setVisibility(View.GONE);
                 binding.sameImagesContainer.setVisibility(View.GONE);
                 break;
             case SAME_AS:
+                imageViews = Arrays.asList(new ImageView[]{binding.sameImage1, binding.sameImage2, binding.sameImage3});
+                setflowers("medium", imageViews);
                 binding.subheader.setText("This week, my step goal is SAME AS last week");
                 binding.lessThanImagesContainer.setVisibility(View.GONE);
                 binding.MoreThanImagesContainer.setVisibility(View.GONE);
                 binding.sameImagesContainer.setVisibility(View.VISIBLE);
                 break;
             case MORE_THAN:
+                imageViews = Arrays.asList(new ImageView[]{binding.MoreThanImage1, binding.MoreThanImage1, binding.MoreThanImage1});
+                setflowers("hard", imageViews);
                 binding.subheader.setText("This week, my step goal is MORE THAN last week");
                 binding.lessThanImagesContainer.setVisibility(View.GONE);
                 binding.MoreThanImagesContainer.setVisibility(View.VISIBLE);
                 binding.sameImagesContainer.setVisibility(View.GONE);
                 break;
+        }
+    }
+
+    private void setflowers(String challengetype, List<ImageView> imageViews) {
+        for (UnlockedFlowersModel model : unlockedFlowersModelList) {
+            if (model.isWeek1()) {
+                final String imageName = "edu.neu.ccs.wellness.adcaregiverapp:drawable/week2_flower_" + challengetype + "_1_7";
+                ImageView imageView = imageViews.get(0);
+                imageView.setImageResource(DrawableUntils.getDrawableIdByName(getContext(),
+                        imageName));
+                imageView.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        navigateToAcceptChallengeFragment(imageName);
+                    }
+                });
+            }
+
+            if (model.isWeek2()) {
+                final String imageName = "edu.neu.ccs.wellness.adcaregiverapp:drawable-v24/week3_flower_" + challengetype + "_1_7";
+                ImageView imageView = imageViews.get(1);
+                imageView.setImageResource(DrawableUntils.getDrawableIdByName(getContext(),
+                        imageName));
+                imageView.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        navigateToAcceptChallengeFragment(imageName);
+                    }
+                });
+            }
+
+            if (model.isWeek3()) {
+                final String imageName = "edu.neu.ccs.wellness.adcaregiverapp:drawable/week4_flower_" + challengetype + "_1_7";
+                ImageView imageView = imageViews.get(2);
+                imageView.setImageResource(DrawableUntils.getDrawableIdByName(getContext(),
+                        imageName));
+                imageView.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        navigateToAcceptChallengeFragment(imageName);
+                    }
+                });
+            }
         }
     }
 
@@ -202,7 +255,7 @@ public class SelectChallengeFragment extends DaggerFragment {
                 .child(String.valueOf(Objects.requireNonNull(userManager.getUser()).getUserId())).child("medium");
         final DatabaseReference databaseReferenceHard = database.getReference().child(UNLOCKED_FLOWERS)
                 .child(String.valueOf(Objects.requireNonNull(userManager.getUser()).getUserId())).child("hard");
-
+        unlockedFlowersModelList = new ArrayList<>();
         getFlowerStatusForLessThan(databaseReferenceEasy, databaseReferenceMedium, databaseReferenceHard);
 
     }
@@ -219,15 +272,14 @@ public class SelectChallengeFragment extends DaggerFragment {
                 if (mutableData.getValue(UnlockedFlowersModel.class) == null) {
                     mutableData.setValue(model);
 
-                } else {
-                    model = mutableData.getValue(UnlockedFlowersModel.class);
                 }
-                unlockedFlowersModelList.add(0, model);
+
                 return Transaction.success(mutableData);
             }
 
             @Override
             public void onComplete(@Nullable DatabaseError databaseError, boolean b, @Nullable DataSnapshot dataSnapshot) {
+                unlockedFlowersModelList.add(0, dataSnapshot.getValue(UnlockedFlowersModel.class));
                 getFlowerStatusForSameAs(databaseReferenceMedium, databaseReferenceHard);
             }
         });
@@ -245,19 +297,16 @@ public class SelectChallengeFragment extends DaggerFragment {
                 if (mutableData.getValue(UnlockedFlowersModel.class) == null) {
                     mutableData.setValue(model);
 
-                } else {
-                    model = mutableData.getValue(UnlockedFlowersModel.class);
                 }
-                unlockedFlowersModelList.add(1, model);
                 return Transaction.success(mutableData);
             }
 
             @Override
             public void onComplete(@Nullable DatabaseError databaseError, boolean b, @Nullable DataSnapshot dataSnapshot) {
+                unlockedFlowersModelList.add(1, dataSnapshot.getValue(UnlockedFlowersModel.class));
                 getFlowerStatusForMoreThan(databaseReferenceHard);
             }
         });
-
 
     }
 
@@ -270,16 +319,14 @@ public class SelectChallengeFragment extends DaggerFragment {
                 UnlockedFlowersModel model = new UnlockedFlowersModel(false, false, false);
                 if (mutableData.getValue(UnlockedFlowersModel.class) == null) {
                     mutableData.setValue(model);
-
-                } else {
-                    model = mutableData.getValue(UnlockedFlowersModel.class);
                 }
-                unlockedFlowersModelList.add(2, model);
+
                 return Transaction.success(mutableData);
             }
 
             @Override
             public void onComplete(@Nullable DatabaseError databaseError, boolean b, @Nullable DataSnapshot dataSnapshot) {
+                unlockedFlowersModelList.add(2, dataSnapshot.getValue(UnlockedFlowersModel.class));
                 binding.selectNewChallengeProgressBar.setVisibility(View.GONE);
                 binding.challengesContainer.setVisibility(View.VISIBLE);
             }
