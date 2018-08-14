@@ -32,7 +32,9 @@ import edu.neu.ccs.wellness.adcaregiverapp.R;
 import edu.neu.ccs.wellness.adcaregiverapp.common.utils.NumberUtils;
 import edu.neu.ccs.wellness.adcaregiverapp.databinding.DialogShareStoryBinding;
 import edu.neu.ccs.wellness.adcaregiverapp.domain.nursery.model.StoryPost;
+import edu.neu.ccs.wellness.adcaregiverapp.network.services.model.CurrentChallenge;
 
+import static edu.neu.ccs.wellness.adcaregiverapp.common.utils.Constants.CURRENT_CHALLENGE;
 import static edu.neu.ccs.wellness.adcaregiverapp.common.utils.Constants.TOTAL_POST_COUNT;
 import static edu.neu.ccs.wellness.adcaregiverapp.common.utils.Constants.USER_POST_COUNT;
 import static edu.neu.ccs.wellness.adcaregiverapp.common.utils.Constants.USER_STORIES;
@@ -190,6 +192,30 @@ public class ShareStoriesDialog extends android.support.v4.app.DialogFragment {
 
                             @Override
                             public void onComplete(@Nullable DatabaseError databaseError, boolean b, @Nullable DataSnapshot dataSnapshot) {
+
+
+                                DatabaseReference currentChallengeReference = databaseReference.child(CURRENT_CHALLENGE).child(String.valueOf(userId));
+                                currentChallengeReference.runTransaction(new Transaction.Handler() {
+                                    @NonNull
+                                    @Override
+                                    public Transaction.Result doTransaction(@NonNull MutableData mutableData) {
+                                        CurrentChallenge currentChallenge = mutableData.getValue(CurrentChallenge.class);
+                                        if (currentChallenge != null && currentChallenge.isRunning()) {
+                                            int numberOfPosts = currentChallenge.getNumberOfPosts();
+                                            currentChallenge.setNumberOfPosts(numberOfPosts + 1);
+                                            mutableData.setValue(currentChallenge);
+
+                                            return Transaction.success(mutableData);
+                                        }
+
+                                        return Transaction.abort();
+                                    }
+
+                                    @Override
+                                    public void onComplete(@Nullable DatabaseError databaseError, boolean b, @Nullable DataSnapshot dataSnapshot) {
+
+                                    }
+                                });
 
 //                                DatabaseReference unlockedFlowers = databaseReference.child(UNLOCKED_FLOWERS).child(String.valueOf(userId));
 //

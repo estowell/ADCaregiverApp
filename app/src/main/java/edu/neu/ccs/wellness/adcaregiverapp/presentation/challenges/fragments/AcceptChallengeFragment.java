@@ -6,24 +6,36 @@ import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.MutableData;
+import com.google.firebase.database.Transaction;
+
 import java.util.Objects;
 
 import javax.inject.Inject;
 
+import dagger.android.support.DaggerFragment;
 import edu.neu.ccs.wellness.adcaregiverapp.R;
 import edu.neu.ccs.wellness.adcaregiverapp.common.utils.DrawableUntils;
+import edu.neu.ccs.wellness.adcaregiverapp.common.utils.UserManager;
 import edu.neu.ccs.wellness.adcaregiverapp.databinding.FragmentAcceptChallengeBinding;
+import edu.neu.ccs.wellness.adcaregiverapp.network.services.model.CurrentChallenge;
+import edu.neu.ccs.wellness.adcaregiverapp.network.services.model.SelectedFlower;
 import edu.neu.ccs.wellness.adcaregiverapp.network.services.model.UnitChallenge;
 import edu.neu.ccs.wellness.adcaregiverapp.presentation.ViewModelFactory;
 import edu.neu.ccs.wellness.adcaregiverapp.presentation.challenges.ChallengesViewModel;
 
-public class AcceptChallengeFragment extends Fragment {
+import static edu.neu.ccs.wellness.adcaregiverapp.common.utils.Constants.CURRENT_CHALLENGE;
+
+public class AcceptChallengeFragment extends DaggerFragment {
 
 
     private static String UNIT_CHALLENGE = "UNIT_CHALLENGE";
@@ -31,6 +43,9 @@ public class AcceptChallengeFragment extends Fragment {
     private ChallengesViewModel viewModel;
     private UnitChallenge unitChallenge;
     private String imageName;
+
+    @Inject
+    UserManager userManager;
 
     @Inject
     ViewModelFactory viewModelFactory;
@@ -75,7 +90,7 @@ public class AcceptChallengeFragment extends Fragment {
             @Override
             public void onChanged(@Nullable Boolean aBoolean) {
                 if (aBoolean) {
-                    Objects.requireNonNull(getActivity()).finish();
+                    updateCurrentChallengeOnFireBase();
                 } else {
                     Toast.makeText(getContext(), "Error while making the request, please try again!", Toast.LENGTH_LONG).show();
                 }
@@ -100,5 +115,26 @@ public class AcceptChallengeFragment extends Fragment {
         });
 
         viewModel.getAcceptChallengeResponse().observe(this, acceptChallenge);
+    }
+
+    private void updateCurrentChallengeOnFireBase() {
+        FirebaseDatabase database = FirebaseDatabase.getInstance();
+        SelectedFlower selectedFlower = new SelectedFlower(imageName, 1);
+        final CurrentChallenge currentChallenge = new CurrentChallenge(0, 0, true, selectedFlower);
+        DatabaseReference reference = database.getReference().child(CURRENT_CHALLENGE).child(String.valueOf(userManager.getUser().getUserId()));
+
+        reference.runTransaction(new Transaction.Handler() {
+            @NonNull
+            @Override
+            public Transaction.Result doTransaction(@NonNull MutableData mutableData) {
+                mutableData.setValue(currentChallenge);
+                return Transaction.success(mutableData);
+            }
+
+            @Override
+            public void onComplete(@Nullable DatabaseError databaseError, boolean b, @Nullable DataSnapshot dataSnapshot) {
+                Objects.requireNonNull(getActivity()).finish();
+            }
+        });
     }
 }

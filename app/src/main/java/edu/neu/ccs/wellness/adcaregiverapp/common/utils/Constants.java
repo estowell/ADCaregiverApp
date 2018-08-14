@@ -24,6 +24,8 @@ public class Constants {
     public static String TOTAL_LOG_COUNT = "TotalLogCount";
     public static String USER_GARDEN = "User-Garden";
     public static String UNLOCKED_FLOWERS = "Unlocked-Flowers";
+    public static String CURRENT_CHALLENGE="current-challenge";
+
 
 
 }

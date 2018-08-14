@@ -11,6 +11,7 @@ import android.support.v4.app.FragmentTransaction;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -121,6 +122,13 @@ public class NurseryFragment extends DaggerFragment {
             }
         };
 
+        Observer<String> errorObserver = new Observer<String>() {
+            @Override
+            public void onChanged(@Nullable String s) {
+                Toast.makeText(getContext(), s, Toast.LENGTH_LONG).show();
+            }
+        };
+        viewModel.getErrorLiveData().observe(this, errorObserver);
         binding.selectNewChallenge.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -137,6 +145,7 @@ public class NurseryFragment extends DaggerFragment {
         });
         viewModel.getStepsLiveData().observe(this, stepsPercentage);
         viewModel.getRunningChallengeLiveData().observe(this, isChallengeRunning);
+
         viewModel.isChallengeRunning();
 
     }
