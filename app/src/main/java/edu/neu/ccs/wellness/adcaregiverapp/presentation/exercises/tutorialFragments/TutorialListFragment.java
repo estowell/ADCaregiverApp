@@ -183,7 +183,7 @@ public class TutorialListFragment extends DaggerFragment {
             @Override
             public Transaction.Result doTransaction(@NonNull MutableData mutableData) {
                 CurrentChallenge currentChallenge = mutableData.getValue(CurrentChallenge.class);
-                if (currentChallenge != null && currentChallenge.isRunning()) {
+                if (currentChallenge != null && currentChallenge.isRunning() && currentChallenge.getNumberOfExerciseLogs()<=7) {
                     int numberOfExerciseLogs = currentChallenge.getNumberOfExerciseLogs();
                     currentChallenge.setNumberOfExerciseLogs(numberOfExerciseLogs + 1);
                     mutableData.setValue(currentChallenge);

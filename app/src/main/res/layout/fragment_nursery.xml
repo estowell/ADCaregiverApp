@@ -28,7 +28,7 @@
             android:clickable="true"
             android:focusable="true"
             custom:donut_finished_color="@color/green_progress"
-            custom:donut_progress="30"
+            custom:donut_progress="0"
             custom:donut_text_color="@color/white"
             custom:donut_unfinished_color="@color/progress_bar_unfinished"
             custom:layout_constraintStart_toStartOf="parent"

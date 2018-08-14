@@ -30,13 +30,14 @@ import edu.neu.ccs.wellness.adcaregiverapp.common.utils.UserManager;
 import edu.neu.ccs.wellness.adcaregiverapp.databinding.FragmentNurseryBinding;
 import edu.neu.ccs.wellness.adcaregiverapp.domain.activities.model.Activities;
 import edu.neu.ccs.wellness.adcaregiverapp.domain.login.model.User;
+import edu.neu.ccs.wellness.adcaregiverapp.network.services.model.CurrentChallenge;
 import edu.neu.ccs.wellness.adcaregiverapp.presentation.MainActivity;
 import edu.neu.ccs.wellness.adcaregiverapp.presentation.ViewModelFactory;
 import edu.neu.ccs.wellness.adcaregiverapp.presentation.exercises.ExerciseFragment;
 import edu.neu.ccs.wellness.adcaregiverapp.presentation.gardenGazette.GardenGazetteFragment;
 import edu.neu.ccs.wellness.adcaregiverapp.presentation.nursery.weeklyProgress.WeeklyProgressFragment;
 
-import static edu.neu.ccs.wellness.adcaregiverapp.common.utils.Constants.USER_POST_COUNT;
+import static edu.neu.ccs.wellness.adcaregiverapp.common.utils.Constants.CURRENT_CHALLENGE;
 
 /**
  * Created by amritanshtripathi on 6/12/18.
@@ -84,7 +85,7 @@ public class NurseryFragment extends DaggerFragment {
 
 
     private void init() {
-        updateStoriesProgress();
+        updateProgress();
         if (activity != null) {
             activity.showBottomNavigation();
             activity.setSelectedTab(MainActivity.CurrentTab.NURSERY);
@@ -100,6 +101,7 @@ public class NurseryFragment extends DaggerFragment {
 
             }
         });
+
         Observer<Boolean> isChallengeRunning = new Observer<Boolean>() {
             @Override
             public void onChanged(@Nullable Boolean aBoolean) {
@@ -192,32 +194,36 @@ public class NurseryFragment extends DaggerFragment {
     }
 
 
-    private void updateStoriesProgress() {
+    private void updateProgress() {
         int userId = Objects.requireNonNull(userManager.getUser()).getUserId();
         FirebaseDatabase database = FirebaseDatabase.getInstance();
-        final DatabaseReference databaseReference = database.getReference().child(USER_POST_COUNT).child(String.valueOf(userId));
-        databaseReference.addValueEventListener(new ValueEventListener() {
+        final DatabaseReference databaseReference = database.getReference().child(CURRENT_CHALLENGE).child(String.valueOf(userId));
+
+        databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                Integer count = dataSnapshot.getValue(Integer.class);
-                if (count == null) {
+                CurrentChallenge currentChallenge = dataSnapshot.getValue(CurrentChallenge.class);
+                if (currentChallenge != null && currentChallenge.isRunning()) {
+                    int numberOfPosts = currentChallenge.getNumberOfPosts();
+                    int numberOfExerciseLogs = currentChallenge.getNumberOfExerciseLogs();
+                    updateStoriesProgress(numberOfPosts);
+                    updateExerciseProgress(numberOfExerciseLogs);
 
+
+                } else {
                     storiesProgress = 0;
                     binding.exerciseProgress.setProgress(0);
-                } else if (count % 2 == 0) {
-                    storiesProgress = 100;
-                    binding.exerciseProgress.setProgress(100);
-                } else {
-                    storiesProgress = 50;
-                    binding.exerciseProgress.setProgress(50);
-                }
+                    binding.stories.setProgress(0);
 
+
+                }
                 binding.exerciseProgress.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
                         showStoriesDialog();
                     }
                 });
+
             }
 
             @Override
@@ -225,6 +231,24 @@ public class NurseryFragment extends DaggerFragment {
 
             }
         });
+    }
+
+    private void updateExerciseProgress(int numberOfExerciseLogs) {
+        float percentage = (float) ((numberOfExerciseLogs / 7.00) * 100);
+        binding.stories.setProgress((int) percentage);
+    }
+
+    private void updateStoriesProgress(int numberOfPosts) {
+        if (numberOfPosts == 0) {
+            storiesProgress = 0;
+            binding.exerciseProgress.setProgress(0);
+        } else if (numberOfPosts % 2 == 0) {
+            storiesProgress = 100;
+            binding.exerciseProgress.setProgress(100);
+        } else {
+            storiesProgress = 50;
+            binding.exerciseProgress.setProgress(50);
+        }
     }
 
 
