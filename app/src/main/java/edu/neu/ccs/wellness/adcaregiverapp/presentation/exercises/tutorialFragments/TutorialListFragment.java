@@ -22,6 +22,7 @@ import com.google.firebase.database.MutableData;
 import com.google.firebase.database.Transaction;
 
 import java.util.List;
+import java.util.Objects;
 
 import javax.inject.Inject;
 
@@ -29,10 +30,12 @@ import dagger.android.support.DaggerFragment;
 import edu.neu.ccs.wellness.adcaregiverapp.R;
 import edu.neu.ccs.wellness.adcaregiverapp.common.utils.UserManager;
 import edu.neu.ccs.wellness.adcaregiverapp.domain.exercise.usecase.model.Exercise;
+import edu.neu.ccs.wellness.adcaregiverapp.network.services.model.CurrentChallenge;
 import edu.neu.ccs.wellness.adcaregiverapp.network.services.model.LogExerciseModel;
 import edu.neu.ccs.wellness.adcaregiverapp.presentation.ViewModelFactory;
 import edu.neu.ccs.wellness.adcaregiverapp.presentation.exercises.ExerciseType;
 
+import static edu.neu.ccs.wellness.adcaregiverapp.common.utils.Constants.CURRENT_CHALLENGE;
 import static edu.neu.ccs.wellness.adcaregiverapp.common.utils.Constants.EXERCISE_LOG;
 import static edu.neu.ccs.wellness.adcaregiverapp.common.utils.Constants.TOTAL_LOG_COUNT;
 
@@ -140,7 +143,7 @@ public class TutorialListFragment extends DaggerFragment {
 
     private void logExercise() {
         final FirebaseDatabase database = FirebaseDatabase.getInstance();
-        DatabaseReference databaseReference = database.getReference();
+        final DatabaseReference databaseReference = database.getReference();
         DatabaseReference logCount = databaseReference.child(TOTAL_LOG_COUNT);
         final DatabaseReference logRef = databaseReference.child(EXERCISE_LOG);
 
@@ -162,12 +165,40 @@ public class TutorialListFragment extends DaggerFragment {
 
             @Override
             public void onComplete(@Nullable DatabaseError databaseError, boolean b, @Nullable DataSnapshot dataSnapshot) {
+
                 DatabaseReference ref = logRef.child(String.valueOf(count[0]));
                 ref.setValue(new LogExerciseModel(userManager.getUser().getUserId()));
+                updateCurrentChallengeOnFirebase(databaseReference);
             }
         });
     }
 
+
+    private void updateCurrentChallengeOnFirebase(DatabaseReference databaseReference) {
+        DatabaseReference currentChallengeReference = databaseReference.child(CURRENT_CHALLENGE)
+                .child(String.valueOf(Objects.requireNonNull(userManager.getUser()).getUserId()));
+
+        currentChallengeReference.runTransaction(new Transaction.Handler() {
+            @NonNull
+            @Override
+            public Transaction.Result doTransaction(@NonNull MutableData mutableData) {
+                CurrentChallenge currentChallenge = mutableData.getValue(CurrentChallenge.class);
+                if (currentChallenge != null && currentChallenge.isRunning()) {
+                    int numberOfExerciseLogs = currentChallenge.getNumberOfExerciseLogs();
+                    currentChallenge.setNumberOfExerciseLogs(numberOfExerciseLogs + 1);
+                    mutableData.setValue(currentChallenge);
+
+                }
+
+                return Transaction.success(mutableData);
+            }
+
+            @Override
+            public void onComplete(@Nullable DatabaseError databaseError, boolean b, @Nullable DataSnapshot dataSnapshot) {
+
+            }
+        });
+    }
 
     interface TutorialListCallBack {
 

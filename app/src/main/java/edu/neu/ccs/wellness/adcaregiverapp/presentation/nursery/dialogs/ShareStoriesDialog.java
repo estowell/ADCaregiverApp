@@ -194,49 +194,7 @@ public class ShareStoriesDialog extends android.support.v4.app.DialogFragment {
                             public void onComplete(@Nullable DatabaseError databaseError, boolean b, @Nullable DataSnapshot dataSnapshot) {
 
 
-                                DatabaseReference currentChallengeReference = databaseReference.child(CURRENT_CHALLENGE).child(String.valueOf(userId));
-                                currentChallengeReference.runTransaction(new Transaction.Handler() {
-                                    @NonNull
-                                    @Override
-                                    public Transaction.Result doTransaction(@NonNull MutableData mutableData) {
-                                        CurrentChallenge currentChallenge = mutableData.getValue(CurrentChallenge.class);
-                                        if (currentChallenge != null && currentChallenge.isRunning()) {
-                                            int numberOfPosts = currentChallenge.getNumberOfPosts();
-                                            currentChallenge.setNumberOfPosts(numberOfPosts + 1);
-                                            mutableData.setValue(currentChallenge);
-
-                                            return Transaction.success(mutableData);
-                                        }
-
-                                        return Transaction.abort();
-                                    }
-
-                                    @Override
-                                    public void onComplete(@Nullable DatabaseError databaseError, boolean b, @Nullable DataSnapshot dataSnapshot) {
-
-                                    }
-                                });
-
-//                                DatabaseReference unlockedFlowers = databaseReference.child(UNLOCKED_FLOWERS).child(String.valueOf(userId));
-//
-//                                unlockedFlowers.runTransaction(new Transaction.Handler() {
-//                                    @NonNull
-//                                    @Override
-//                                    public Transaction.Result doTransaction(@NonNull MutableData mutableData) {
-//
-//                                        UnlockedFlowersModel model = mutableData.getValue(UnlockedFlowersModel.class);
-//                                        if (postcount[0] % 2 == 0) {
-//
-//                                        }
-//                                        return null;
-//                                    }
-//
-//                                    @Override
-//                                    public void onComplete(@Nullable DatabaseError databaseError, boolean b, @Nullable DataSnapshot dataSnapshot) {
-//
-//                                    }
-//                                });
-
+                                updateCurrentChallengeOnFirebase(databaseReference);
                                 sharePostDialog.dismiss();
                             }
                         });
@@ -249,6 +207,31 @@ public class ShareStoriesDialog extends android.support.v4.app.DialogFragment {
                 });
             }
 
+        });
+    }
+
+    private void updateCurrentChallengeOnFirebase(DatabaseReference databaseReference) {
+        DatabaseReference currentChallengeReference = databaseReference.child(CURRENT_CHALLENGE).child(String.valueOf(userId));
+        currentChallengeReference.runTransaction(new Transaction.Handler() {
+            @NonNull
+            @Override
+            public Transaction.Result doTransaction(@NonNull MutableData mutableData) {
+                CurrentChallenge currentChallenge = mutableData.getValue(CurrentChallenge.class);
+                if (currentChallenge != null && currentChallenge.isRunning()) {
+                    int numberOfPosts = currentChallenge.getNumberOfPosts();
+                    currentChallenge.setNumberOfPosts(numberOfPosts + 1);
+                    mutableData.setValue(currentChallenge);
+
+
+                }
+
+                return Transaction.success(mutableData);
+            }
+
+            @Override
+            public void onComplete(@Nullable DatabaseError databaseError, boolean b, @Nullable DataSnapshot dataSnapshot) {
+
+            }
         });
     }
 }
