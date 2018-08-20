@@ -14,6 +14,13 @@ public class Challenges {
     @SerializedName("running")
     private RunningChallenges runningChallenge;
 
+    @SerializedName("passed")
+    private PassedChallenge passedChallenge;
+
+    public PassedChallenge getPassedChallenge() {
+        return passedChallenge;
+    }
+
     public ChallengeStatus getStatus() {
         return status;
     }

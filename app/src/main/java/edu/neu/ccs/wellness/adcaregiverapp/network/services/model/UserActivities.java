@@ -14,15 +14,4 @@ public class UserActivities {
 
     public void setSteps(int steps) { this.steps = steps; }
 
-    private int calories;
-
-    public int getCalories() { return this.calories; }
-
-    public void setCalories(int calories) { this.calories = calories; }
-
-    private int distance;
-
-    public int getDistance() { return this.distance; }
-
-    public void setDistance(int distance) { this.distance = distance; }
 }

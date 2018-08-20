@@ -6,7 +6,9 @@ import android.support.annotation.NonNull;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
+import java.util.GregorianCalendar;
 import java.util.List;
 import java.util.Locale;
 
@@ -61,8 +63,11 @@ public class SevenDaysActivityUseCase extends UseCase<SevenDaysActivityUseCase.R
     private class Call {
 
         public void execute() {
-            String startDate = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).format(getRequestValues().getDate());
-            startDate = "2017-06-01";
+
+            Calendar cal = new GregorianCalendar();
+            cal.add(Calendar.DAY_OF_MONTH, -7);
+            Date sevenDaysAgo = cal.getTime();
+            String startDate = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).format(sevenDaysAgo);
             repository.getSevenDaysActivities(startDate, new SevenDaysActivitiesCallBack() {
                 @Override
                 public void onSuccess(List<UserActivities> activities) {

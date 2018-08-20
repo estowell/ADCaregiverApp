@@ -10,12 +10,13 @@ import edu.neu.ccs.wellness.adcaregiverapp.network.services.model.RunningChallen
 import edu.neu.ccs.wellness.adcaregiverapp.repository.ChallengesRepository;
 import okhttp3.ResponseBody;
 
-public class RunningChallengesUseCase extends UseCase<UseCase.RequestValues, UseCase.ResponseValue> {
+
+public class GetChallengesUseCase extends UseCase<UseCase.RequestValues, UseCase.ResponseValue> {
 
 
     ChallengesRepository repository;
 
-    public RunningChallengesUseCase(UseCaseCallback callback, ChallengesRepository repository) {
+    public GetChallengesUseCase(UseCaseCallback callback, ChallengesRepository repository) {
         super(callback);
         this.repository = repository;
     }
@@ -33,10 +34,40 @@ public class RunningChallengesUseCase extends UseCase<UseCase.RequestValues, Use
 
         private ChallengeStatus status;
         private RunningChallenges runningChallenge;
+        private AvailableChallenges availableChallenges;
+        private PassedChallenge passedChallenge;
+        private String message;
+
 
         public ResponseValues(ChallengeStatus status, @Nullable RunningChallenges runningChallenge) {
             this.status = status;
             this.runningChallenge = runningChallenge;
+        }
+
+        public ResponseValues(ChallengeStatus status, AvailableChallenges availableChallenges) {
+            this.status = status;
+            this.availableChallenges = availableChallenges;
+        }
+
+        public ResponseValues(ChallengeStatus status, PassedChallenge passedChallenge) {
+            this.status = status;
+            this.passedChallenge = passedChallenge;
+        }
+
+        public AvailableChallenges getAvailableChallenges() {
+            return availableChallenges;
+        }
+
+        public PassedChallenge getPassedChallenge() {
+            return passedChallenge;
+        }
+
+        public ResponseValues(String message) {
+            this.message = message;
+        }
+
+        public String getMessage() {
+            return message;
         }
 
         public ChallengeStatus getStatus() {
@@ -56,30 +87,42 @@ public class RunningChallengesUseCase extends UseCase<UseCase.RequestValues, Use
             repository.getChallenges(new AvailableChallengesUseCase.AvailableChallengesCallBack() {
                 @Override
                 public void available(AvailableChallenges availableChallenges) {
-                    getUseCaseCallback().onSuccess(new RunningChallengesUseCase.ResponseValues(ChallengeStatus.AVAILABLE, null));
+                    getUseCaseCallback().onSuccess(new GetChallengesUseCase.ResponseValues(ChallengeStatus.AVAILABLE, availableChallenges));
                 }
 
                 @Override
                 public void running(RunningChallenges runningChallenge) {
-                    getUseCaseCallback().onSuccess(new RunningChallengesUseCase.ResponseValues(ChallengeStatus.RUNNING, runningChallenge));
+                    getUseCaseCallback().onSuccess(new GetChallengesUseCase.ResponseValues(ChallengeStatus.RUNNING, runningChallenge));
                 }
 
                 @Override
                 public void passed(PassedChallenge passed) {
-
+                    getUseCaseCallback().onSuccess(new GetChallengesUseCase.ResponseValues(ChallengeStatus.AVAILABLE, passed));
                 }
 
                 @Override
                 public void error(ResponseBody error) {
-                    getUseCaseCallback().onError(null);
+                    getUseCaseCallback().onError(new ResponseValues("Error fetching challenges"));
                 }
 
                 @Override
                 public void failure(Throwable t) {
-
+                    getUseCaseCallback().onError(new ResponseValues(t.getMessage()));
                 }
             });
         }
+    }
+
+    public interface GetChallengesCallBack {
+        void available(AvailableChallenges availableChallenges);
+
+        void running(RunningChallenges runningChallenge);
+
+        void passed(PassedChallenge passed);
+
+        void error(ResponseBody error);
+
+        void failure(Throwable t);
     }
 
 }

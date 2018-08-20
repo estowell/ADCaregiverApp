@@ -7,6 +7,7 @@ import javax.inject.Inject;
 import edu.neu.ccs.wellness.adcaregiverapp.common.utils.ChallengeManager;
 import edu.neu.ccs.wellness.adcaregiverapp.domain.challenge.usecase.AvailableChallengesUseCase.AvailableChallengesCallBack;
 import edu.neu.ccs.wellness.adcaregiverapp.network.services.model.Challenges;
+import edu.neu.ccs.wellness.adcaregiverapp.network.services.model.PassedChallenge;
 import edu.neu.ccs.wellness.adcaregiverapp.network.services.model.RunningChallenges;
 import edu.neu.ccs.wellness.adcaregiverapp.network.services.model.UnitChallenge;
 import edu.neu.ccs.wellness.adcaregiverapp.network.services.retrofitInterfaces.ChallengeServicesInterface;
@@ -55,6 +56,10 @@ public class ChallengesRepository {
                             RunningChallenges challenge = challenges.getRunningChallenge();
                             challengeManager.saveRunningChallenge(challenge);
                             callback.running(challenge);
+                            break;
+                        case PASSED:
+                            PassedChallenge passedChallenge = challenges.getPassedChallenge();
+                            callback.passed(passedChallenge);
                             break;
                     }
                 } else {

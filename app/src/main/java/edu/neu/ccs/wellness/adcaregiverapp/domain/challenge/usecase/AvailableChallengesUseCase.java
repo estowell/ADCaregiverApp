@@ -5,6 +5,7 @@ import android.support.annotation.Nullable;
 import edu.neu.ccs.wellness.adcaregiverapp.domain.UseCase;
 import edu.neu.ccs.wellness.adcaregiverapp.network.services.model.AvailableChallenges;
 import edu.neu.ccs.wellness.adcaregiverapp.network.services.model.ChallengeStatus;
+import edu.neu.ccs.wellness.adcaregiverapp.network.services.model.PassedChallenge;
 import edu.neu.ccs.wellness.adcaregiverapp.network.services.model.RunningChallenges;
 import edu.neu.ccs.wellness.adcaregiverapp.repository.ChallengesRepository;
 import okhttp3.ResponseBody;
@@ -63,6 +64,11 @@ public class AvailableChallengesUseCase extends UseCase<UseCase.RequestValues, U
                 }
 
                 @Override
+                public void passed(PassedChallenge passed) {
+
+                }
+
+                @Override
                 public void error(ResponseBody error) {
                     getUseCaseCallback().onError(null);
                 }
@@ -79,6 +85,8 @@ public class AvailableChallengesUseCase extends UseCase<UseCase.RequestValues, U
         void available(AvailableChallenges availableChallenges);
 
         void running(RunningChallenges runningChallenge);
+
+        void passed(PassedChallenge passed);
 
         void error(ResponseBody error);
 

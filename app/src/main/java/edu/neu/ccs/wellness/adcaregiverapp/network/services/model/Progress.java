@@ -1,5 +1,9 @@
 package edu.neu.ccs.wellness.adcaregiverapp.network.services.model;
 
+import android.support.annotation.Nullable;
+
+import java.util.ArrayList;
+
 public class Progress {
 
     private int person_id;
@@ -40,6 +44,52 @@ public class Progress {
 
     public void setUnitDuration(String unit_duration) {
         this.unit_duration = unit_duration;
+    }
+
+    @Nullable
+    private ArrayList<Integer> progress;
+
+    @Nullable
+    public ArrayList<Integer> getProgress() {
+        return this.progress;
+    }
+
+    public void setProgress(@Nullable ArrayList<Integer> progress) {
+        this.progress = progress;
+    }
+
+    @Nullable
+    private ArrayList<Double> progress_percent;
+
+    @Nullable
+    public ArrayList<Double> getProgressPercent() {
+        return this.progress_percent;
+    }
+
+    public void setProgressPercent(@Nullable ArrayList<Double> progress_percent) {
+        this.progress_percent = progress_percent;
+    }
+
+    @Nullable
+    private ArrayList<Boolean> progress_achieved;
+
+    @Nullable
+    public ArrayList<Boolean> getProgressAchieved() {
+        return this.progress_achieved;
+    }
+
+    public void setProgressAchieved(@Nullable ArrayList<Boolean> progress_achieved) {
+        this.progress_achieved = progress_achieved;
+    }
+
+    private int total_progress;
+
+    public int getTotalProgress() {
+        return this.total_progress;
+    }
+
+    public void setTotalProgress(int total_progress) {
+        this.total_progress = total_progress;
     }
 
 }

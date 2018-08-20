@@ -10,6 +10,7 @@ public class CurrentChallenge {
     private int NumberOfPosts;
     private int NumberOfExerciseLogs;
     private boolean isRunning;
+    private boolean passed;
     private SelectedFlower selectedFlower;
     Long time;
 
@@ -17,11 +18,20 @@ public class CurrentChallenge {
     public CurrentChallenge() {
     }
 
-    public CurrentChallenge(int numberOfPosts, int numberOfExcerciseLogs, boolean isRunning, SelectedFlower selectedFlower) {
+    public CurrentChallenge(int numberOfPosts, int numberOfExcerciseLogs, boolean isRunning, boolean passed, SelectedFlower selectedFlower) {
         NumberOfPosts = numberOfPosts;
         NumberOfExerciseLogs = numberOfExcerciseLogs;
         this.isRunning = isRunning;
+        this.passed = passed;
         this.selectedFlower = selectedFlower;
+    }
+
+    public boolean isPassed() {
+        return passed;
+    }
+
+    public void setPassed(boolean passed) {
+        this.passed = passed;
     }
 
     public int getNumberOfPosts() {

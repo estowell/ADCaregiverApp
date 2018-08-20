@@ -17,6 +17,8 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.MutableData;
+import com.google.firebase.database.Transaction;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
@@ -26,11 +28,16 @@ import javax.inject.Inject;
 
 import dagger.android.support.DaggerFragment;
 import edu.neu.ccs.wellness.adcaregiverapp.R;
+import edu.neu.ccs.wellness.adcaregiverapp.common.utils.DrawableUntils;
 import edu.neu.ccs.wellness.adcaregiverapp.common.utils.UserManager;
 import edu.neu.ccs.wellness.adcaregiverapp.databinding.FragmentNurseryBinding;
 import edu.neu.ccs.wellness.adcaregiverapp.domain.activities.model.Activities;
 import edu.neu.ccs.wellness.adcaregiverapp.domain.login.model.User;
+import edu.neu.ccs.wellness.adcaregiverapp.network.services.model.AvailableChallenges;
 import edu.neu.ccs.wellness.adcaregiverapp.network.services.model.CurrentChallenge;
+import edu.neu.ccs.wellness.adcaregiverapp.network.services.model.PassedChallenge;
+import edu.neu.ccs.wellness.adcaregiverapp.network.services.model.RunningChallenges;
+import edu.neu.ccs.wellness.adcaregiverapp.network.services.model.SelectedFlower;
 import edu.neu.ccs.wellness.adcaregiverapp.presentation.MainActivity;
 import edu.neu.ccs.wellness.adcaregiverapp.presentation.ViewModelFactory;
 import edu.neu.ccs.wellness.adcaregiverapp.presentation.exercises.ExerciseFragment;
@@ -42,15 +49,15 @@ import static edu.neu.ccs.wellness.adcaregiverapp.common.utils.Constants.CURRENT
 /**
  * Created by amritanshtripathi on 6/12/18.
  */
-
+//TODO: rewrite this fragment, not clean right now
 public class NurseryFragment extends DaggerFragment {
 
     private FragmentNurseryBinding binding;
-
     private NurseryViewModel viewModel;
     private User user;
     private Integer storiesProgress = 0;
     private MainActivity activity;
+    private CurrentChallenge currentChallenge;
     @Inject
     ViewModelFactory viewModelFactory;
 
@@ -79,64 +86,45 @@ public class NurseryFragment extends DaggerFragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
 
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_nursery, container, false);
-        init();
+//        init();
         return binding.getRoot();
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        init();
+    }
 
     private void init() {
-        updateProgress();
+        binding.nurseryProgressBar.setVisibility(View.VISIBLE);
         if (activity != null) {
             activity.showBottomNavigation();
             activity.setSelectedTab(MainActivity.CurrentTab.NURSERY);
         }
-        binding.nurseryProgressBar.setVisibility(View.VISIBLE);
 
-        binding.stepsBar.setOnClickListener(new View.OnClickListener() {
+        Observer<NurseryViewModel.NurseryViewModelResponse> nurseryViewModelResponseObserver = new Observer<NurseryViewModel.NurseryViewModelResponse>() {
             @Override
-            public void onClick(View v) {
-                if (binding.stepsBar.getProgress() > 0) {
-                    navigateToWeeklyProgress();
-                }
+            public void onChanged(@Nullable NurseryViewModel.NurseryViewModelResponse nurseryViewModelResponse) {
+                switch (nurseryViewModelResponse.getStatus()) {
+                    case AVAILABLE:
+                        onStatusAvailable(nurseryViewModelResponse.getAvailableChallenges());
+                        break;
+                    case RUNNING:
+                        onStatusRunning(nurseryViewModelResponse.getRunningChallenges());
+                        break;
+                    case PASSED:
 
-            }
-        });
-
-        Observer<Boolean> isChallengeRunning = new Observer<Boolean>() {
-            @Override
-            public void onChanged(@Nullable Boolean aBoolean) {
-                binding.nurseryProgressBar.setVisibility(View.GONE);
-                if (aBoolean) {
-                    viewModel.getSevenDaysActivity();
-                    binding.selectNewChallenge.setVisibility(View.GONE);
-                    binding.flowerImage.setVisibility(View.VISIBLE);
-                } else {
-                    binding.selectNewChallenge.setVisibility(View.VISIBLE);
-                    binding.flowerImage.setVisibility(View.GONE);
+                        break;
+                    case ERROR:
+                        Toast.makeText(getContext(), nurseryViewModelResponse.getMessage(), Toast.LENGTH_SHORT).show();
+                        break;
                 }
             }
         };
 
-        Observer<Integer> stepsPercentage = new Observer<Integer>() {
-            @Override
-            public void onChanged(@Nullable Integer sPercentage) {
-                binding.stepsBar.setProgress(sPercentage);
-            }
-        };
-
-        Observer<String> errorObserver = new Observer<String>() {
-            @Override
-            public void onChanged(@Nullable String s) {
-                Toast.makeText(getContext(), s, Toast.LENGTH_LONG).show();
-            }
-        };
-        viewModel.getErrorLiveData().observe(this, errorObserver);
-        binding.selectNewChallenge.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                navigateToChallengeActivity();
-            }
-        });
+        viewModel.getResponseMutableLiveData().observe(this, nurseryViewModelResponseObserver);
+        viewModel.getChallenges();
 
         binding.stories.setOnClickListener(new View.OnClickListener() {
 
@@ -145,17 +133,82 @@ public class NurseryFragment extends DaggerFragment {
                 showExercisesFragment();
             }
         });
-        viewModel.getStepsLiveData().observe(this, stepsPercentage);
-        viewModel.getRunningChallengeLiveData().observe(this, isChallengeRunning);
 
-        viewModel.isChallengeRunning();
 
     }
 
+    private void onStatusAvailable(AvailableChallenges availableChallenges) {
+        binding.nurseryProgressBar.setVisibility(View.GONE);
+        binding.selectNewChallenge.setVisibility(View.VISIBLE);
+        binding.flowerImage.setVisibility(View.GONE);
+        updateProgressFromFireBase();
+        updateCurrentChallengeOnFireBase(false, false, 1);
+        binding.selectNewChallenge.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                navigateToChallengeActivity();
+            }
+        });
+
+    }
+
+    private void onChallengePassed(PassedChallenge passedChallenge) {
+        //TODO:Navigate to Passed
+    }
+
+    private void onStatusRunning(RunningChallenges runningChallenges) {
+        updateProgressFromFireBase();
+        int stage = getStage(runningChallenges);
+        updateStepsProgressBar(runningChallenges);
+        updateCurrentChallengeOnFireBase(true, false, stage);
+    }
+
+    private void updateStepsProgressBar(RunningChallenges runningChallenges) {
+        int progressSize = 0;
+        if (runningChallenges.getProgress().get(0).getProgressPercent() != null) {
+            progressSize = Objects.requireNonNull(runningChallenges.getProgress().get(0).getProgressPercent()).size();
+        }
+        if (progressSize != 0) {
+            double todayProgress = 0;
+
+            if (runningChallenges.getProgress().get(0).getProgressPercent() != null) {
+                todayProgress = Objects.requireNonNull(runningChallenges.getProgress().get(0).getProgressPercent()).get(progressSize - 1);
+            }
+
+            binding.stepsBar.setProgress((int) Math.round(todayProgress));
+        }
+
+        binding.stepsBar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                navigateToWeeklyProgress();
+            }
+        });
+
+        binding.exerciseProgress.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showStoriesDialog();
+            }
+        });
+    }
+
+    private int getStage(RunningChallenges runningChallenges) {
+        int stage = 1;
+        for (boolean status : Objects.requireNonNull(runningChallenges.getProgress().get(0).getProgressAchieved())) {
+            if (status) {
+                stage++;
+            }
+        }
+        return stage;
+    }
+
+
     private void navigateToChallengeActivity() {
         MainActivity mainActivity = (MainActivity) getActivity();
-        assert mainActivity != null;
-        mainActivity.startChallengeActivityForResult();
+        if (mainActivity != null) {
+            mainActivity.startChallengeActivityForResult();
+        }
     }
 
     private void navigateToWeeklyProgress() {
@@ -178,7 +231,6 @@ public class NurseryFragment extends DaggerFragment {
 
     }
 
-
     private void showExercisesFragment() {
         android.support.v4.app.FragmentManager fragmentManager = getFragmentManager();
         FragmentTransaction transaction = Objects.requireNonNull(fragmentManager).beginTransaction();
@@ -194,7 +246,7 @@ public class NurseryFragment extends DaggerFragment {
     }
 
 
-    private void updateProgress() {
+    private void updateProgressFromFireBase() {
         int userId = Objects.requireNonNull(userManager.getUser()).getUserId();
         FirebaseDatabase database = FirebaseDatabase.getInstance();
         final DatabaseReference databaseReference = database.getReference().child(CURRENT_CHALLENGE).child(String.valueOf(userId));
@@ -202,7 +254,7 @@ public class NurseryFragment extends DaggerFragment {
         databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                CurrentChallenge currentChallenge = dataSnapshot.getValue(CurrentChallenge.class);
+                currentChallenge = dataSnapshot.getValue(CurrentChallenge.class);
                 if (currentChallenge != null && currentChallenge.isRunning()) {
                     int numberOfPosts = currentChallenge.getNumberOfPosts();
                     int numberOfExerciseLogs = currentChallenge.getNumberOfExerciseLogs();
@@ -214,15 +266,7 @@ public class NurseryFragment extends DaggerFragment {
                     storiesProgress = 0;
                     binding.exerciseProgress.setProgress(0);
                     binding.stories.setProgress(0);
-
-
                 }
-                binding.exerciseProgress.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        showStoriesDialog();
-                    }
-                });
 
             }
 
@@ -249,6 +293,44 @@ public class NurseryFragment extends DaggerFragment {
             storiesProgress = 50;
             binding.exerciseProgress.setProgress(50);
         }
+    }
+
+    private void updateCurrentChallengeOnFireBase(final boolean isRunning, final boolean passed, final int flowerStage) {
+        final FirebaseDatabase database = FirebaseDatabase.getInstance();
+        DatabaseReference reference = database.getReference().child(CURRENT_CHALLENGE).child(String.valueOf(Objects.requireNonNull(userManager.getUser()).getUserId()));
+        reference.runTransaction(new Transaction.Handler() {
+            @NonNull
+            @Override
+            public Transaction.Result doTransaction(@NonNull MutableData mutableData) {
+                CurrentChallenge dataValue = mutableData.getValue(CurrentChallenge.class);
+                if (dataValue != null) {
+                    Objects.requireNonNull(dataValue).setPassed(passed);
+
+                    dataValue.setRunning(isRunning);
+
+                    SelectedFlower selectedFlower = dataValue.getSelectedFlower();
+                    selectedFlower.setStage(flowerStage);
+                    dataValue.setSelectedFlower(selectedFlower);
+
+                    mutableData.setValue(dataValue);
+                }
+                return Transaction.success(mutableData);
+            }
+
+            @Override
+            public void onComplete(@Nullable DatabaseError databaseError, boolean b, @Nullable DataSnapshot dataSnapshot) {
+                currentChallenge = dataSnapshot.getValue(CurrentChallenge.class);
+
+                //update flower image if challenge is running
+                binding.nurseryProgressBar.setVisibility(View.GONE);
+                if (isRunning) {
+                    binding.selectNewChallenge.setVisibility(View.GONE);
+                    binding.flowerImage.setVisibility(View.VISIBLE);
+                    binding.flowerImage.setImageResource(DrawableUntils.getDrawableIdByNameAndStage(getContext(),
+                            currentChallenge.getSelectedFlower().getName(), currentChallenge.getSelectedFlower().getStage()));
+                }
+            }
+        });
     }
 
 

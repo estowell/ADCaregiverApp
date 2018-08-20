@@ -39,8 +39,6 @@ public class MainActivity extends DaggerAppCompatActivity {
     }
 
     private CurrentTab selectedTab = CurrentTab.COMMUNITY_GARDEN;
-
-
     private ActivityMainBinding binding;
 
     @Nullable
@@ -94,6 +92,7 @@ public class MainActivity extends DaggerAppCompatActivity {
         Intent intent = new Intent(this, ChallengesActivity.class);
         startActivity(intent);
     }
+
 
     public void setSelectedTab(CurrentTab selectedTab) {
         this.selectedTab = selectedTab;
