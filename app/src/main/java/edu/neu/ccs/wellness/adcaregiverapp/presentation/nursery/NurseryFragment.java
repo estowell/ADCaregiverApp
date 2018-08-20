@@ -31,7 +31,6 @@ import edu.neu.ccs.wellness.adcaregiverapp.R;
 import edu.neu.ccs.wellness.adcaregiverapp.common.utils.DrawableUntils;
 import edu.neu.ccs.wellness.adcaregiverapp.common.utils.UserManager;
 import edu.neu.ccs.wellness.adcaregiverapp.databinding.FragmentNurseryBinding;
-import edu.neu.ccs.wellness.adcaregiverapp.domain.activities.model.Activities;
 import edu.neu.ccs.wellness.adcaregiverapp.domain.login.model.User;
 import edu.neu.ccs.wellness.adcaregiverapp.network.services.model.AvailableChallenges;
 import edu.neu.ccs.wellness.adcaregiverapp.network.services.model.CurrentChallenge;
@@ -49,7 +48,6 @@ import static edu.neu.ccs.wellness.adcaregiverapp.common.utils.Constants.CURRENT
 /**
  * Created by amritanshtripathi on 6/12/18.
  */
-//TODO: rewrite this fragment, not clean right now
 public class NurseryFragment extends DaggerFragment {
 
     private FragmentNurseryBinding binding;
@@ -86,7 +84,6 @@ public class NurseryFragment extends DaggerFragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
 
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_nursery, container, false);
-//        init();
         return binding.getRoot();
     }
 
@@ -137,6 +134,7 @@ public class NurseryFragment extends DaggerFragment {
 
     }
 
+    //TODO: Improve this code
     private void onStatusAvailable(AvailableChallenges availableChallenges) {
         binding.nurseryProgressBar.setVisibility(View.GONE);
         binding.selectNewChallenge.setVisibility(View.VISIBLE);
@@ -163,7 +161,7 @@ public class NurseryFragment extends DaggerFragment {
         updateCurrentChallengeOnFireBase(true, false, stage);
     }
 
-    private void updateStepsProgressBar(RunningChallenges runningChallenges) {
+    private void updateStepsProgressBar(final RunningChallenges runningChallenges) {
         int progressSize = 0;
         if (runningChallenges.getProgress().get(0).getProgressPercent() != null) {
             progressSize = Objects.requireNonNull(runningChallenges.getProgress().get(0).getProgressPercent()).size();
@@ -176,14 +174,21 @@ public class NurseryFragment extends DaggerFragment {
             }
 
             binding.stepsBar.setProgress((int) Math.round(todayProgress));
-        }
 
-        binding.stepsBar.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                navigateToWeeklyProgress();
-            }
-        });
+            binding.stepsBar.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    navigateToWeeklyProgress(runningChallenges.getProgress().get(0).getProgress());
+                }
+            });
+        } else {
+            binding.stepsBar.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    navigateToWeeklyProgress(new ArrayList<Integer>());
+                }
+            });
+        }
 
         binding.exerciseProgress.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -211,9 +216,9 @@ public class NurseryFragment extends DaggerFragment {
         }
     }
 
-    private void navigateToWeeklyProgress() {
-        ArrayList<Activities> activities = (ArrayList<Activities>) viewModel.getActivities();
-        Fragment fragment = WeeklyProgressFragment.newInstance(activities);
+    private void navigateToWeeklyProgress(ArrayList<Integer> dailySteps) {
+//        ArrayList<Activities> activities = (ArrayList<Activities>) viewModel.getActivities();
+        Fragment fragment = WeeklyProgressFragment.newInstance(dailySteps);
         FragmentTransaction ft = Objects.requireNonNull(getFragmentManager()).beginTransaction();
         ft.replace(R.id.fragment_container, fragment);
         ft.addToBackStack(null);
