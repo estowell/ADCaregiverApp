@@ -44,7 +44,7 @@ public class NurseryViewModel extends ViewModel {
                         break;
 
                     case PASSED:
-                        responseMutableLiveData.setValue(new NurseryViewModelResponse(Status.PASSED, response.getAvailableChallenges()));
+                        responseMutableLiveData.setValue(new NurseryViewModelResponse(Status.PASSED, response.getPassedChallenge()));
                         break;
 
                     case RUNNING:

@@ -39,4 +39,23 @@
     <string name="select_a_new_seed_to_plant_some_flowers_are_more_challenging_to_grow">Select a new seed to plant. Some flowers are more challenging to grow!</string>
     <string name="this_week_my_step_goal_is_last_week">This week, my step goal is ________ last week</string>
 
+    <plurals name="numberOfSteps">
+
+        <item quantity="one">%d step was taken.</item>
+        <item quantity="other">%d steps were taken.</item>
+    </plurals>
+
+    <plurals name="numberOfExercisesLogged">
+
+        <item quantity="one">You logged %d exercise.</item>
+        <item quantity="other">You logged %d exercises.</item>
+    </plurals>
+
+
+    <plurals name="numberOfStoriesPosted">
+
+        <item quantity="one">Posted %d story.</item>
+        <item quantity="other">Posted %d stories.</item>
+    </plurals>
+
 </resources>

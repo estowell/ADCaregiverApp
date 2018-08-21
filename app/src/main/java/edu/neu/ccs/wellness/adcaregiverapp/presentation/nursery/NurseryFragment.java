@@ -35,6 +35,7 @@ import edu.neu.ccs.wellness.adcaregiverapp.domain.login.model.User;
 import edu.neu.ccs.wellness.adcaregiverapp.network.services.model.AvailableChallenges;
 import edu.neu.ccs.wellness.adcaregiverapp.network.services.model.CurrentChallenge;
 import edu.neu.ccs.wellness.adcaregiverapp.network.services.model.PassedChallenge;
+import edu.neu.ccs.wellness.adcaregiverapp.network.services.model.Progress;
 import edu.neu.ccs.wellness.adcaregiverapp.network.services.model.RunningChallenges;
 import edu.neu.ccs.wellness.adcaregiverapp.network.services.model.SelectedFlower;
 import edu.neu.ccs.wellness.adcaregiverapp.presentation.MainActivity;
@@ -42,6 +43,7 @@ import edu.neu.ccs.wellness.adcaregiverapp.presentation.ViewModelFactory;
 import edu.neu.ccs.wellness.adcaregiverapp.presentation.exercises.ExerciseFragment;
 import edu.neu.ccs.wellness.adcaregiverapp.presentation.gardenGazette.GardenGazetteFragment;
 import edu.neu.ccs.wellness.adcaregiverapp.presentation.nursery.weeklyProgress.WeeklyProgressFragment;
+import edu.neu.ccs.wellness.adcaregiverapp.presentation.plantFlower.PlantFlowerFragment;
 
 import static edu.neu.ccs.wellness.adcaregiverapp.common.utils.Constants.CURRENT_CHALLENGE;
 
@@ -111,7 +113,7 @@ public class NurseryFragment extends DaggerFragment {
                         onStatusRunning(nurseryViewModelResponse.getRunningChallenges());
                         break;
                     case PASSED:
-
+                        onChallengePassed(nurseryViewModelResponse.getPassedChallenge());
                         break;
                     case ERROR:
                         Toast.makeText(getContext(), nurseryViewModelResponse.getMessage(), Toast.LENGTH_SHORT).show();
@@ -150,13 +152,44 @@ public class NurseryFragment extends DaggerFragment {
 
     }
 
-    private void onChallengePassed(PassedChallenge passedChallenge) {
+    private void onChallengePassed(final PassedChallenge passedChallenge) {
         //TODO:Navigate to Passed
+        final int stage = getStage(passedChallenge.getProgress().get(0));
+        int userId = Objects.requireNonNull(userManager.getUser()).getUserId();
+        FirebaseDatabase database = FirebaseDatabase.getInstance();
+        final DatabaseReference databaseReference = database.getReference().child(CURRENT_CHALLENGE).child(String.valueOf(userId));
+
+        databaseReference.runTransaction(new Transaction.Handler() {
+            @NonNull
+            @Override
+            public Transaction.Result doTransaction(@NonNull MutableData mutableData) {
+                currentChallenge = mutableData.getValue(CurrentChallenge.class);
+                if (currentChallenge != null) {
+                    currentChallenge.setRunning(false);
+                    currentChallenge.setPassed(true);
+                    SelectedFlower selectedFlower = currentChallenge.getSelectedFlower();
+                    selectedFlower.setStage(stage);
+                    currentChallenge.setSelectedFlower(selectedFlower);
+                    mutableData.setValue(currentChallenge);
+                }
+
+                return Transaction.success(mutableData);
+            }
+
+            @Override
+            public void onComplete(@Nullable DatabaseError databaseError, boolean b, @Nullable DataSnapshot dataSnapshot) {
+                binding.nurseryProgressBar.setVisibility(View.GONE);
+                PlantFlowerFragment fragment = PlantFlowerFragment.newInstance(Objects.requireNonNull(dataSnapshot).getValue(CurrentChallenge.class),passedChallenge);
+                FragmentTransaction ft = Objects.requireNonNull(getFragmentManager()).beginTransaction();
+                ft.replace(R.id.fragment_container, fragment);
+                ft.commit();
+            }
+        });
     }
 
     private void onStatusRunning(RunningChallenges runningChallenges) {
         updateProgressFromFireBase();
-        int stage = getStage(runningChallenges);
+        int stage = getStage(runningChallenges.getProgress().get(0));
         updateStepsProgressBar(runningChallenges);
         updateCurrentChallengeOnFireBase(true, false, stage);
     }
@@ -198,9 +231,9 @@ public class NurseryFragment extends DaggerFragment {
         });
     }
 
-    private int getStage(RunningChallenges runningChallenges) {
+    private int getStage(Progress progress) {
         int stage = 1;
-        for (boolean status : Objects.requireNonNull(runningChallenges.getProgress().get(0).getProgressAchieved())) {
+        for (boolean status : Objects.requireNonNull(progress.getProgressAchieved())) {
             if (status) {
                 stage++;
             }

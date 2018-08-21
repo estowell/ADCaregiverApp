@@ -97,7 +97,7 @@ public class GetChallengesUseCase extends UseCase<UseCase.RequestValues, UseCase
 
                 @Override
                 public void passed(PassedChallenge passed) {
-                    getUseCaseCallback().onSuccess(new GetChallengesUseCase.ResponseValues(ChallengeStatus.AVAILABLE, passed));
+                    getUseCaseCallback().onSuccess(new GetChallengesUseCase.ResponseValues(ChallengeStatus.PASSED, passed));
                 }
 
                 @Override

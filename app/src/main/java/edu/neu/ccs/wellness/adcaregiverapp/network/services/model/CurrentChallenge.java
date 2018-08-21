@@ -1,11 +1,16 @@
 package edu.neu.ccs.wellness.adcaregiverapp.network.services.model;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import com.google.firebase.database.Exclude;
+import com.google.firebase.database.IgnoreExtraProperties;
 import com.google.firebase.database.ServerValue;
 
 import java.util.Map;
 
-public class CurrentChallenge {
+@IgnoreExtraProperties
+public class CurrentChallenge implements Parcelable{
 
     private int NumberOfPosts;
     private int NumberOfExerciseLogs;
@@ -74,4 +79,41 @@ public class CurrentChallenge {
     public Long getTimeLong() {
         return time;
     }
+
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeInt(this.NumberOfPosts);
+        dest.writeInt(this.NumberOfExerciseLogs);
+        dest.writeByte(this.isRunning ? (byte) 1 : (byte) 0);
+        dest.writeByte(this.passed ? (byte) 1 : (byte) 0);
+        dest.writeParcelable(this.selectedFlower, flags);
+        dest.writeValue(this.time);
+    }
+
+    protected CurrentChallenge(Parcel in) {
+        this.NumberOfPosts = in.readInt();
+        this.NumberOfExerciseLogs = in.readInt();
+        this.isRunning = in.readByte() != 0;
+        this.passed = in.readByte() != 0;
+        this.selectedFlower = in.readParcelable(SelectedFlower.class.getClassLoader());
+        this.time = (Long) in.readValue(Long.class.getClassLoader());
+    }
+
+    public static final Creator<CurrentChallenge> CREATOR = new Creator<CurrentChallenge>() {
+        @Override
+        public CurrentChallenge createFromParcel(Parcel source) {
+            return new CurrentChallenge(source);
+        }
+
+        @Override
+        public CurrentChallenge[] newArray(int size) {
+            return new CurrentChallenge[size];
+        }
+    };
 }
