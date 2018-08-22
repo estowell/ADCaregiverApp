@@ -6,15 +6,22 @@ import com.google.firebase.database.IgnoreExtraProperties;
 public class UserGardenModel {
 
     private String flowerDrawableName;
+    private int stage;
     private int position;
 
 
     public UserGardenModel() {
     }
 
-    public UserGardenModel(String flowerDrawableName, int position) {
+    public UserGardenModel(String flowerDrawableName, int stage, int position) {
         this.flowerDrawableName = flowerDrawableName;
+        this.stage = stage;
         this.position = position;
+    }
+
+
+    public int getStage() {
+        return stage;
     }
 
     public String getFlowerDrawableName() {

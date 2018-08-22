@@ -11,6 +11,7 @@ import edu.neu.ccs.wellness.adcaregiverapp.network.services.model.PassedChalleng
 import edu.neu.ccs.wellness.adcaregiverapp.network.services.model.RunningChallenges;
 import edu.neu.ccs.wellness.adcaregiverapp.network.services.model.UnitChallenge;
 import edu.neu.ccs.wellness.adcaregiverapp.network.services.retrofitInterfaces.ChallengeServicesInterface;
+import edu.neu.ccs.wellness.adcaregiverapp.presentation.garden.GardenViewModel;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -91,6 +92,24 @@ public class ChallengesRepository {
             @Override
             public void onFailure(Call<RunningChallenges> call, Throwable t) {
 
+            }
+        });
+    }
+
+    public void setChallengeComplete(final GardenViewModel.GardenViewModelCallBack callBack) {
+        challengeService.setChallengeComplete().enqueue(new Callback<Void>() {
+            @Override
+            public void onResponse(Call<Void> call, Response<Void> response) {
+                if (response.isSuccessful()) {
+                    callBack.onSuccess();
+                } else {
+                    callBack.onError("Error setting challenge complete");
+                }
+            }
+
+            @Override
+            public void onFailure(Call<Void> call, Throwable t) {
+                callBack.onError(t.getMessage());
             }
         });
     }

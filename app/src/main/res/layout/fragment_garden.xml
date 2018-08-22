@@ -47,5 +47,17 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
+        <ImageView
+            android:id="@+id/done"
+            android:layout_width="42dp"
+            android:visibility="gone"
+            android:layout_height="36dp"
+            android:layout_marginBottom="4dp"
+            android:layout_marginEnd="8dp"
+            app:layout_constraintBottom_toTopOf="@+id/garden_recycler_view"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/graden_username"
+            app:srcCompat="@drawable/ic_done_white_24dp" />
+
     </android.support.constraint.ConstraintLayout>
 </layout>

@@ -12,9 +12,9 @@
             android:id="@+id/flower_image"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:layout_margin="2dp"
             tools:layout_editor_absoluteX="62dp"
-            tools:layout_editor_absoluteY="120dp"
-            android:layout_margin="2dp"/>
+            tools:layout_editor_absoluteY="120dp" />
     </LinearLayout>
 
 </layout>

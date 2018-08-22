@@ -31,6 +31,7 @@ import edu.neu.ccs.wellness.adcaregiverapp.presentation.nursery.NurseryFragment;
 
 public class MainActivity extends DaggerAppCompatActivity {
 
+    private static final int ACTIVITY_RESULT_CODE = 1;
 
     public enum CurrentTab {
         NURSERY,
@@ -88,11 +89,29 @@ public class MainActivity extends DaggerAppCompatActivity {
 
     }
 
-    public void startChallengeActivityForResult() {
+    public void startChallengeActivity() {
         Intent intent = new Intent(this, ChallengesActivity.class);
         startActivity(intent);
     }
 
+    public void startChallengeActivityForResult() {
+        Intent intent = new Intent(this, ChallengesActivity.class);
+        startActivityForResult(intent, ACTIVITY_RESULT_CODE);
+    }
+
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        // Check which request we're responding to
+        if (requestCode == ACTIVITY_RESULT_CODE) {
+            // Make sure the request was successful
+            Intent intent = new Intent(this, MainActivity.class);
+            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+            startActivity(intent);
+            finish();
+
+        }
+    }
 
     public void setSelectedTab(CurrentTab selectedTab) {
         this.selectedTab = selectedTab;

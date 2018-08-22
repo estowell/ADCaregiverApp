@@ -17,4 +17,7 @@ public interface ChallengeServicesInterface {
 
     @POST("api/group/challenges/create")
     Call<RunningChallenges> postAcceptedChallenge(@Body UnitChallenge unitChallenge);
+
+    @GET("api/group/challenges/set_completed")
+    Call<Void> setChallengeComplete();
 }

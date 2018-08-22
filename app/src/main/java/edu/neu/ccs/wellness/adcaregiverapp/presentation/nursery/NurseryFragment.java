@@ -245,7 +245,7 @@ public class NurseryFragment extends DaggerFragment {
     private void navigateToChallengeActivity() {
         MainActivity mainActivity = (MainActivity) getActivity();
         if (mainActivity != null) {
-            mainActivity.startChallengeActivityForResult();
+            mainActivity.startChallengeActivity();
         }
     }
 

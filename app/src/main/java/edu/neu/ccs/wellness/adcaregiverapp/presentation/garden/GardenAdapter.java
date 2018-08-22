@@ -1,29 +1,42 @@
 package edu.neu.ccs.wellness.adcaregiverapp.presentation.garden;
 
 import android.content.Context;
-import android.content.res.Resources;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
+import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 
 import edu.neu.ccs.wellness.adcaregiverapp.R;
+import edu.neu.ccs.wellness.adcaregiverapp.common.utils.DrawableUntils;
 import edu.neu.ccs.wellness.adcaregiverapp.common.utils.NumberUtils;
 import edu.neu.ccs.wellness.adcaregiverapp.databinding.ItemMyGardenBinding;
 
 public class GardenAdapter extends RecyclerView.Adapter<GardenAdapter.ViewHolder> {
 
-    private boolean selectionEnabled;
+    private boolean selectionEnabled = false;
     private Context context;
+    private int numberOfSelections;
+    private int flowerResource;
+    private GardenFragment.GardenFragmentCallBack callBack;
+    private Set<Integer> selectedPositionSet = new HashSet<>();
 
-    private List<UserGardenModel> data = new ArrayList<>();
+    private UserGardenModel[] data;
 
-    public GardenAdapter(Context context, boolean selectionEnabled) {
+    public GardenAdapter(Context context) {
+        this.context = context;
+    }
+
+    public GardenAdapter(Context context, boolean selectionEnabled, int numberOfSelections, int flowerResource, GardenFragment.GardenFragmentCallBack callBack) {
         this.selectionEnabled = selectionEnabled;
         this.context = context;
+        this.numberOfSelections = numberOfSelections;
+        this.flowerResource = flowerResource;
+        this.callBack = callBack;
     }
 
 
@@ -36,23 +49,43 @@ public class GardenAdapter extends RecyclerView.Adapter<GardenAdapter.ViewHolder
     }
 
     @Override
-    public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull final ViewHolder holder, final int position) {
 
-        UserGardenModel model = data.get(position);
+        UserGardenModel model = data[position];
         holder.binding.flowerImage.setBackgroundColor(holder.backgroundColor());
-        if (model.getFlowerDrawableName() != null && !selectionEnabled) {
 
-            Resources resources = context.getResources();
-            final int resourceId = resources.getIdentifier(model.getFlowerDrawableName(), "drawable",
-                    context.getPackageName());
-            holder.binding.flowerImage.setImageResource(resourceId);
+        if (model != null && model.getFlowerDrawableName() != null && !selectionEnabled) {
+            String name = model.getFlowerDrawableName();
+            int stage = model.getStage();
+            holder.binding.flowerImage.setImageResource(DrawableUntils.getDrawableIdByNameAndStage(context, name, stage));
 
-        } else if (model.getFlowerDrawableName() != null && selectionEnabled) {
-            Resources resources = context.getResources();
-            final int resourceId = resources.getIdentifier(model.getFlowerDrawableName(), "drawable",
-                    context.getPackageName());
-            holder.binding.flowerImage.setImageResource(resourceId);
+        } else if (model != null && model.getFlowerDrawableName() != null && selectionEnabled) {
+            String name = model.getFlowerDrawableName();
+            int stage = model.getStage();
+            holder.binding.flowerImage.setImageResource(DrawableUntils.getDrawableIdByNameAndStage(context, name, stage));
             holder.binding.flowerImage.setAlpha(.4f);
+        } else {
+            if (selectionEnabled) {
+                holder.binding.getRoot().setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        if (selectedPositionSet.contains(position)) {
+                            holder.binding.flowerImage.setImageResource(android.R.color.transparent);
+                            selectedPositionSet.remove(position);
+                            callBack.onBlockSelected(selectedPositionSet);
+                        } else if (selectedPositionSet.size() < numberOfSelections) {
+                            holder.binding.flowerImage.setImageResource(flowerResource);
+                            holder.binding.flowerImage.setVisibility(View.VISIBLE);
+                            selectedPositionSet.add(position);
+                            callBack.onBlockSelected(selectedPositionSet);
+                        } else {
+
+                            Toast.makeText(context, "Maximum number of selections reached", Toast.LENGTH_SHORT).show();
+                        }
+
+                    }
+                });
+            }
         }
 
         holder.binding.executePendingBindings();
@@ -60,10 +93,13 @@ public class GardenAdapter extends RecyclerView.Adapter<GardenAdapter.ViewHolder
 
     @Override
     public int getItemCount() {
-        return data.size();
+        if (data == null) {
+            return 0;
+        }
+        return data.length;
     }
 
-    public void setData(List<UserGardenModel> data) {
+    public void setData(UserGardenModel[] data) {
         this.data = data;
         notifyDataSetChanged();
     }
