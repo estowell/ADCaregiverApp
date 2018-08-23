@@ -30,6 +30,7 @@ import edu.neu.ccs.wellness.adcaregiverapp.R;
 import edu.neu.ccs.wellness.adcaregiverapp.common.utils.DrawableUntils;
 import edu.neu.ccs.wellness.adcaregiverapp.common.utils.UserManager;
 import edu.neu.ccs.wellness.adcaregiverapp.databinding.FragmentGardenBinding;
+import edu.neu.ccs.wellness.adcaregiverapp.network.services.model.Member;
 import edu.neu.ccs.wellness.adcaregiverapp.presentation.MainActivity;
 import edu.neu.ccs.wellness.adcaregiverapp.presentation.ViewModelFactory;
 
@@ -48,11 +49,13 @@ public class GardenFragment extends DaggerFragment {
     private static final String NUMBER_OF_SELECTION = "numberOfSelection";
     private static final String FLOWER_RESOURCE = "flowerResource";
     private static final String STAGE = "stage";
+    private static final String MEMEBER = "member";
     private DatabaseReference userDataReference;
     private int numberOfSelection;
     private String flowerResource;
     private int stage;
     private Set<Integer> selectedPositions;
+    private Member member;
 
 
     @Inject
@@ -64,6 +67,16 @@ public class GardenFragment extends DaggerFragment {
     public static GardenFragment newInstance() {
         GardenFragment fragment = new GardenFragment();
         return fragment;
+    }
+
+    public static GardenFragment newInstance(boolean selectionEnabled, Member member) {
+        Bundle args = new Bundle();
+        args.putBoolean(SELECTION_ENABLED, selectionEnabled);
+        args.putParcelable(MEMEBER, member);
+        GardenFragment fragment = new GardenFragment();
+        fragment.setArguments(args);
+        return fragment;
+
     }
 
     public static GardenFragment newInstance(boolean selectionEnabled) {
@@ -93,10 +106,11 @@ public class GardenFragment extends DaggerFragment {
 
         FirebaseDatabase database = FirebaseDatabase.getInstance();
         DatabaseReference rootDataReference = database.getReference().child(USER_GARDEN);
-        userDataReference = rootDataReference.child(String.valueOf(Objects.requireNonNull(userManager.getUser()).getUserId()));
-
         if (getArguments() != null && getArguments().containsKey(SELECTION_ENABLED)) {
             selectionEnabled = getArguments().getBoolean(SELECTION_ENABLED, false);
+            if (getArguments().containsKey(MEMEBER)) {
+                member = getArguments().getParcelable(MEMEBER);
+            }
         }
 
         if (getArguments() != null && selectionEnabled) {
@@ -104,9 +118,15 @@ public class GardenFragment extends DaggerFragment {
             flowerResource = getArguments().getString(FLOWER_RESOURCE);
             stage = getArguments().getInt(STAGE);
         }
+        if (member == null) {
+            userDataReference = rootDataReference.child(String.valueOf(Objects.requireNonNull(userManager.getUser()).getUserId()));
+        } else {
+            userDataReference = rootDataReference.child(String.valueOf(Objects.requireNonNull(member.getId())));
+
+        }
 
         MainActivity activity = (MainActivity) getActivity();
-        if (selectionEnabled && activity != null) {
+        if ((selectionEnabled && activity != null) || member != null) {
             activity.hideBottomNavigation();
         }
 
@@ -177,7 +197,11 @@ public class GardenFragment extends DaggerFragment {
         }
         recyclerView.setAdapter(adapter);
         binding.gardenProgress.setVisibility(View.VISIBLE);
-        binding.gradenUsername.setText(Objects.requireNonNull(userManager.getUser()).getUsername() + getString(R.string.garden_heading));
+        if (member == null) {
+            binding.gradenUsername.setText(Objects.requireNonNull(userManager.getUser()).getUsername() + getString(R.string.garden_heading));
+        } else {
+            binding.gradenUsername.setText(Objects.requireNonNull(member.getName() + getString(R.string.garden_heading)));
+        }
         getFromFireBaseDatabase();
     }
 

@@ -179,7 +179,7 @@ public class NurseryFragment extends DaggerFragment {
             @Override
             public void onComplete(@Nullable DatabaseError databaseError, boolean b, @Nullable DataSnapshot dataSnapshot) {
                 binding.nurseryProgressBar.setVisibility(View.GONE);
-                PlantFlowerFragment fragment = PlantFlowerFragment.newInstance(Objects.requireNonNull(dataSnapshot).getValue(CurrentChallenge.class),passedChallenge);
+                PlantFlowerFragment fragment = PlantFlowerFragment.newInstance(Objects.requireNonNull(dataSnapshot).getValue(CurrentChallenge.class), passedChallenge);
                 FragmentTransaction ft = Objects.requireNonNull(getFragmentManager()).beginTransaction();
                 ft.replace(R.id.fragment_container, fragment);
                 ft.commit();
@@ -233,9 +233,11 @@ public class NurseryFragment extends DaggerFragment {
 
     private int getStage(Progress progress) {
         int stage = 1;
-        for (boolean status : Objects.requireNonNull(progress.getProgressAchieved())) {
-            if (status) {
-                stage++;
+        if (progress.getProgressAchieved() != null) {
+            for (boolean status : Objects.requireNonNull(progress.getProgressAchieved())) {
+                if (status) {
+                    stage++;
+                }
             }
         }
         return stage;

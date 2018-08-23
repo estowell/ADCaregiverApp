@@ -14,6 +14,8 @@ import java.util.List;
 import edu.neu.ccs.wellness.adcaregiverapp.R;
 import edu.neu.ccs.wellness.adcaregiverapp.common.utils.NumberUtils;
 import edu.neu.ccs.wellness.adcaregiverapp.network.services.model.Member;
+import edu.neu.ccs.wellness.adcaregiverapp.presentation.MainActivity;
+import edu.neu.ccs.wellness.adcaregiverapp.presentation.garden.GardenFragment;
 
 
 /**
@@ -24,9 +26,11 @@ public class CommunityGardenAdapter extends RecyclerView.Adapter<CommunityGarden
 
 
     private List<Member> data;
+    private MainActivity mainActivity;
 
 
-    public CommunityGardenAdapter() {
+    public CommunityGardenAdapter(MainActivity mainActivity) {
+        this.mainActivity = mainActivity;
         data = new ArrayList<>(10);
     }
 
@@ -42,7 +46,7 @@ public class CommunityGardenAdapter extends RecyclerView.Adapter<CommunityGarden
 
 
     @Override
-    public void onBindViewHolder(@NonNull final ViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull final ViewHolder holder, final int position) {
         String name = data.get(position).getName();
         if (name == null) {
             holder.textView.setText("");
@@ -50,6 +54,16 @@ public class CommunityGardenAdapter extends RecyclerView.Adapter<CommunityGarden
             holder.textView.setText(name);
         }
         holder.itemView.setBackgroundColor(holder.backgroundColor());
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                GardenFragment fragment = GardenFragment.newInstance(false, data.get(position));
+                android.support.v4.app.FragmentTransaction ft = mainActivity.getSupportFragmentManager().beginTransaction();
+                ft.replace(R.id.fragment_container, fragment);
+                ft.addToBackStack(null);
+                ft.commit();
+            }
+        });
     }
 
     @Override

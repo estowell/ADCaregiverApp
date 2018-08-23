@@ -65,12 +65,13 @@ public class CommunityGardenFragment extends DaggerFragment {
         MainActivity mainActivity = (MainActivity) getActivity();
         if (mainActivity != null) {
             mainActivity.setSelectedTab(MainActivity.CurrentTab.COMMUNITY_GARDEN);
+            mainActivity.showBottomNavigation();
         }
 
         recyclerView = view.findViewById(R.id.community_garden_recycler_view);
         layoutManager = new StaggeredGridLayoutManager(SPAN_COUNT, StaggeredGridLayoutManager.VERTICAL);
         recyclerView.setLayoutManager(layoutManager);
-        adapter = new CommunityGardenAdapter();
+        adapter = new CommunityGardenAdapter((MainActivity) getActivity());
         recyclerView.setAdapter(adapter);
         initialiseLiveDataObservers();
 
