@@ -291,7 +291,7 @@ public class NurseryFragment extends DaggerFragment {
         FirebaseDatabase database = FirebaseDatabase.getInstance();
         final DatabaseReference databaseReference = database.getReference().child(CURRENT_CHALLENGE).child(String.valueOf(userId));
 
-        databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
+        databaseReference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 currentChallenge = dataSnapshot.getValue(CurrentChallenge.class);
