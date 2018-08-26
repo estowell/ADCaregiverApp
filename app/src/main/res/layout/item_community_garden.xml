@@ -5,7 +5,8 @@
     android:layout_height="200dp"
     android:background="@color/colorPrimary"
     android:orientation="vertical"
-    android:gravity="center">
+    android:gravity="center"
+    android:layout_margin="1dp">
 
     <TextView
         android:id="@+id/community_TextView"
