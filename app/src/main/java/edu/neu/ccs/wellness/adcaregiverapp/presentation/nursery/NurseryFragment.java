@@ -133,6 +133,13 @@ public class NurseryFragment extends DaggerFragment {
             }
         });
 
+        binding.exerciseProgress.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showStoriesDialog();
+            }
+        });
+
 
     }
 
@@ -223,12 +230,6 @@ public class NurseryFragment extends DaggerFragment {
             });
         }
 
-        binding.exerciseProgress.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                showStoriesDialog();
-            }
-        });
     }
 
     private int getStage(Progress progress) {
