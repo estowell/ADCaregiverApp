@@ -126,9 +126,6 @@ public class GardenFragment extends DaggerFragment {
 
         }
 
-
-
-
         viewModel = ViewModelProviders.of(this, viewModelFactory).get(GardenViewModel.class);
 
     }
@@ -226,7 +223,13 @@ public class GardenFragment extends DaggerFragment {
             public Transaction.Result doTransaction(@NonNull MutableData mutableData) {
                 int size = (int) mutableData.getChildrenCount();
                 if (size >= data[0].length-2) {
-                    data[0] = Arrays.copyOf(data[0], data[0].length + 3);
+                    if((size+3)%3==0){
+                        data[0] = Arrays.copyOf(data[0], size+3);
+                    }else if((size+4)%3==0){
+                        data[0] = Arrays.copyOf(data[0], size+4);
+                    }else if((size+5)%3==0){
+                        data[0] = Arrays.copyOf(data[0], size+5);
+                    }
                 }
                 for (MutableData children : mutableData.getChildren()) {
                     data[0][Integer.valueOf(children.getKey())] = children.getValue(UserGardenModel.class);
