@@ -57,7 +57,7 @@
     </style>
 
     <style name="AppTheme.Login.loginButton" parent="AppTheme.Login">
-        <item name="android:background">@color/green4</item>
+        <item name="android:background">@color/green7</item>
         <item name="android:textColor">@color/white</item>
         <item name="android:textStyle">normal</item>
         <item name="android:textSize">18sp</item>

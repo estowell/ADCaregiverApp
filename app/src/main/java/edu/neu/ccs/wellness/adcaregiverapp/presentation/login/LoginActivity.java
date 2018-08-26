@@ -57,8 +57,8 @@ public class LoginActivity extends DaggerAppCompatActivity {
                         break;
                     }
                     case Error:
-                        binding.loginProgress.setVisibility(View.GONE);
-                        showErrorToast(responseValue);
+
+                        showErrorToast(responseValue.getMessage());
                     default:
                         Log.d(this.getClass().getSimpleName(), "Unknown Error");
 
@@ -86,9 +86,13 @@ public class LoginActivity extends DaggerAppCompatActivity {
             @Override
             public void onClick(View v) {
                 binding.loginProgress.setVisibility(View.VISIBLE);
-                viewModel.onLogin(
-                        binding.username.getText().toString(),
-                        binding.password.getText().toString());
+                if (binding.password.getText().toString().equals("") || binding.username.getText().toString().equals("")) {
+                    showErrorToast("Username or Password cannot be empty");
+                } else {
+                    viewModel.onLogin(
+                            binding.username.getText().toString(),
+                            binding.password.getText().toString());
+                }
             }
         });
     }
@@ -101,11 +105,12 @@ public class LoginActivity extends DaggerAppCompatActivity {
         finish();
     }
 
-    private void showErrorToast(LoginUser.ResponseValue responseValue) {
+    private void showErrorToast(String message) {
+        binding.loginProgress.setVisibility(View.GONE);
         InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
         imm.hideSoftInputFromWindow(binding.username.getWindowToken(), 0);
         imm.hideSoftInputFromWindow(binding.password.getWindowToken(), 0);
-        Toast.makeText(this, responseValue.getMessage(), Toast.LENGTH_LONG).show();
+        Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
     }
 
 }
