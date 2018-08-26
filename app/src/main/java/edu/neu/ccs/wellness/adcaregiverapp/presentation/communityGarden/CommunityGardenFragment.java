@@ -10,6 +10,7 @@ import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ProgressBar;
 
 import java.util.List;
 
@@ -32,6 +33,7 @@ public class CommunityGardenFragment extends DaggerFragment {
     private CommunityGardenAdapter adapter;
     private RecyclerView.LayoutManager layoutManager;
     private CommunityGardenViewModel viewModel;
+    private ProgressBar progressBar;
     @Inject
     ViewModelFactory viewModelFactory;
 
@@ -73,15 +75,20 @@ public class CommunityGardenFragment extends DaggerFragment {
         recyclerView.setLayoutManager(layoutManager);
         adapter = new CommunityGardenAdapter((MainActivity) getActivity());
         recyclerView.setAdapter(adapter);
+        progressBar = view.findViewById(R.id.communityGarden_progressbar);
         initialiseLiveDataObservers();
 
     }
 
 
     private void initialiseLiveDataObservers() {
+        progressBar.setVisibility(View.VISIBLE);
+        recyclerView.setVisibility(View.GONE);
         Observer<List<Member>> memberObserver = new Observer<List<Member>>() {
             @Override
             public void onChanged(@Nullable List<Member> members) {
+                progressBar.setVisibility(View.GONE);
+                recyclerView.setVisibility(View.VISIBLE);
                 adapter.setData(members);
             }
         };

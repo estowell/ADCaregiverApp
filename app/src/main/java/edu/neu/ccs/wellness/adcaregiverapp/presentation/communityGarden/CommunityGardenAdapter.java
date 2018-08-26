@@ -52,18 +52,20 @@ public class CommunityGardenAdapter extends RecyclerView.Adapter<CommunityGarden
             holder.textView.setText("");
         } else {
             holder.textView.setText(name);
+            holder.itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    GardenFragment fragment = GardenFragment.newInstance(false, data.get(position));
+                    android.support.v4.app.FragmentTransaction ft = mainActivity.getSupportFragmentManager().beginTransaction();
+                    ft.replace(R.id.fragment_container, fragment);
+                    ft.addToBackStack(null);
+                    ft.commit();
+                }
+            });
         }
         holder.itemView.setBackgroundColor(holder.backgroundColor());
-        holder.itemView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                GardenFragment fragment = GardenFragment.newInstance(false, data.get(position));
-                android.support.v4.app.FragmentTransaction ft = mainActivity.getSupportFragmentManager().beginTransaction();
-                ft.replace(R.id.fragment_container, fragment);
-                ft.addToBackStack(null);
-                ft.commit();
-            }
-        });
+
+
     }
 
     @Override

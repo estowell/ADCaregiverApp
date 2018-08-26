@@ -45,6 +45,8 @@ public class GardenAdapter extends RecyclerView.Adapter<GardenAdapter.ViewHolder
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         ItemMyGardenBinding binding = ItemMyGardenBinding.inflate(LayoutInflater.from(parent.getContext()), parent, false);
         ViewHolder holder = new ViewHolder(binding);
+        //TODO: Fix ME
+        holder.setIsRecyclable(false);
         return holder;
     }
 
@@ -79,7 +81,6 @@ public class GardenAdapter extends RecyclerView.Adapter<GardenAdapter.ViewHolder
                             selectedPositionSet.add(position);
                             callBack.onBlockSelected(selectedPositionSet);
                         } else {
-
                             Toast.makeText(context, "Maximum number of selections reached", Toast.LENGTH_SHORT).show();
                         }
 

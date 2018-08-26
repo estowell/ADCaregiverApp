@@ -11,6 +11,7 @@ import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -153,16 +154,16 @@ public class GardenFragment extends DaggerFragment {
         Observer<GardenViewModel.GardenViewModelResponse> observer = new Observer<GardenViewModel.GardenViewModelResponse>() {
             @Override
             public void onChanged(@Nullable GardenViewModel.GardenViewModelResponse gardenViewModelResponse) {
-                binding.gardenProgress.setVisibility(View.GONE);
-                binding.gardenRecyclerView.setVisibility(View.VISIBLE);
                 switch (gardenViewModelResponse.getStatus()) {
                     case Success:
-                        if (mainActivity != null) {
-                            mainActivity.startChallengeActivityForResult();
-                        }
+                        updateFirebaseDatabase();
                         break;
 
                     case Error:
+                        binding.done.setVisibility(View.VISIBLE);
+                        binding.gardenProgress.setVisibility(View.GONE);
+                        binding.gardenRecyclerView.setVisibility(View.VISIBLE);
+                        Toast.makeText(getContext(), gardenViewModelResponse.getMessage(), Toast.LENGTH_SHORT).show();
                         break;
                 }
 
@@ -176,7 +177,11 @@ public class GardenFragment extends DaggerFragment {
             binding.done.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    updateFirebaseDatabase();
+                    binding.done.setVisibility(View.GONE);
+                    binding.gardenProgress.setVisibility(View.VISIBLE);
+                    binding.gardenRecyclerView.setVisibility(View.GONE);
+                    viewModel.setChallengeComplete();
+
                 }
             });
         }
@@ -234,9 +239,6 @@ public class GardenFragment extends DaggerFragment {
     }
 
     private void updateFirebaseDatabase() {
-
-        binding.gardenProgress.setVisibility(View.VISIBLE);
-        binding.gardenRecyclerView.setVisibility(View.GONE);
         if (selectedPositions != null) {
             for (final Integer position : selectedPositions) {
                 selectedPositions.remove(position);
@@ -254,7 +256,9 @@ public class GardenFragment extends DaggerFragment {
                         if (selectedPositions.size() != 0) {
                             updateFirebaseDatabase();
                         } else {
-                            viewModel.setChallengeComplete();
+                            if (getActivity() != null) {
+                                ((MainActivity) getActivity()).startChallengeActivityForResult();
+                            }
                         }
                     }
                 });

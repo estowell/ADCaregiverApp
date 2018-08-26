@@ -76,15 +76,15 @@ public class WeeklyProgressFragment extends Fragment {
         } else {
             view.findViewById(R.id.empty_state).setVisibility(View.GONE);
             view.findViewById(R.id.constraint_group).setVisibility(View.VISIBLE);
-
-            BarChart chart = view.findViewById(R.id.bar_chart);
             List<BarEntry> entries = new ArrayList<>();
-            int xAxisValue = 1;
-            for (Integer activity : activities) {
-                entries.add(new BarEntry(xAxisValue, activity));
-                xAxisValue++;
+            for (int i = 0; i < 7; i++) {
+                entries.add(i, new BarEntry(i + 1, 0));
             }
+            BarChart chart = view.findViewById(R.id.bar_chart);
+            for (int i = 0; i < activities.size(); i++) {
+                entries.add(i, new BarEntry(i + 1, activities.get(i)));
 
+            }
             BarDataSet dataSet = new BarDataSet(entries, "");
 
             BarData data = new BarData(dataSet);
