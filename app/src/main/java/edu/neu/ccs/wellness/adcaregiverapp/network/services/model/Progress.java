@@ -1,10 +1,12 @@
 package edu.neu.ccs.wellness.adcaregiverapp.network.services.model;
 
+import android.os.Parcel;
+import android.os.Parcelable;
 import android.support.annotation.Nullable;
 
 import java.util.ArrayList;
 
-public class Progress {
+public class Progress implements Parcelable{
 
     private int person_id;
 
@@ -92,4 +94,50 @@ public class Progress {
         this.total_progress = total_progress;
     }
 
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeInt(this.person_id);
+        dest.writeInt(this.goal);
+        dest.writeString(this.unit);
+        dest.writeString(this.unit_duration);
+        dest.writeList(this.progress);
+        dest.writeList(this.progress_percent);
+        dest.writeList(this.progress_achieved);
+        dest.writeInt(this.total_progress);
+    }
+
+    public Progress() {
+    }
+
+    protected Progress(Parcel in) {
+        this.person_id = in.readInt();
+        this.goal = in.readInt();
+        this.unit = in.readString();
+        this.unit_duration = in.readString();
+        this.progress = new ArrayList<Integer>();
+        in.readList(this.progress, Integer.class.getClassLoader());
+        this.progress_percent = new ArrayList<Double>();
+        in.readList(this.progress_percent, Double.class.getClassLoader());
+        this.progress_achieved = new ArrayList<Boolean>();
+        in.readList(this.progress_achieved, Boolean.class.getClassLoader());
+        this.total_progress = in.readInt();
+    }
+
+    public static final Creator<Progress> CREATOR = new Creator<Progress>() {
+        @Override
+        public Progress createFromParcel(Parcel source) {
+            return new Progress(source);
+        }
+
+        @Override
+        public Progress[] newArray(int size) {
+            return new Progress[size];
+        }
+    };
 }

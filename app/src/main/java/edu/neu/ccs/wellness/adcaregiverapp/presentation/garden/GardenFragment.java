@@ -126,10 +126,8 @@ public class GardenFragment extends DaggerFragment {
 
         }
 
-        MainActivity activity = (MainActivity) getActivity();
-        if ((selectionEnabled && activity != null) || member != null) {
-            activity.hideBottomNavigation();
-        }
+
+
 
         viewModel = ViewModelProviders.of(this, viewModelFactory).get(GardenViewModel.class);
 
@@ -139,6 +137,12 @@ public class GardenFragment extends DaggerFragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_garden, container, false);
+        MainActivity activity = (MainActivity) getActivity();
+        if ((selectionEnabled && activity != null) || member != null) {
+            activity.hideBottomNavigation();
+        }else{
+            activity.showBottomNavigation();
+        }
         init();
         return binding.getRoot();
     }
@@ -221,7 +225,7 @@ public class GardenFragment extends DaggerFragment {
             @Override
             public Transaction.Result doTransaction(@NonNull MutableData mutableData) {
                 int size = (int) mutableData.getChildrenCount();
-                if (size >= data[0].length) {
+                if (size >= data[0].length-2) {
                     data[0] = Arrays.copyOf(data[0], data[0].length + 3);
                 }
                 for (MutableData children : mutableData.getChildren()) {
