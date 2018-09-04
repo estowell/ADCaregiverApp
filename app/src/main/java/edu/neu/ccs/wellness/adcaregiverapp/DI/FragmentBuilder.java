@@ -9,6 +9,7 @@ import edu.neu.ccs.wellness.adcaregiverapp.presentation.exercises.viewPagerFragm
 import edu.neu.ccs.wellness.adcaregiverapp.presentation.exercises.viewPagerFragments.ExerciseTutorialFragment;
 import edu.neu.ccs.wellness.adcaregiverapp.presentation.garden.GardenFragment;
 import edu.neu.ccs.wellness.adcaregiverapp.presentation.nursery.NurseryFragment;
+import edu.neu.ccs.wellness.adcaregiverapp.presentation.nursery.weeklyProgress.WeeklyProgressFragment;
 import edu.neu.ccs.wellness.adcaregiverapp.presentation.plantFlower.PlantFlowerFragment;
 
 @Module
@@ -37,4 +38,8 @@ public abstract class FragmentBuilder {
 
     @ContributesAndroidInjector
     abstract TutorialListFragment provideTutorialListFragment();
+
+    @ContributesAndroidInjector
+    abstract WeeklyProgressFragment provideWeeklyProgressFragment();
+
 }

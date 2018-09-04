@@ -69,7 +69,6 @@ public class ExerciseLogFragment extends DaggerFragment {
                         logs.add(log);
                     }
                 }
-
                 createBarGraph(logs);
             }
 
