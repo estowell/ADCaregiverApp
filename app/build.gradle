@@ -81,7 +81,7 @@ dependencies {
 
 
     //Graph Library
-    implementation 'com.github.PhilJay:MPAndroidChart:v3.0.3'
+    implementation 'com.github.PhilJay:MPAndroidChart:v2.2.4'
 }
 
 //firebase

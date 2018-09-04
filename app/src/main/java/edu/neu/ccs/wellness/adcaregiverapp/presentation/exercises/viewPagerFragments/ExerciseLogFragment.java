@@ -8,9 +8,8 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.github.mikephil.charting.charts.BarChart;
-import com.github.mikephil.charting.components.Description;
+import com.github.mikephil.charting.components.Legend;
 import com.github.mikephil.charting.components.XAxis;
-import com.github.mikephil.charting.components.YAxis;
 import com.github.mikephil.charting.data.BarData;
 import com.github.mikephil.charting.data.BarDataSet;
 import com.github.mikephil.charting.data.BarEntry;
@@ -20,12 +19,13 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
-import java.util.Map;
 import java.util.Objects;
-import java.util.TreeMap;
 
 import javax.inject.Inject;
 
@@ -39,7 +39,9 @@ import static edu.neu.ccs.wellness.adcaregiverapp.common.utils.Constants.EXERCIS
 public class ExerciseLogFragment extends DaggerFragment {
 
 
-    private BarChart chart;
+    private BarChart barChart;
+    private ArrayList<String> dates;
+    private ArrayList barEntries;
     @Inject
     UserManager userManager;
 
@@ -52,7 +54,7 @@ public class ExerciseLogFragment extends DaggerFragment {
     }
 
     private void init(View view) {
-        chart = view.findViewById(R.id.bar_chart);
+        barChart = view.findViewById(R.id.bar_chart);
 
         FirebaseDatabase database = FirebaseDatabase.getInstance();
         Query reference = database.getReference().child(EXERCISE_LOG).orderByKey();
@@ -68,7 +70,7 @@ public class ExerciseLogFragment extends DaggerFragment {
                     }
                 }
 
-                updateChartData(logs);
+                createBarGraph(logs);
             }
 
             @Override
@@ -79,78 +81,95 @@ public class ExerciseLogFragment extends DaggerFragment {
     }
 
 
-    private void updateChartData(List<LogExerciseModel> exerciseModels) {
-        Map<Float, Float> dailyLogs = new TreeMap<>();
+    public void createBarGraph(List<LogExerciseModel> logs) {
 
-        for (float i = 1; i <= 7; i++) {
-            dailyLogs.put(i, 0f);
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("MM/dd");
+
+        try {
+            Date date1 = simpleDateFormat.parse(simpleDateFormat.format(new Date()));
+            Date date2 = simpleDateFormat.parse(simpleDateFormat.format(new Date()));
+
+            Calendar mDate1 = Calendar.getInstance();
+            Calendar mDate2 = Calendar.getInstance();
+            mDate1.clear();
+            mDate2.clear();
+
+            mDate1.setTime(date1);
+            mDate2.setTime(date2);
+            mDate2.add(Calendar.DATE, -6);
+
+            dates = new ArrayList<>();
+            dates = getList(mDate2, mDate1);
+
+            barEntries = new ArrayList<>();
+
+            for (int j = 0; j < dates.size(); j++) {
+                String date = dates.get(j);
+                Date dateObject = simpleDateFormat.parse(date);
+                Calendar curr = Calendar.getInstance();
+
+                curr.setTimeInMillis(dateObject.getTime());
+                int dataPoints = 0;
+                dataPoints = getDataPoints(logs, curr, dataPoints);
+                barEntries.add(new BarEntry(dataPoints, j));
+            }
+
+        } catch (ParseException e) {
+            e.printStackTrace();
         }
-        Calendar curr = Calendar.getInstance();
-        Calendar model = Calendar.getInstance();
-        List<BarEntry> entries = new ArrayList<>();
 
-        MapDateToWeek(exerciseModels, dailyLogs, curr, model);
-
-        for (Map.Entry entry : dailyLogs.entrySet()) {
-            entries.add(new BarEntry((float) entry.getKey(), (float) entry.getValue()));
-        }
-
-        BarDataSet dataSet = new BarDataSet(entries, "");
-
-        BarData data = new BarData(dataSet);
-        data.setBarWidth(0.9f);
-        chart.setData(data);
-        chart.setFitBars(true);
-        chart.setBackgroundColor(getResources().getColor(R.color.white));
-        chart.setAutoScaleMinMaxEnabled(false);
-        chart.setTouchEnabled(false);
-        Description description = new Description();
-        description.setText("");
-
-        chart.setDescription(description);
-        YAxis left = chart.getAxisLeft();
-        left.setDrawLabels(false); // no axis labels
-        left.setDrawAxisLine(false); // no axis line
-        left.setDrawGridLines(false); // no grid lines
-        left.setDrawZeroLine(true); // draw a zero line
-        chart.getAxisRight().setEnabled(false);
-
-        XAxis xAxis = chart.getXAxis();
+        BarDataSet barDataSet = new BarDataSet(barEntries, "Number of Exercises Logged");
+        BarData barData = new BarData(dates, barDataSet);
+        barChart.setData(barData);
+        barChart.setBackgroundColor(getResources().getColor(R.color.white));
+        barChart.setAutoScaleMinMaxEnabled(false);
+        barChart.setTouchEnabled(false);
+        barChart.setDescription("");
+        XAxis xAxis = barChart.getXAxis();
         xAxis.setPosition(XAxis.XAxisPosition.BOTTOM_INSIDE);
 
         xAxis.setDrawAxisLine(false);
         xAxis.setDrawGridLines(false);
-        chart.invalidate();
-        chart.isShown();
+        xAxis.setLabelsToSkip(0);
+        Legend legend = barChart.getLegend();
+        legend.setPosition(Legend.LegendPosition.ABOVE_CHART_LEFT);
+        barChart.invalidate();
+        barChart.isShown();
+
     }
 
-    private void MapDateToWeek(List<LogExerciseModel> exerciseModels, Map<Float, Float> dailyLogs, Calendar curr, Calendar model) {
-        for (LogExerciseModel exerciseModel : exerciseModels) {
-            model.setTimeInMillis(exerciseModel.getTimeLong());
-            if (model.get(Calendar.DATE) == (curr.get(Calendar.DATE) - 6)) {
-                updateMap(dailyLogs, 1f);
-            } else if (model.get(Calendar.DATE) == (curr.get(Calendar.DATE) - 5)) {
-                updateMap(dailyLogs, 2f);
-            } else if (model.get(Calendar.DATE) == (curr.get(Calendar.DATE) - 4)) {
-                updateMap(dailyLogs, 3f);
-            } else if (model.get(Calendar.DATE) == (curr.get(Calendar.DATE) - 3)) {
-                updateMap(dailyLogs, 4f);
-            } else if (model.get(Calendar.DATE) == (curr.get(Calendar.DATE) - 2)) {
-                updateMap(dailyLogs, 5f);
-            } else if (model.get(Calendar.DATE) == (curr.get(Calendar.DATE) - 1)) {
-                updateMap(dailyLogs, 6f);
-            } else if (model.get(Calendar.DATE) == (curr.get(Calendar.DATE))) {
-                updateMap(dailyLogs, 7f);
+    private int getDataPoints(List<LogExerciseModel> logs, Calendar curr, int dataPoints) {
+        for (int i = 0; i < logs.size(); i++) {
+            if (logs.get(i).getUserId() == userManager.getUser().getUserId()) {
+                Calendar model = Calendar.getInstance();
+                model.setTimeInMillis(logs.get(i).getTimeLong());
+                if (model.get(Calendar.DATE) == curr.get(Calendar.DATE)) {
+                    dataPoints++;
+                }
             }
         }
+        return dataPoints;
     }
 
-    private void updateMap(Map<Float, Float> dailyLogs, float day) {
-        if (dailyLogs.containsKey(day)) {
-            dailyLogs.put(day, dailyLogs.get(day) + 1);
-        } else {
-            dailyLogs.put(day, 1f);
+    public ArrayList<String> getList(Calendar startDate, Calendar endDate) {
+        ArrayList<String> list = new ArrayList<String>();
+        while (startDate.compareTo(endDate) <= 0) {
+            list.add(getDate(startDate));
+            startDate.add(Calendar.DATE, 1);
         }
+        return list;
+    }
+
+    public String getDate(Calendar cld) {
+        String curDate = (cld.get(Calendar.MONTH) + 1) + "/"
+                + cld.get(Calendar.DAY_OF_MONTH);
+        try {
+            Date date = new SimpleDateFormat("MM/dd").parse(curDate);
+            curDate = new SimpleDateFormat("MM/dd").format(date);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        return curDate;
     }
 
 }

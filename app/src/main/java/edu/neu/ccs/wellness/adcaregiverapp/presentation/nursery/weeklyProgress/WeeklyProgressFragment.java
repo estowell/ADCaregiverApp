@@ -10,10 +10,8 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 
 import com.github.mikephil.charting.charts.BarChart;
-import com.github.mikephil.charting.components.Description;
 import com.github.mikephil.charting.components.XAxis;
 import com.github.mikephil.charting.components.YAxis;
-import com.github.mikephil.charting.data.BarData;
 import com.github.mikephil.charting.data.BarDataSet;
 import com.github.mikephil.charting.data.BarEntry;
 
@@ -23,6 +21,8 @@ import java.util.Objects;
 
 import edu.neu.ccs.wellness.adcaregiverapp.R;
 import edu.neu.ccs.wellness.adcaregiverapp.presentation.MainActivity;
+
+//import com.github.mikephil.charting.components.Description;
 
 public class WeeklyProgressFragment extends Fragment {
 
@@ -87,17 +87,17 @@ public class WeeklyProgressFragment extends Fragment {
             }
             BarDataSet dataSet = new BarDataSet(entries, "");
 
-            BarData data = new BarData(dataSet);
-            data.setBarWidth(0.9f);
-            chart.setData(data);
-            chart.setFitBars(true);
-            chart.setBackgroundColor(getResources().getColor(R.color.white));
-            chart.setAutoScaleMinMaxEnabled(false);
-            chart.setTouchEnabled(false);
-            Description description = new Description();
-            description.setText("");
-
-            chart.setDescription(description);
+//            BarData data = new BarData(dataSet);
+//            data.setBarWidth(0.9f);
+//            chart.setData(data);
+//            chart.setFitBars(true);
+//            chart.setBackgroundColor(getResources().getColor(R.color.white));
+//            chart.setAutoScaleMinMaxEnabled(false);
+//            chart.setTouchEnabled(false);
+//            Description description = new Description();
+//            description.setText("");
+//
+//            chart.setDescription(description);
             YAxis left = chart.getAxisLeft();
             left.setDrawLabels(false); // no axis labels
             left.setDrawAxisLine(false); // no axis line
