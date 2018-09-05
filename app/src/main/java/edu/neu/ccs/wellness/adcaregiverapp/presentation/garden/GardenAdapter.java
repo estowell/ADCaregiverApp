@@ -59,12 +59,12 @@ public class GardenAdapter extends RecyclerView.Adapter<GardenAdapter.ViewHolder
         if (model != null && model.getFlowerDrawableName() != null && !selectionEnabled) {
             String name = model.getFlowerDrawableName();
             int stage = model.getStage();
-            holder.binding.flowerImage.setImageResource(DrawableUntils.getDrawableIdByNameAndStage(context, name, stage));
+            holder.binding.flowerImage.setImageResource(DrawableUntils.getDrawableWithoutBaseIdByNameAndStage(context, name, stage));
 
         } else if (model != null && model.getFlowerDrawableName() != null && selectionEnabled) {
             String name = model.getFlowerDrawableName();
             int stage = model.getStage();
-            holder.binding.flowerImage.setImageResource(DrawableUntils.getDrawableIdByNameAndStage(context, name, stage));
+            holder.binding.flowerImage.setImageResource(DrawableUntils.getDrawableWithoutBaseIdByNameAndStage(context, name, stage));
             holder.binding.flowerImage.setAlpha(.2f);
         } else {
             if (selectionEnabled) {

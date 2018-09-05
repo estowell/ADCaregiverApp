@@ -192,7 +192,7 @@ public class GardenFragment extends DaggerFragment {
         recyclerView.setLayoutManager(layoutManager);
         if (selectionEnabled) {
             adapter = new GardenAdapter(this.getContext(), selectionEnabled, numberOfSelection,
-                    DrawableUntils.getDrawableIdByNameAndStage(getContext(), flowerResource, stage), new GardenFragmentCallBack() {
+                    DrawableUntils.getDrawableWithoutBaseIdByNameAndStage(getContext(), flowerResource, stage), new GardenFragmentCallBack() {
                 @Override
                 public void onBlockSelected(Set<Integer> selectedPositions) {
                     setSelectedPositions(selectedPositions);
