@@ -43,12 +43,12 @@ public class UserRepository {
     }
 
     public void getUserCircle(final int userId, final GetCircleUseCase.GetCircleUseCaseCallBack callBack) {
-        service.getUserCircle(userId).enqueue(new Callback<UserCircle>() {
+        service.getUserCircle().enqueue(new Callback<List<UserCircle>>() {
             @Override
-            public void onResponse(Call<UserCircle> call, Response<UserCircle> response) {
+            public void onResponse(Call<List<UserCircle>> call, Response<List<UserCircle>> response) {
                 if (response.isSuccessful()) {
-                    UserCircle circle = response.body();
-                    List<Member> members = circle.getMembers();
+                    List<UserCircle> circle = response.body();
+                    List<Member> members = circle.get(0).getMembers();
                     for (int i = 0; i < members.size(); i++) {
                         if (userId == members.get(i).getId()) {
                             members.remove(i);
@@ -61,9 +61,10 @@ public class UserRepository {
             }
 
             @Override
-            public void onFailure(Call<UserCircle> call, Throwable t) {
+            public void onFailure(Call<List<UserCircle>> call, Throwable t) {
                 callBack.onFailure(t);
             }
+
         });
     }
 }

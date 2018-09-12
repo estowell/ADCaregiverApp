@@ -11,6 +11,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ProgressBar;
+import android.widget.Toast;
 
 import java.util.List;
 
@@ -93,6 +94,16 @@ public class CommunityGardenFragment extends DaggerFragment {
             }
         };
 
+
+        Observer<String> errorObserver = new Observer<String>() {
+            @Override
+            public void onChanged(@Nullable String s) {
+                progressBar.setVisibility(View.GONE);
+                Toast.makeText(getContext(), s, Toast.LENGTH_SHORT).show();
+            }
+        };
+
+        viewModel.getErrorLiveData().observe(this, errorObserver);
         viewModel.getMembersLiveData().observe(this, memberObserver);
         viewModel.getMembers();
     }
