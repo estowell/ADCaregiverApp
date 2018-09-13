@@ -16,6 +16,8 @@ public class CurrentChallenge implements Parcelable{
     private int NumberOfExerciseLogs;
     private boolean isRunning;
     private boolean passed;
+    private boolean flowerUnlocked;
+
     private SelectedFlower selectedFlower;
     Long time;
 
@@ -23,11 +25,12 @@ public class CurrentChallenge implements Parcelable{
     public CurrentChallenge() {
     }
 
-    public CurrentChallenge(int numberOfPosts, int numberOfExcerciseLogs, boolean isRunning, boolean passed, SelectedFlower selectedFlower) {
+    public CurrentChallenge(int numberOfPosts, int numberOfExcerciseLogs, boolean isRunning, boolean passed, boolean flowerUnlocked, SelectedFlower selectedFlower) {
         NumberOfPosts = numberOfPosts;
         NumberOfExerciseLogs = numberOfExcerciseLogs;
         this.isRunning = isRunning;
         this.passed = passed;
+        this.flowerUnlocked = flowerUnlocked;
         this.selectedFlower = selectedFlower;
     }
 
@@ -81,6 +84,15 @@ public class CurrentChallenge implements Parcelable{
     }
 
 
+    public boolean isFlowerUnlocked() {
+        return flowerUnlocked;
+    }
+
+    public void setFlowerUnlocked(boolean flowerUnlocked) {
+        this.flowerUnlocked = flowerUnlocked;
+    }
+
+
     @Override
     public int describeContents() {
         return 0;
@@ -92,6 +104,7 @@ public class CurrentChallenge implements Parcelable{
         dest.writeInt(this.NumberOfExerciseLogs);
         dest.writeByte(this.isRunning ? (byte) 1 : (byte) 0);
         dest.writeByte(this.passed ? (byte) 1 : (byte) 0);
+        dest.writeByte(this.flowerUnlocked ? (byte) 1 : (byte) 0);
         dest.writeParcelable(this.selectedFlower, flags);
         dest.writeValue(this.time);
     }
@@ -101,6 +114,7 @@ public class CurrentChallenge implements Parcelable{
         this.NumberOfExerciseLogs = in.readInt();
         this.isRunning = in.readByte() != 0;
         this.passed = in.readByte() != 0;
+        this.flowerUnlocked = in.readByte() != 0;
         this.selectedFlower = in.readParcelable(SelectedFlower.class.getClassLoader());
         this.time = (Long) in.readValue(Long.class.getClassLoader());
     }

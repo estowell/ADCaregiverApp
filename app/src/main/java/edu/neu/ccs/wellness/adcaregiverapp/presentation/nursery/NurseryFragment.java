@@ -38,6 +38,7 @@ import edu.neu.ccs.wellness.adcaregiverapp.network.services.model.PassedChalleng
 import edu.neu.ccs.wellness.adcaregiverapp.network.services.model.Progress;
 import edu.neu.ccs.wellness.adcaregiverapp.network.services.model.RunningChallenges;
 import edu.neu.ccs.wellness.adcaregiverapp.network.services.model.SelectedFlower;
+import edu.neu.ccs.wellness.adcaregiverapp.network.services.model.UnlockedFlowersModel;
 import edu.neu.ccs.wellness.adcaregiverapp.presentation.MainActivity;
 import edu.neu.ccs.wellness.adcaregiverapp.presentation.ViewModelFactory;
 import edu.neu.ccs.wellness.adcaregiverapp.presentation.exercises.ExerciseFragment;
@@ -46,6 +47,7 @@ import edu.neu.ccs.wellness.adcaregiverapp.presentation.nursery.weeklyProgress.W
 import edu.neu.ccs.wellness.adcaregiverapp.presentation.plantFlower.PlantFlowerFragment;
 
 import static edu.neu.ccs.wellness.adcaregiverapp.common.utils.Constants.CURRENT_CHALLENGE;
+import static edu.neu.ccs.wellness.adcaregiverapp.common.utils.Constants.UNLOCKED_FLOWERS;
 
 /**
  * Created by amritanshtripathi on 6/12/18.
@@ -330,6 +332,9 @@ public class NurseryFragment extends DaggerFragment {
         } else if (numberOfPosts % 2 == 0) {
             storiesProgress = 100;
             binding.exerciseProgress.setProgress(100);
+            if (!currentChallenge.isFlowerUnlocked()) {
+                updateUnlockedFlowersOnFireBase();
+            }
         } else {
             storiesProgress = 50;
             binding.exerciseProgress.setProgress(50);
@@ -352,7 +357,6 @@ public class NurseryFragment extends DaggerFragment {
                     SelectedFlower selectedFlower = dataValue.getSelectedFlower();
                     selectedFlower.setStage(flowerStage);
                     dataValue.setSelectedFlower(selectedFlower);
-
                     mutableData.setValue(dataValue);
                 }
                 return Transaction.success(mutableData);
@@ -374,5 +378,53 @@ public class NurseryFragment extends DaggerFragment {
         });
     }
 
+    private void updateCurrentChallengeOnFireBase(final boolean flowerUnlocked) {
+        final FirebaseDatabase database = FirebaseDatabase.getInstance();
+        DatabaseReference reference = database.getReference().child(CURRENT_CHALLENGE).child(String.valueOf(Objects.requireNonNull(userManager.getUser()).getUserId()));
+        reference.runTransaction(new Transaction.Handler() {
+            @NonNull
+            @Override
+            public Transaction.Result doTransaction(@NonNull MutableData mutableData) {
+                CurrentChallenge dataValue = mutableData.getValue(CurrentChallenge.class);
+                if (dataValue != null) {
 
+                    dataValue.setFlowerUnlocked(flowerUnlocked);
+                    mutableData.setValue(dataValue);
+                }
+                return Transaction.success(mutableData);
+            }
+
+            @Override
+            public void onComplete(@Nullable DatabaseError databaseError, boolean b, @Nullable DataSnapshot dataSnapshot) {
+
+            }
+        });
+    }
+
+    public void updateUnlockedFlowersOnFireBase() {
+        final FirebaseDatabase database = FirebaseDatabase.getInstance();
+        final DatabaseReference databaseReference = database.getReference().child(UNLOCKED_FLOWERS).child(String.valueOf(Objects.requireNonNull(userManager.getUser()).getUserId()));
+        databaseReference.runTransaction(new Transaction.Handler() {
+            @NonNull
+            @Override
+            public Transaction.Result doTransaction(@NonNull MutableData mutableData) {
+
+                return Transaction.success(mutableData);
+            }
+
+            @Override
+            public void onComplete(@Nullable DatabaseError databaseError, boolean b, @Nullable DataSnapshot dataSnapshot) {
+                UnlockedFlowersModel model = dataSnapshot.getValue(UnlockedFlowersModel.class);
+                if (!model.isWeek1()) {
+                    model.setWeek1(true);
+                } else if (!model.isWeek2()) {
+                    model.setWeek2(true);
+                } else {
+                    model.setWeek3(true);
+                }
+                databaseReference.setValue(model);
+                updateCurrentChallengeOnFireBase(true);
+            }
+        });
+    }
 }

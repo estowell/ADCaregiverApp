@@ -120,7 +120,7 @@ public class AcceptChallengeFragment extends DaggerFragment {
     private void updateCurrentChallengeOnFireBase() {
         FirebaseDatabase database = FirebaseDatabase.getInstance();
         SelectedFlower selectedFlower = new SelectedFlower(imageName, 1);
-        final CurrentChallenge currentChallenge = new CurrentChallenge(0, 0, true, false, selectedFlower);
+        final CurrentChallenge currentChallenge = new CurrentChallenge(0, 0, true, false, false, selectedFlower);
         DatabaseReference reference = database.getReference().child(CURRENT_CHALLENGE).child(String.valueOf(userManager.getUser().getUserId()));
 
         reference.runTransaction(new Transaction.Handler() {
