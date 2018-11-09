@@ -5,12 +5,41 @@
     <color name="colorAccent">#FF4081</color>
     <color name="white">#ffffff</color>
     <color name="black">#000000</color>
-    <color name="nursery_background">#2B2B2B</color>
+    <color name="nursery_background">#ffffcc</color>   <!--#F7F7F1 -->
+    <color name="nursery_background2">#c2e699</color>  <!--#2B2B2B -->
     <color name="green_progress">#8AE484</color>
     <color name="blue_progress">#6ADADB</color>
     <color name="progress_bar_unfinished">#8A8C8E</color>
-    <color name="bottom_navigation_color">#285834</color>
+    <color name="bottom_navigation_color">#006837</color> <!--#285834-->
     <color name="horizontal_progress">#B1A5F9</color>
+
+
+    <!--nursery colors -->
+    <color name="nursery_main_text">#000000 </color>
+
+    <!-- mygarden colors -->
+    <color name="mygarden_main_text">#000000 </color>
+
+    <!-- gazette colors -->
+    <color name="gazette_main_text">#000000 </color>
+
+    <!-- community garden colors -->
+    <color name="community_main_text">#000000 </color>
+
+    <!-- exercise log colors -->
+    <color name="exerciselog_main_text">#000000 </color>
+
+    <!-- log in colors -->
+    <color name="login_main_text">#000000 </color>
+
+
+    <!--Xin Colors -->
+    <color name="mainBackground"> #ffffcc</color>
+    <color name="secondBackground"> #c2e699</color>
+    <color name="buttonColor"> #006837</color>
+    <color name="other1"> #78c679</color>
+    <color name="other2"> #31a354</color>
+
 
     <!--LoginUser-->
     <color name="colorSecondaryLight">#ffc246</color>

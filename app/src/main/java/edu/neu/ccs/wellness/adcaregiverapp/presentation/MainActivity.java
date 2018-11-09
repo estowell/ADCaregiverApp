@@ -39,7 +39,7 @@ public class MainActivity extends DaggerAppCompatActivity {
         COMMUNITY_GARDEN
     }
 
-    private CurrentTab selectedTab = CurrentTab.COMMUNITY_GARDEN;
+    private CurrentTab selectedTab = CurrentTab.NURSERY;
     private ActivityMainBinding binding;
 
     @Nullable
@@ -58,12 +58,12 @@ public class MainActivity extends DaggerAppCompatActivity {
     private void init() {
 
         //Bottom Navigation Logic
-        binding.communityGarden.setTextColor(getResources().getColor(R.color.white));
-        binding.communityGarden.setBackgroundColor(getResources().getColor(R.color.bottom_navigation_color));
+        binding.nurseryButton.setTextColor(getResources().getColor(R.color.white));
+        binding.nurseryButton.setBackgroundColor(getResources().getColor(R.color.bottom_navigation_color));
 
         setBottomNavigationOnClickListener();
 
-        navigateToCommunityGarden(true);
+        navigateToNursery(true);
         test();
         String[] assests = new String[0];
         try {
@@ -126,7 +126,7 @@ public class MainActivity extends DaggerAppCompatActivity {
                 if (selectedTab != CurrentTab.COMMUNITY_GARDEN) {
                     selectedTab = CurrentTab.COMMUNITY_GARDEN;
                     updateBottombar();
-                    navigateToCommunityGarden(false);
+                    navigateToCommunityGarden();
                 }
             }
         });
@@ -137,7 +137,7 @@ public class MainActivity extends DaggerAppCompatActivity {
                 if (selectedTab != CurrentTab.NURSERY) {
                     selectedTab = CurrentTab.NURSERY;
                     updateBottombar();
-                    navigateToNursery();
+                    navigateToNursery(false);
                 }
             }
         });
@@ -192,25 +192,25 @@ public class MainActivity extends DaggerAppCompatActivity {
 
     //TODO: Generalise navigation logic into one function
 
-    private void navigateToCommunityGarden(boolean initialLaunch) {
+    private void navigateToCommunityGarden() {
         // Create new fragment and transaction
         Fragment newFragment = CommunityGardenFragment.newInstance();
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
 
 
         transaction.replace(R.id.fragment_container, newFragment);
-        if (!initialLaunch) transaction.addToBackStack(null);
+        transaction.addToBackStack(null);
 
         transaction.commit();
     }
 
-    private void navigateToNursery() {
+    private void navigateToNursery(boolean initialLaunch) {
         Fragment newFragment = NurseryFragment.newInstance();
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
 
 
         transaction.replace(R.id.fragment_container, newFragment);
-        transaction.addToBackStack(null);
+        if (!initialLaunch) transaction.addToBackStack(null);
 
         transaction.commit();
     }
